@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/emergenciaAtributo")
 @CrossOrigin
-public class EmergenciaAtributoController {
+public class EmergencyAttributeController {
 
     @Autowired
     private EmergencyAttributeService emergencyAttributeService;
@@ -20,47 +20,39 @@ public class EmergenciaAtributoController {
     String homeLinkRedirect = "redirect:/emergenciaAtributo";
 
     @PostMapping("/crear")
-    public String crear(@RequestBody EmergencyAttributeEntity emergenciaAtributo) {
-        emergencyAttributeService.create(emergenciaAtributo);
+    public String create(@RequestBody EmergencyAttributeEntity emergencyAttribute) {
+        emergencyAttributeService.create(emergencyAttribute);
         return homeLinkRedirect;
     }
 
     @PostMapping("/crearVarios")
-    public ResponseEntity<List<EmergencyAttributeEntity>> crearVarios(@RequestBody List<EmergencyAttributeEntity> emergenciasAtributo) {
-        List<EmergencyAttributeEntity> creadas = emergencyAttributeService.createVarious(emergenciasAtributo);
-        if (creadas != null && !creadas.isEmpty()) {
-            return new ResponseEntity<>(creadas, HttpStatus.CREATED);
+    public ResponseEntity<List<EmergencyAttributeEntity>> createVarious(@RequestBody List<EmergencyAttributeEntity> emergencyAttributeListRequest) {
+        List<EmergencyAttributeEntity> emergencyAttributeList = emergencyAttributeService.createVarious(emergencyAttributeListRequest);
+        if (emergencyAttributeList != null && !emergencyAttributeList.isEmpty()) {
+            return new ResponseEntity<>(emergencyAttributeList, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/todo")
-    public List<EmergencyAttributeEntity> obtenerTodos() {
+    public List<EmergencyAttributeEntity> getAll() {
         return emergencyAttributeService.getAll();
     }
 
     @GetMapping("/porId/{id}")
-    public EmergencyAttributeEntity obtenerPorId(@PathVariable long id) {
+    public EmergencyAttributeEntity getById(@PathVariable long id) {
         return emergencyAttributeService.getById(id);
     }
 
     @PutMapping("/actualizar")
-    public boolean actualizar(@RequestBody EmergencyAttributeEntity emergenciaAtributo) {
+    public boolean update(@RequestBody EmergencyAttributeEntity emergenciaAtributo) {
         return emergencyAttributeService.update(emergenciaAtributo);
     }
 
     @DeleteMapping("/eliminar/{id}")
-    public boolean eliminar(@PathVariable long id) {
+    public boolean delete(@PathVariable long id) {
         return emergencyAttributeService.delete(id);
     }
-
-    /*
-     * @GetMapping("/emergencia/completa")
-     * public List<EmergencyEntity> getAllEmergenciasCompletadas(){
-     * return emergenciaAtributoService.findAllCompletedEmergency();
-     * }
-     * 
-     */
 
 }

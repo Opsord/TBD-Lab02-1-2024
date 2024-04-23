@@ -13,50 +13,50 @@ import java.util.List;
 @RestController
 @RequestMapping("/emergencias")
 @CrossOrigin(origins = "http://localhost:8090/emergencias")
-public class EmergenciaController {
+public class EmergencyController {
 
     @Autowired
     private EmergencyService emergencyService;
 
 
     @PostMapping("/crear")
-    public ResponseEntity<EmergencyEntity> crear(@RequestBody EmergencyEntity emergencia) {
-        EmergencyEntity emergenciaCreada = emergencyService.create(emergencia);
-        return new ResponseEntity<>(emergenciaCreada, HttpStatus.CREATED);
+    public ResponseEntity<EmergencyEntity> create(@RequestBody EmergencyEntity emergency) {
+        EmergencyEntity newEmergency = emergencyService.create(emergency);
+        return new ResponseEntity<>(newEmergency, HttpStatus.CREATED);
     }
 
     @GetMapping("/todo")
-    public List<EmergencyEntity> obtenerTodos() {
+    public List<EmergencyEntity> getAll() {
         return emergencyService.getAll();
     }
 
     @GetMapping("/activas")
-    public List<EmergencyEntity> obtenerTodasActivas() {
+    public List<EmergencyEntity> getAllActive() {
         return emergencyService.getAllActive();
     }
 
     @GetMapping("/porId/{id}")
-    public EmergencyEntity obtenerPorId(@PathVariable long id) {
+    public EmergencyEntity getById(@PathVariable long id) {
         return emergencyService.getById(id);
     }
 
     @PutMapping("/actualizar")
-    public boolean actualizar(@RequestBody EmergencyEntity emergencia) {
+    public boolean update(@RequestBody EmergencyEntity emergencia) {
         return emergencyService.update(emergencia);
     }
 
     @DeleteMapping("/eliminar/{id}")
-    public boolean eliminar(@PathVariable Long id) {
+    public boolean delete(@PathVariable Long id) {
         return emergencyService.delete(id);
     }
 
     @GetMapping("/finalizadas")
-    public List<EmergencyEntity> obtenerFinalizadas() {
+    public List<EmergencyEntity> getClosedEmergencies() {
         return emergencyService.getClosedEmergencies();
     }
 
     @GetMapping("/datosEmergencias")
-    public List<SingleEmergencyData> obtenerDatosEmergencias() {
+    public List<SingleEmergencyData> getEveryEmergencyData() {
         return emergencyService.getEveryEmergencyData();
     }
 

@@ -49,7 +49,7 @@ public class EmergencyService {
     }
 
     // Funcionalidad SQL 48
-    public List<SingleEmergencyData> allEmergencyData() {
+    public List<SingleEmergencyData> getEveryEmergencyData() {
         List<EmergencyEntity> closedEmergencies = getClosedEmergencies();
         List<SingleEmergencyData> singleEmergencyDataList = new ArrayList<>();
 

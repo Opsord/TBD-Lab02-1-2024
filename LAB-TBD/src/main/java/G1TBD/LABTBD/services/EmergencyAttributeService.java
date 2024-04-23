@@ -18,9 +18,9 @@ public class EmergencyAttributeService {
         return emergencyAttributeRepository.create(emergencyAttribute);
     }
 
-    public List<EmergencyAttributeEntity> createVarious(List<EmergencyAttributeEntity> emergenciesAttribute) {
+    public List<EmergencyAttributeEntity> createVarious(List<EmergencyAttributeEntity> emergencyAttributeEntityList) {
         List<EmergencyAttributeEntity> createdEmergencies = new ArrayList<>();
-        for (EmergencyAttributeEntity emergencyAttribute : emergenciesAttribute) {
+        for (EmergencyAttributeEntity emergencyAttribute : emergencyAttributeEntityList) {
             EmergencyAttributeEntity createdEmergency = create(emergencyAttribute);
             createdEmergencies.add(createdEmergency);
         }

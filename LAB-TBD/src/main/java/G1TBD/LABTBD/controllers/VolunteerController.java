@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/voluntarios")
 @CrossOrigin(origins = "http://localhost:8090/voluntarios")
-public class VoluntarioController {
+public class VolunteerController {
 
     @Autowired
     private VolunteerService volunteerService;
@@ -18,39 +18,38 @@ public class VoluntarioController {
     String homeLinkRedirect = "redirect:/voluntarios";
 
     @PostMapping("/crear")
-    public String crear(@RequestBody VolunteerEntity voluntario) {
-        volunteerService.create(voluntario);
+    public String create(@RequestBody VolunteerEntity volunteer) {
+        volunteerService.create(volunteer);
         return homeLinkRedirect;
     }
 
     @GetMapping("/todo")
-    public List<VolunteerEntity> obtenerTodos() {
+    public List<VolunteerEntity> getAll() {
         return volunteerService.getAll();
     }
 
     @GetMapping("/porRut/{rut}")
-    public VolunteerEntity obtenerPorRut(@PathVariable String rut) {
+    public VolunteerEntity getByRut(@PathVariable String rut) {
         return volunteerService.getByRut(rut);
     }
 
     @GetMapping("/porEmail/{email}")
-    public VolunteerEntity obtenerPorEmail(@PathVariable String email) {
+    public VolunteerEntity getByEmail(@PathVariable String email) {
         return volunteerService.getByEmail(email);
     }
 
     @GetMapping("/porId/{id}")
-    public VolunteerEntity obtenerPorId(@PathVariable long id) {
+    public VolunteerEntity getById(@PathVariable long id) {
         return volunteerService.getById(id);
     }
 
-
     @PutMapping("/actualizar")
-    public boolean actualizar(@RequestBody VolunteerEntity voluntario) {
-        return volunteerService.update(voluntario);
+    public boolean update(@RequestBody VolunteerEntity volunteer) {
+        return volunteerService.update(volunteer);
     }
 
     @DeleteMapping("/eliminar/{rut}")
-    public boolean eliminar(@PathVariable String rut) {
+    public boolean delete(@PathVariable String rut) {
         return volunteerService.delete(rut);
     }
 

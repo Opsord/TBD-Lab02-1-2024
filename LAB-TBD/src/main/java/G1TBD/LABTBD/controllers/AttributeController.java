@@ -19,28 +19,28 @@ public class AttributeController {
     String homeLinkRedirect = "redirect:/atributos";
 
     @PostMapping("/crear")
-    public String crear(@RequestBody AttributeEntity atributo) {
-        attributeService.create(atributo);
+    public String create(@RequestBody AttributeEntity attribute) {
+        attributeService.create(attribute);
         return homeLinkRedirect;
     }
 
     @GetMapping("/todo")
-    public List<AttributeEntity> obtenerTodos() {
+    public List<AttributeEntity> getAll() {
         return attributeService.getAll();
     }
 
     @GetMapping("/porId/{id}")
-    public AttributeEntity obtenerPorId(@PathVariable long id) {
+    public AttributeEntity getById(@PathVariable long id) {
         return attributeService.getById(id);
     }
 
     @PutMapping("/actualizar")
-    public boolean actualizar(@RequestBody AttributeEntity atributo) {
-        return attributeService.update(atributo);
+    public boolean update(@RequestBody AttributeEntity attribute) {
+        return attributeService.update(attribute);
     }
 
     @DeleteMapping("/eliminar/{id}")
-    public boolean eliminar(@PathVariable long id) {
+    public boolean delete(@PathVariable long id) {
         return attributeService.delete(id);
     }
 

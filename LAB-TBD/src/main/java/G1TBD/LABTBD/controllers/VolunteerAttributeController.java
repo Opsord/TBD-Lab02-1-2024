@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/voluntarioatributo")
 @CrossOrigin(origins = "http://localhost:8090/voluntarioatributos")
-public class VoluntarioAtributoController {
+public class VolunteerAttributeController {
 
     @Autowired
     private VolunteerAttributeService volunteerAttributeService;
@@ -17,28 +17,28 @@ public class VoluntarioAtributoController {
     String homeLinkRedirect = "redirect:/voluntarioatributos";
 
     @PostMapping("/crear")
-    public String crear(@RequestBody VolunteerAttributeEntity voluntarioAtributo) {
-        volunteerAttributeService.create(voluntarioAtributo);
+    public String create(@RequestBody VolunteerAttributeEntity volunteerAttribute) {
+        volunteerAttributeService.create(volunteerAttribute);
         return homeLinkRedirect;
     }
 
     @GetMapping("/todo")
-    public List<VolunteerAttributeEntity> obtenerTodos() {
+    public List<VolunteerAttributeEntity> getAll() {
         return volunteerAttributeService.getAll();
     }
 
     @GetMapping("/porId/{id}")
-    public VolunteerAttributeEntity obtenerPorId(@PathVariable long id) {
+    public VolunteerAttributeEntity getById(@PathVariable long id) {
         return volunteerAttributeService.getById(id);
     }
 
     @PutMapping("/actualizar")
-    public boolean actualizar(@RequestBody VolunteerAttributeEntity voluntarioAtributo) {
-        return volunteerAttributeService.update(voluntarioAtributo);
+    public boolean update(@RequestBody VolunteerAttributeEntity volunteerAttribute) {
+        return volunteerAttributeService.update(volunteerAttribute);
     }
 
     @DeleteMapping("/eliminar{id}")
-    public boolean eliminar(@PathVariable long id) {
+    public boolean delete(@PathVariable long id) {
         return volunteerAttributeService.delete(id);
     }
 }

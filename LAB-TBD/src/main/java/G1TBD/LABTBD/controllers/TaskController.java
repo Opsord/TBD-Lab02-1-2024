@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/tarea")
 @CrossOrigin
-public class TareaController {
+public class TaskController {
 
     @Autowired
     private TaskService taskService;
@@ -18,34 +18,34 @@ public class TareaController {
     String homeLinkRedirect = "redirect:/tareas";
 
     @PostMapping("/crear")
-    public String crear(@RequestBody TaskEntity tarea) {
-        taskService.create(tarea);
+    public String create(@RequestBody TaskEntity task) {
+        taskService.create(task);
         return homeLinkRedirect;
     }
 
     @GetMapping("/todo")
-    public List<TaskEntity> obtenerTodos() {
+    public List<TaskEntity> getAll() {
         return taskService.getAll();
     }
 
     @GetMapping("/porId/{id}")
-    public TaskEntity obtenerPorId(@PathVariable long id) {
+    public TaskEntity getById(@PathVariable long id) {
         return taskService.getById(id);
     }
 
 
     @GetMapping("/porIdEmergencia/{id}")
-    public List<TaskEntity> obtenerPorIdEmergencia(@PathVariable long id) {
+    public List<TaskEntity> getByEmergencyId(@PathVariable long id) {
         return taskService.getByEmergencyId(id);
     }
 
     @PutMapping("/actualizar")
-    public boolean actualizar(@RequestBody TaskEntity tarea) {
-        return taskService.update(tarea);
+    public boolean update(@RequestBody TaskEntity task) {
+        return taskService.update(task);
     }
 
     @DeleteMapping("/eliminar/{id}")
-    public boolean eliminar(@PathVariable long id) {
+    public boolean delete(@PathVariable long id) {
         return taskService.delete(id);
     }
 

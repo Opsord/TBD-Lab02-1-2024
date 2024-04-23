@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/institucion")
 @CrossOrigin
-public class InstitucionController {
+public class InstitutionController {
 
     @Autowired
     private InstitutionService institutionService;
@@ -18,28 +18,28 @@ public class InstitucionController {
     String homeLinkRedirect = "redirect:/instituciones";
 
     @PostMapping("/crear")
-    public String crear(@RequestBody InstitutionEntity institucion) {
-        institutionService.create(institucion);
+    public String create(@RequestBody InstitutionEntity institution) {
+        institutionService.create(institution);
         return homeLinkRedirect;
     }
 
     @GetMapping("/todo")
-    public List<InstitutionEntity> obtenerTodos() {
+    public List<InstitutionEntity> getAll() {
         return institutionService.getAll();
     }
 
     @GetMapping("/porId/{id}")
-    public InstitutionEntity obtenerPorId(@PathVariable long id) {
+    public InstitutionEntity getById(@PathVariable long id) {
         return institutionService.getById(id);
     }
 
     @PutMapping("/actualizar")
-    public boolean actualizar(@RequestBody InstitutionEntity institucion) {
-        return institutionService.update(institucion);
+    public boolean update(@RequestBody InstitutionEntity institution) {
+        return institutionService.update(institution);
     }
 
     @DeleteMapping("/eliminar/{id}")
-    public boolean eliminar(@PathVariable long id) {
+    public boolean delete(@PathVariable long id) {
         return institutionService.delete(id);
     }
 }
