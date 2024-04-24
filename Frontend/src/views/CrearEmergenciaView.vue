@@ -26,21 +26,21 @@ const habilidadModel = ref([])
 import axios from 'axios'
 import { onMounted } from 'vue'
 
-const atributos = ref(null)
+const attributes = ref(null)
 
-async function fetchAtributos() {
+async function fetchAttributes() {
     try {
-        const response = await axios.get('http://localhost:8090/atributos/todo');
-        atributos.value = response.data;
+        const response = await axios.get('http://localhost:8090/attributes/all');
+        attributes.value = response.data;
     } catch (error) {
         console.error('There was an error fetching the user data:', error);
     }
 }
 
-async function crearEmergencia(emergency) {
+async function createEmergency(emergency) {
     try {
 
-        const response = await axios.post('http://localhost:8090/emergencias/crear', emergency, { headers: { 'Content-Type': 'application/json' } })
+        const response = await axios.post('http://localhost:8090/emergencies/create', emergency, { headers: { 'Content-Type': 'application/json' } })
         return response.data.idEmergencia
 
     } catch (err) {
@@ -48,13 +48,13 @@ async function crearEmergencia(emergency) {
 
     }
 }
-async function createAtributoEmergencia(idEmergencia) {
+async function createEmergencyAttribute(idEmergencia) {
     console.log(idEmergencia)
     const newModel = habilidadModel.value.map(habilidad => {
         return { ...habilidad, idEmergencia: idEmergencia }
     })
     try {
-        const response = await axios.post('http://localhost:8090/emergenciaAtributo/crearVarios', newModel, { headers: { 'Content-Type': 'application/json' } })
+        const response = await axios.post('http://localhost:8090/emergencyAttribute/createVarious', newModel, { headers: { 'Content-Type': 'application/json' } })
         return response.data
 
     } catch (err) {
@@ -63,11 +63,11 @@ async function createAtributoEmergencia(idEmergencia) {
     }
 }
 // Hacemos fetch cuando se monta el componente
-onMounted(fetchAtributos);
+onMounted(fetchAttributes);
 
 async function onSubmit() {
-    const idEmergencia = await crearEmergencia(formModel.value)
-    const atributosCreaddos = await createAtributoEmergencia(idEmergencia)
+    const idEmergencia = await createEmergency(formModel.value)
+    const atributosCreaddos = await createEmergencyAttribute(idEmergencia)
 }
 
 </script>

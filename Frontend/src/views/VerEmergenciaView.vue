@@ -45,7 +45,7 @@ const emergencia = ref(null)
 
 async function fetchEmergencia() {
     try {
-        const response = await axios.get('http://localhost:8090/emergencias/activas');
+        const response = await axios.get('http://localhost:8090/emergencies/active');
         emergencia.value = response.data; // Make sure to adjust this according to the actual structure of your response
     } catch (error) {
         console.error('There was an error fetching the user data:', error);

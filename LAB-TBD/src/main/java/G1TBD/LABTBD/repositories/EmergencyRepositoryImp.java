@@ -129,7 +129,7 @@ public class EmergencyRepositoryImp implements EmergencyRepository {
     }
 
     @Override
-    public List<EmergencyEntity> getClosedEmergencies(){
+    public List<EmergencyEntity> getAllClosed(){
         try (Connection connection = sql2o.open()) {
             String sql = "SELECT e.* " +
                     "FROM Emergencia e " +

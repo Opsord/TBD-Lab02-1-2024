@@ -8,38 +8,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/atributos")
-@CrossOrigin
-
+@RequestMapping("/attributes")
+@CrossOrigin(origins = "http://localhost:8090/attributes")
 public class AttributeController {
 
     @Autowired
     private AttributeService attributeService;
 
-    String homeLinkRedirect = "redirect:/atributos";
+    String homeLinkRedirect = "redirect:/attributes";
 
-    @PostMapping("/crear")
+    @PostMapping("/create")
     public String create(@RequestBody AttributeEntity attribute) {
         attributeService.create(attribute);
         return homeLinkRedirect;
     }
 
-    @GetMapping("/todo")
+    @GetMapping("/all")
     public List<AttributeEntity> getAll() {
         return attributeService.getAll();
     }
 
-    @GetMapping("/porId/{id}")
+    @GetMapping("/id/{id}")
     public AttributeEntity getById(@PathVariable long id) {
         return attributeService.getById(id);
     }
 
-    @PutMapping("/actualizar")
+    @PutMapping("/update")
     public boolean update(@RequestBody AttributeEntity attribute) {
         return attributeService.update(attribute);
     }
 
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/delete/{id}")
     public boolean delete(@PathVariable long id) {
         return attributeService.delete(id);
     }

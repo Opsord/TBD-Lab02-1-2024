@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/coordinadores")
-@CrossOrigin(origins = "http://localhost:8090/coordinadores")
+@RequestMapping("/coordinators")
+@CrossOrigin(origins = "http://localhost:8090/coordinators")
 public class CoordinatorController {
 
     private static final Logger logger = Logger.getLogger(CoordinatorController.class.getName());
@@ -18,36 +18,36 @@ public class CoordinatorController {
     @Autowired
     private CoordinatorService coordinatorService;
 
-    String homeLinkRedirect = "redirect:/coordinadores";
+    String homeLinkRedirect = "redirect:/coordinators";
 
-    @PostMapping("/crear")
+    @PostMapping("/create")
     public String create(@RequestBody CoordinatorEntity coordinator) {
         logger.info("Creando coordinador: " + coordinator.toString());
         coordinatorService.create(coordinator);
         return homeLinkRedirect;
     }
 
-    @GetMapping("/todo")
+    @GetMapping("/all")
     public List<CoordinatorEntity> getAll() {
         return coordinatorService.getAll();
     }
 
-    @GetMapping("/porRut/{rut}")
+    @GetMapping("/rut/{rut}")
     public CoordinatorEntity getByRut(@PathVariable String rut) {
         return coordinatorService.getByRut(rut);
     }
 
-    @GetMapping("/porEmail/{email}")
+    @GetMapping("/email/{email}")
     public CoordinatorEntity getByEmail(@PathVariable String email) {
         return coordinatorService.getByEmail(email);
     }
 
-    @PutMapping("/actualizar")
+    @PutMapping("/update")
     public boolean update(@RequestBody CoordinatorEntity coordinator) {
         return coordinatorService.update(coordinator);
     }
 
-    @DeleteMapping("/eliminar/{rut}")
+    @DeleteMapping("/delete/{rut}")
     public boolean delete(@PathVariable String rut) {
         return coordinatorService.delete(rut);
     }

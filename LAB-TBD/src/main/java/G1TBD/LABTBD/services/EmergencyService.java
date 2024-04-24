@@ -44,13 +44,13 @@ public class EmergencyService {
         return emergencyRepository.delete(id);
     }
 
-    public List<EmergencyEntity> getClosedEmergencies() {
-        return emergencyRepository.getClosedEmergencies();
+    public List<EmergencyEntity> getAllClosed() {
+        return emergencyRepository.getAllClosed();
     }
 
     // Funcionalidad SQL 48
     public List<SingleEmergencyData> getEveryEmergencyData() {
-        List<EmergencyEntity> closedEmergencies = getClosedEmergencies();
+        List<EmergencyEntity> closedEmergencies = getAllClosed();
         List<SingleEmergencyData> singleEmergencyDataList = new ArrayList<>();
 
         for (EmergencyEntity emergency : closedEmergencies) {

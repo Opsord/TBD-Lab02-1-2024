@@ -33,7 +33,7 @@
 
 
 <script setup>
-//http://localhost:8090/tarea/porIdEmergencia/4
+//http://localhost:8090/tasks/emergencyId/4
 
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
@@ -50,7 +50,7 @@ const emergencia = ref(null)
 
 async function fetchEmergencia() {
     try {
-        const response = await axios.get('http://localhost:8090/emergencias/finalizadas');
+        const response = await axios.get('http://localhost:8090/emergencies/closed');
         emergencia.value = response.data; // Make sure to adjust this according to the actual structure of your response
     } catch (error) {
         console.error('There was an error fetching the user data:', error);

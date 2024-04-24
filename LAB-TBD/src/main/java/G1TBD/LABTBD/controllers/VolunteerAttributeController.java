@@ -6,38 +6,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
-@RequestMapping("/voluntarioatributo")
-@CrossOrigin(origins = "http://localhost:8090/voluntarioatributos")
+@RequestMapping("/volunteerAttributes")
+@CrossOrigin(origins = "http://localhost:8090/volunteerAttributes")
 public class VolunteerAttributeController {
 
     @Autowired
     private VolunteerAttributeService volunteerAttributeService;
 
-    String homeLinkRedirect = "redirect:/voluntarioatributos";
+    String homeLinkRedirect = "redirect:/volunteerAttributes";
 
-    @PostMapping("/crear")
+    @PostMapping("/create")
     public String create(@RequestBody VolunteerAttributeEntity volunteerAttribute) {
         volunteerAttributeService.create(volunteerAttribute);
         return homeLinkRedirect;
     }
 
-    @GetMapping("/todo")
+    @GetMapping("/all")
     public List<VolunteerAttributeEntity> getAll() {
         return volunteerAttributeService.getAll();
     }
 
-    @GetMapping("/porId/{id}")
+    @GetMapping("/id/{id}")
     public VolunteerAttributeEntity getById(@PathVariable long id) {
         return volunteerAttributeService.getById(id);
     }
 
-    @PutMapping("/actualizar")
+    @PutMapping("/update")
     public boolean update(@RequestBody VolunteerAttributeEntity volunteerAttribute) {
         return volunteerAttributeService.update(volunteerAttribute);
     }
 
-    @DeleteMapping("/eliminar{id}")
+    @DeleteMapping("/delete/{id}")
     public boolean delete(@PathVariable long id) {
         return volunteerAttributeService.delete(id);
     }

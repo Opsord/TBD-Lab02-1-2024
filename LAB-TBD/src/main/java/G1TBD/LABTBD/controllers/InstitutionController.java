@@ -8,37 +8,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/institucion")
-@CrossOrigin
+@RequestMapping("/institutions")
+@CrossOrigin(origins = "http://localhost:8090/institutions")
 public class InstitutionController {
 
     @Autowired
     private InstitutionService institutionService;
 
-    String homeLinkRedirect = "redirect:/instituciones";
+    String homeLinkRedirect = "redirect:/institutions";
 
-    @PostMapping("/crear")
+    @PostMapping("/create")
     public String create(@RequestBody InstitutionEntity institution) {
         institutionService.create(institution);
         return homeLinkRedirect;
     }
 
-    @GetMapping("/todo")
+    @GetMapping("/all")
     public List<InstitutionEntity> getAll() {
         return institutionService.getAll();
     }
 
-    @GetMapping("/porId/{id}")
+    @GetMapping("/id/{id}")
     public InstitutionEntity getById(@PathVariable long id) {
         return institutionService.getById(id);
     }
 
-    @PutMapping("/actualizar")
+    @PutMapping("/update")
     public boolean update(@RequestBody InstitutionEntity institution) {
         return institutionService.update(institution);
     }
 
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/delete/{id}")
     public boolean delete(@PathVariable long id) {
         return institutionService.delete(id);
     }

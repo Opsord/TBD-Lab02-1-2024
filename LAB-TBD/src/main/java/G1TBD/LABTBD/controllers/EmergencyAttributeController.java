@@ -10,24 +10,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/emergenciaAtributo")
-@CrossOrigin
+@RequestMapping("/emergencyAttribute")
+@CrossOrigin(origins = "http://localhost:8090/emergencyAttribute")
 public class EmergencyAttributeController {
 
     @Autowired
     private EmergencyAttributeService emergencyAttributeService;
 
-    String homeLinkRedirect = "redirect:/emergenciaAtributo";
+    String homeLinkRedirect = "redirect:/emergencyAttribute";
 
-    @PostMapping("/crear")
+    @PostMapping("/create")
     public String create(@RequestBody EmergencyAttributeEntity emergencyAttribute) {
         emergencyAttributeService.create(emergencyAttribute);
         return homeLinkRedirect;
     }
 
-    @PostMapping("/crearVarios")
-    public ResponseEntity<List<EmergencyAttributeEntity>> createVarious(@RequestBody List<EmergencyAttributeEntity> emergencyAttributeListRequest) {
-        List<EmergencyAttributeEntity> emergencyAttributeList = emergencyAttributeService.createVarious(emergencyAttributeListRequest);
+    @PostMapping("/createVarious")
+    public ResponseEntity<List<EmergencyAttributeEntity>> createVarious(
+            @RequestBody List<EmergencyAttributeEntity> emergencyAttributeListRequest) {
+        List<EmergencyAttributeEntity> emergencyAttributeList = emergencyAttributeService
+                .createVarious(emergencyAttributeListRequest);
         if (emergencyAttributeList != null && !emergencyAttributeList.isEmpty()) {
             return new ResponseEntity<>(emergencyAttributeList, HttpStatus.CREATED);
         } else {
@@ -35,22 +37,22 @@ public class EmergencyAttributeController {
         }
     }
 
-    @GetMapping("/todo")
+    @GetMapping("/all")
     public List<EmergencyAttributeEntity> getAll() {
         return emergencyAttributeService.getAll();
     }
 
-    @GetMapping("/porId/{id}")
+    @GetMapping("/id/{id}")
     public EmergencyAttributeEntity getById(@PathVariable long id) {
         return emergencyAttributeService.getById(id);
     }
 
-    @PutMapping("/actualizar")
-    public boolean update(@RequestBody EmergencyAttributeEntity emergenciaAtributo) {
-        return emergencyAttributeService.update(emergenciaAtributo);
+    @PutMapping("/update")
+    public boolean update(@RequestBody EmergencyAttributeEntity emergencyAttribute) {
+        return emergencyAttributeService.update(emergencyAttribute);
     }
 
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/delete/{id}")
     public boolean delete(@PathVariable long id) {
         return emergencyAttributeService.delete(id);
     }

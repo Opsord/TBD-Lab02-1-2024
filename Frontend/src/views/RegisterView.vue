@@ -106,7 +106,7 @@ const instituciones = ref([]);
 
 const getInstituciones = async () => {
     try {
-        const response = await axios.get('http://localhost:8090/institucion/todo');
+        const response = await axios.get('http://localhost:8090/institutions/all');
         instituciones.value = response.data;
     } catch (error) {
         console.error(error);
@@ -138,7 +138,7 @@ const registerUser = async () => {
         console.log(data);
 
         try {
-            const response = await axios.post('http://localhost:8090/voluntarios/crear', data);
+            const response = await axios.post('http://localhost:8090/voluntareers/create', data);
             console.log(response.data);
             redirectToLogin();
         } catch (error) {
@@ -162,7 +162,7 @@ const registerUser = async () => {
         console.log(data);
 
         try {
-            const response = await axios.post('http://localhost:8090/coordinadores/crear', data);
+            const response = await axios.post('http://localhost:8090/coordinators/create', data);
             console.log(response.data);
             redirectToLogin();
         } catch (error) {

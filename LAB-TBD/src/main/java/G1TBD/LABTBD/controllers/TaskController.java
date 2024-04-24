@@ -8,43 +8,42 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tarea")
+@RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
 
     @Autowired
     private TaskService taskService;
 
-    String homeLinkRedirect = "redirect:/tareas";
+    String homeLinkRedirect = "redirect:/tasks";
 
-    @PostMapping("/crear")
+    @PostMapping("/create")
     public String create(@RequestBody TaskEntity task) {
         taskService.create(task);
         return homeLinkRedirect;
     }
 
-    @GetMapping("/todo")
+    @GetMapping("/all")
     public List<TaskEntity> getAll() {
         return taskService.getAll();
     }
 
-    @GetMapping("/porId/{id}")
+    @GetMapping("/id/{id}")
     public TaskEntity getById(@PathVariable long id) {
         return taskService.getById(id);
     }
 
-
-    @GetMapping("/porIdEmergencia/{id}")
+    @GetMapping("/emergencyId/{id}")
     public List<TaskEntity> getByEmergencyId(@PathVariable long id) {
         return taskService.getByEmergencyId(id);
     }
 
-    @PutMapping("/actualizar")
+    @PutMapping("/update")
     public boolean update(@RequestBody TaskEntity task) {
         return taskService.update(task);
     }
 
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/delete/{id}")
     public boolean delete(@PathVariable long id) {
         return taskService.delete(id);
     }

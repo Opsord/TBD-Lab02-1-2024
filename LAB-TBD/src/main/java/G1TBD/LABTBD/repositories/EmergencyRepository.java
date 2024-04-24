@@ -18,6 +18,6 @@ public interface EmergencyRepository {
 
     boolean delete(long id);
 
-    List<EmergencyEntity> getClosedEmergencies();
+    List<EmergencyEntity> getAllClosed();
 }
 
