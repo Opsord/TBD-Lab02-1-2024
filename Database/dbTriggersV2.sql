@@ -16,15 +16,10 @@ CREATE TABLE User_auditTrigger (
 -- Modify user_audit_trigger_function
 CREATE OR REPLACE FUNCTION user_audit_trigger_function()
 RETURNS TRIGGER AS $$
-DECLARE
-    user_role VARCHAR(255);
 BEGIN
-    -- Get role from Role table
-    SELECT role INTO user_role FROM Role WHERE rut = NEW.rut;
-
     -- Insert into User_auditTrigger
     INSERT INTO User_auditTrigger (rut, name, email, password, role, date, operation)
-    VALUES (NEW.rut, NEW.name, NEW.lastName, NEW.email, NEW.password, user_role, CURRENT_TIMESTAMP, TG_OP);
+    VALUES (NEW.rut, NEW.name, NEW.lastName, NEW.email, NEW.password, NEW.role, CURRENT_TIMESTAMP, TG_OP);
 
     RETURN NEW;
 END;

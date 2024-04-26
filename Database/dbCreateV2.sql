@@ -6,13 +6,8 @@ CREATE TABLE User (
     birthDate DATE NOT NULL,
     sex BOOLEAN NOT NULL,
     password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL,
     availability BOOLEAN NOT NULL
-);
-
-CREATE TABLE Role (
-    rut VARCHAR(20) PRIMARY KEY,
-    FOREIGN KEY (rut) REFERENCES User(rut),
-    role VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE Attribute (

@@ -15,7 +15,7 @@ BEGIN
         SELECT rut, name, lastName, COUNT(*)
         FROM User_auditTrigger
         WHERE operation = 'INSERT'
-        AND role = 'Voluntario'
+        AND role = 'VOLUNTEER'
         GROUP BY rut
         ORDER BY COUNT(*) DESC
         LIMIT 1
@@ -29,7 +29,7 @@ BEGIN
         SELECT rut, name, lastName, COUNT(*)
         FROM User_auditTrigger
         WHERE operation = 'UPDATE'
-        AND role = 'Voluntario'
+        AND role = 'VOLUNTEER'
         GROUP BY rut
         ORDER BY COUNT(*) DESC
         LIMIT 1
@@ -43,7 +43,7 @@ BEGIN
         SELECT rut, name, lastName, COUNT(*)
         FROM User_auditTrigger
         WHERE operation = 'DELETE'
-        AND role = 'Voluntario'
+        AND role = 'VOLUNTEER'
         GROUP BY rut
         ORDER BY COUNT(*) DESC
         LIMIT 1
@@ -57,7 +57,7 @@ BEGIN
         SELECT rut, name, lastName, COUNT(*)
         FROM User_auditTrigger
         WHERE operation = 'INSERT'
-        AND role = 'Coordinator'
+        AND role = 'COORDINATOR'
         GROUP BY rut
         ORDER BY COUNT(*) DESC
         LIMIT 1
@@ -71,7 +71,7 @@ BEGIN
         SELECT rut, name, lastName, COUNT(*)
         FROM User_auditTrigger
         WHERE operation = 'UPDATE'
-        AND role = 'Coordinator'
+        AND role = 'COORDINATOR'
         GROUP BY rut
         ORDER BY COUNT(*) DESC
         LIMIT 1
@@ -85,7 +85,7 @@ BEGIN
         SELECT rut, name, lastName, COUNT(*)
         FROM User_auditTrigger
         WHERE operation = 'DELETE'
-        AND role = 'Coordinator'
+        AND role = 'COORDINATOR'
         GROUP BY rut
         ORDER BY COUNT(*) DESC
         LIMIT 1
