@@ -4,7 +4,7 @@ CREATE TABLE User (
     name VARCHAR(255) NOT NULL,
     lastName VARCHAR(255) NOT NULL,
     birthDate DATE NOT NULL,
-    sex BOOLEAN NOT NULL,
+    sex VARCHAR(1) NOT NULL,
     password VARCHAR(255) NOT NULL,
     role VARCHAR(20) NOT NULL,
     availability BOOLEAN NOT NULL
@@ -67,7 +67,7 @@ CREATE TABLE Ranking (
     idRanking BIGSERIAL PRIMARY KEY,
     volunteer VARCHAR(20),
     idTask BIGINT,
-    valorRanking INT,
+    value INT,
     FOREIGN KEY (volunteer) REFERENCES User(rut),
     FOREIGN KEY (idTask) REFERENCES Task(idTask)
 );
