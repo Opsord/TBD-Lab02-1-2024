@@ -1,6 +1,7 @@
 package G1TBD.LABTBD.repositories;
 
 import G1TBD.LABTBD.entities.InstitutionEntity;
+import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
@@ -18,19 +19,19 @@ public class InstitutionRepositoryImp implements InstitutionRepository {
     private Sql2o sql2o;
 
     @Override
-    public InstitutionEntity create(InstitutionEntity institucion) {
+    public InstitutionEntity create(InstitutionEntity institution) {
         String sql = "INSERT INTO Institucion (nombreInstitucion)" +
                 "VALUES (:nombreInstitucion)";
 
         try (Connection conn = sql2o.open()) {
             long id = (long) conn.createQuery(sql)
-                    .addParameter("nombreInstitucion", institucion.getName())
+                    .addParameter("nombreInstitucion", institution.getName())
                     .executeUpdate()
                     .getKey();
 
-            institucion.setIdInstitution(id);
+            institution.setIdInstitution(id);
 
-            return institucion;
+            return institution;
 
         } catch (Exception e) {
             logger.severe("Error al crear institucion: " + e.getMessage());
@@ -47,7 +48,7 @@ public class InstitutionRepositoryImp implements InstitutionRepository {
                     .executeAndFetch(InstitutionEntity.class);
         } catch (Exception e) {
             logger.severe("Error al obtener todas las instituciones: " + e.getMessage());
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -66,14 +67,14 @@ public class InstitutionRepositoryImp implements InstitutionRepository {
     }
 
     @Override
-    public boolean update(InstitutionEntity institucion) {
+    public boolean update(InstitutionEntity institution) {
         String sql = "UPDATE Institucion SET nombreInstitucion = :nombreInstitucion" +
                 "WHERE idInstitucion = :idInstitucion";
 
         try (Connection conn = sql2o.open()) {
-            long id = (long) conn.createQuery(sql)
-                    .addParameter("idInstitucion", institucion.getIdInstitution())
-                    .addParameter("nombreInstitucion", institucion.getName())
+            conn.createQuery(sql)
+                    .addParameter("idInstitucion", institution.getIdInstitution())
+                    .addParameter("nombreInstitucion", institution.getName())
                     .executeUpdate()
                     .getKey();
             conn.commit();
