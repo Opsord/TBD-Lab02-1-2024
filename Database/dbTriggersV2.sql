@@ -5,17 +5,27 @@ CREATE TABLE User_auditTrigger (
     idTrigger SERIAL PRIMARY KEY,
     rut VARCHAR(20),
     name VARCHAR(255),
+    lastName VARCHAR(255),
     email VARCHAR(255),
     password VARCHAR(255),
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    role VARCHAR(255),
     operation TEXT
 );
 
+-- Modify user_audit_trigger_function
 CREATE OR REPLACE FUNCTION user_audit_trigger_function()
 RETURNS TRIGGER AS $$
+DECLARE
+    user_role VARCHAR(255);
 BEGIN
-    INSERT INTO User_auditTrigger (rut, name, email, password, date, operation)
-    VALUES (NEW.rut, NEW.name, NEW.email, NEW.password, CURRENT_TIMESTAMP, TG_OP);
+    -- Get role from Role table
+    SELECT role INTO user_role FROM Role WHERE rut = NEW.rut;
+
+    -- Insert into User_auditTrigger
+    INSERT INTO User_auditTrigger (rut, name, email, password, role, date, operation)
+    VALUES (NEW.rut, NEW.name, NEW.lastName, NEW.email, NEW.password, user_role, CURRENT_TIMESTAMP, TG_OP);
+
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
