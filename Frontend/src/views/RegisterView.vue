@@ -8,23 +8,6 @@
             <form>
                 <div class="grid gap-5 grid-cols-2">
                     <div class="flex flex-col gap-2">
-                        <label for="rol" class="text-sm">Rol</label>
-                        <select v-model="rol" class="px-3 py-2 border border-gray-400 rounded text-sm" required>
-                            <option value="">Rol</option>
-                            <option value="Coordinador">Coordinador</option>
-                            <option value="Voluntario">Voluntario</option>
-                        </select>
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label for="edad" class="text-sm">Institucion<span class="text-blue-700 ml-2">*
-                                Coordinador</span></label>
-                        <select v-model="institucion" class="px-3 py-2 border border-gray-400 rounded text-sm" required>
-                            <option value="">Institucion</option>s
-                            <option v-for="institucion in instituciones" :key="institucion.idInstitucion"
-                                :value="institucion.idInstitucion">{{ institucion.nombreInstitucion }}</option>
-                        </select>
-                    </div>
-                    <div class="flex flex-col gap-2">
                         <label for="nombre" class="text-sm">Nombre</label>
                         <Input v-model="nombre" type="text" placeholder="Nombre usuario" />
                     </div>
@@ -44,10 +27,10 @@
                         <label for="rut" class="text-sm">RUT</label>
                         <Input v-model="rut" type="text" placeholder="12.345.678-9" />
                     </div>
-                    <div class="flex flex-col justify-between">
+                    <div class="grid grid-cols-2 gap-3  ">
                         <div class="flex flex-col gap-2">
                             <label for="edad" class="text-sm">Edad</label>
-                            <select v-model="edad" class="w-32 px-3 py-2 border border-gray-400 rounded text-sm"
+                            <select v-model="edad" class="px-3 py-2 border border-gray-400 rounded text-sm"
                                 required>
                                 <option value="">Edad</option>
                                 <option v-for="edad in edades" :key="edad" :value="edad">{{ edad }}</option>
@@ -55,7 +38,7 @@
                         </div>
                         <div class="flex flex-col gap-2">
                             <label for="sexo" class="text-sm">Sexo</label>
-                            <select v-model="sexo" class="w-32 px-3 py-2 border border-gray-400 rounded text-sm"
+                            <select v-model="sexo" class="px-3 py-2 border border-gray-400 rounded text-sm"
                                 required>
                                 <option value="">Sexo</option>
                                 <option :value="true">Masculino</option>
@@ -63,9 +46,8 @@
                             </select>
                         </div>
                     </div>
-                    <div class="flex items-end gap-4 my-1 flex-wrap">
-                        <label for="disponibilidad" class="w-full text-sm">¿Estás disponible?<span
-                                class="text-blue-700"> * Voluntario</span></label>
+                    <div class="flex items-end gap-6">
+                        <label for="disponibilidad" class="w-full text-sm">¿Estás disponible?</label>
                         <div class="flex items-center space-x-2">
                             <input v-model="disponibilidad" type="radio" name="disponibilidad" :value="true" required>
                             <label for="disponibilidadsi" class="text-sm">Sí</label>
@@ -90,8 +72,6 @@ import ButtonPrimary from '../components/ButtonPrimary.vue';
 import Input from "../components/Input.vue";
 
 const router = useRouter();
-
-const rol = ref("");
 const nombre = ref("");
 const apellido = ref("");
 const email = ref("");
@@ -100,21 +80,6 @@ const rut = ref("");
 const edad = ref("");
 const sexo = ref("");
 const disponibilidad = ref("");
-const institucion = ref("");
-
-const instituciones = ref([]);
-
-const getInstituciones = async () => {
-    try {
-        const response = await axios.get('http://localhost:8090/institutions/all');
-        instituciones.value = response.data;
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-onMounted(getInstituciones);
-
 const edades = ref([]);
 
 for (let i = 18; i <= 60; i++) {
@@ -122,52 +87,27 @@ for (let i = 18; i <= 60; i++) {
 }
 
 const registerUser = async () => {
-    if (rol.value === "Voluntario") {
-        const data = {
-            rut: rut.value,
-            nombreVoluntario: nombre.value,
-            apellidoVoluntario: apellido.value,
-            edadVoluntario: edad.value,
-            sexoVoluntario: sexo.value,
-            email: email.value,
-            contrasena: contrasena.value,
-            disponibilidad: disponibilidad.value,
-            role: rol.value.toUpperCase()
-        }
-        console.log("Voluntario")
-        console.log(data);
-
-        try {
-            const response = await axios.post('http://localhost:8090/voluntareers/create', data);
-            console.log(response.data);
-            redirectToLogin();
-        } catch (error) {
-            console.log("Error al registar un nuevo voluntario", error);
-        }
-
-        redirectToLogin();
+    const data = {
+        rut: rut.value,
+        nombreVoluntario: nombre.value,
+        apellidoVoluntario: apellido.value,
+        edadVoluntario: edad.value,
+        sexoVoluntario: sexo.value,
+        email: email.value,
+        contrasena: contrasena.value,
+        disponibilidad: disponibilidad.value,
+        role: "VOLUNTARIO"
     }
-    else if (rol.value === "Coordinador") {
-        const data = {
-            rut: rut.value,
-            nombre: nombre.value,
-            apellido: apellido.value,
-            email: email.value,
-            contrasena: contrasena.value,
-            idInstitucion: institucion.value,
-            role: rol.value.toUpperCase()
-        }
 
-        console.log("Coordinador")
-        console.log(data);
+    console.log("Voluntario")
+    console.log(data);
 
-        try {
-            const response = await axios.post('http://localhost:8090/coordinators/create', data);
-            console.log(response.data);
-            redirectToLogin();
-        } catch (error) {
-            console.log("Error al registar un nuevo coordinador", error);
-        }
+    try {
+        const response = await axios.post('http://localhost:8090/volunteers/create', data);
+        console.log(response.data);
+        redirectToLogin();
+    } catch (error) {
+        console.log("Error al registar un nuevo voluntario", error);
     }
 }
 
