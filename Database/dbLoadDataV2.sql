@@ -1,5 +1,5 @@
 --Poblacion de la tabla Voluntarios
-INSERT INTO User (rut, email, name, lastName, birthDate, sex, password, role, availability)
+INSERT INTO Users (rut, email, name, lastName, birthDate, sex, password, role, availability)
 VALUES
 -- Voluntarios
     ('12345678-9', 'juan@example.com', 'Juan', 'Pérez', '1999-03-12', 'M', 'contraseña123', 'VOLUNTARIO', true),
@@ -13,12 +13,12 @@ VALUES
     ('12454633-4', 'miguel@example.com', 'Miguel', 'Díaz', '1995-06-14', 'M', 'diazmiguel', 'VOLUNTARIO', true),
     ('44556677-5', 'paula@example.com', 'Paula', 'Fernández', '1998-11-29', 'F', 'fernandez', 'VOLUNTARIO', false),
 -- Coordinadores
-    ('1234678-9', 'maria_coordinador@example.com', 'María', 'García', '1999-12-11', 'F', 'pass1234', 'COORDINATOR'),
-    ('9871432-1', 'carlos_coordinador@example.com', 'Carlos', 'Rodríguez', '1949-11-03', 'M', 'contrdawa1', 'COORDINATOR'),
-    ('1353344-5', 'ana_coordinador@example.com', 'Ana', 'López', '123454321', '1992-06-12', 'F', 'COORDINATOR');
+    ('1234678-9', 'maria_coordinador@example.com', 'María', 'García', '1999-12-11', 'F', 'pass1234', 'COORDINATOR', false),
+    ('9871432-1', 'carlos_coordinador@example.com', 'Carlos', 'Rodríguez', '1949-11-03', 'M', 'contrdawa1', 'COORDINATOR', false),
+    ('1353344-5', 'ana_coordinador@example.com', 'Ana', 'López', '1992-06-12', 'F', '123454321', 'COORDINATOR', false);
 
 --Poblacion de la tabla Atributo
-INSERT INTO Attribute (idAttribute, attribute)
+INSERT INTO Attributes (idAttribute, attribute)
 VALUES 
     (1, 'Fuerza fisica'),
     (2, 'Rescate en Terreno'),
@@ -53,7 +53,7 @@ VALUES
     (20, '44556677-5', 3);
 
 --Poblacion de la tabla Institucion
-INSERT INTO Institution (idInstitution, name) 
+INSERT INTO Institutions (idInstitution, name) 
 VALUES 
     (1, 'Cruz Roja de Chile'),
     (2, 'Bomberos Municipales'),
@@ -64,10 +64,10 @@ INSERT INTO User_Institution (idUserInstitution, rut, idInstitution)
 VALUES 
     (1, '1234678-9', 1),
     (2, '9871432-1', 2),
-    (3, '1353344-5', 3),
+    (3, '1353344-5', 3);
 
 --Poblacion de la tabla Emergencia
-INSERT INTO Emergency (idEmergency, state, title, description, coordinator)
+INSERT INTO Emergencies (idEmergency, state, title, description, coordinator)
 VALUES 
     (1, true, 'Incendio forestal en zona rural', 'Se ha reportado un incendio forestal en la zona de la Reserva Nacional. Se necesita asistencia inmediata.', '9871432-1'),
     (2, false, 'Evacuación por fuga de gas', 'Se ha detectado una fuga de gas en un edificio residencial. Se requiere evacuación de los residentes.', '1234678-9'),
@@ -92,7 +92,7 @@ VALUES
     (11, 5, 7, true);  -- La emergencia 5 tiene compatibilidad con el atributo 7 (Capacidad para la búsqueda y localización de personas perdidas)
 
 -- Población de la tabla Tarea
-INSERT INTO Task (idTask, idEmergency, type, description, state)
+INSERT INTO Tasks (idTask, idEmergency, type, description, state)
 VALUES 
     (1, 1, 'Evacuación de residentes', 'Coordinar y ejecutar la evacuación de los residentes afectados por el incendio forestal.', true),
     (2, 2, 'Control de fuga de gas', 'Gestionar la contención y control de la fuga de gas en el edificio residencial.', false),

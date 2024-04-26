@@ -18,7 +18,7 @@ CREATE OR REPLACE FUNCTION user_audit_trigger_function()
 RETURNS TRIGGER AS $$
 BEGIN
     -- Insert into User_auditTrigger
-    INSERT INTO User_auditTrigger (rut, name, email, password, role, date, operation)
+    INSERT INTO User_auditTrigger (rut, name, email, lastName, password, role, date, operation)
     VALUES (NEW.rut, NEW.name, NEW.lastName, NEW.email, NEW.password, NEW.role, CURRENT_TIMESTAMP, TG_OP);
 
     RETURN NEW;
@@ -26,25 +26,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER user_audit_trigger
-BEFORE INSERT OR UPDATE OR DELETE ON User
+BEFORE INSERT OR UPDATE OR DELETE ON Users
 FOR EACH ROW
 EXECUTE FUNCTION user_audit_trigger_function();
-
--- Trigger to prevent users from having duplicated roles
-CREATE OR REPLACE FUNCTION prevent_user_duplicate_roles_func()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF (SELECT COUNT(*) FROM Role WHERE rut = NEW.rut AND role = NEW.role) > 0 THEN
-        RAISE EXCEPTION 'Un usuario no puede tener roles duplicados.';
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER prevent_user_duplicate_roles
-BEFORE INSERT ON Role
-FOR EACH ROW
-EXECUTE FUNCTION prevent_user_duplicate_roles_func();
 
 -- Trigger to prevent users from having duplicated attributes
 CREATE OR REPLACE FUNCTION prevent_user_duplicate_attributes_func()
@@ -102,7 +86,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER emergency_audit_trigger
-BEFORE INSERT OR UPDATE OR DELETE ON Emergency
+BEFORE INSERT OR UPDATE OR DELETE ON Emergencies
 FOR EACH ROW
 EXECUTE FUNCTION emergency_audit_trigger_function();
 
