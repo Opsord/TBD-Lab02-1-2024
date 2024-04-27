@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-center items-center align-middle">
         <div v-if="emergencia && emergencia.length">
-            <div v-for="data in emergencia" :key="data.idEmergencia">
+            <div v-for="data in emergencia" :key="data.idEmergency">
                 <Card>
                     <CardHeader>
                         <CardTitle>{{ data.tituloEmergencia }}</CardTitle>
@@ -28,7 +28,6 @@
 
 
 <script setup>
-//http://localhost:8090/tarea/porIdEmergencia/4
 
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
@@ -55,13 +54,13 @@ async function fetchEmergencia() {
 
 
 async function fetchVoluntarios() {
-    const rankingGet = "http://localhost:8090/ranking/obtenerRankingPorIdTarea/";
+    const rankingGet = "http://localhost:8090/rankings/taskId/";
     if (emergencia.value && emergencia.value.length > 0) {
         try {
             const fetchPromises = emergencia.value.map(async (emergenciaEach) => {
-                const response = await axios.get(`${rankingGet}${emergenciaEach.idEmergencia}`);
-                const idVoluntario = response.data.map(ranking => ranking.idVoluntario)
-                return { ...emergenciaEach, ids: idVoluntario };
+                const response = await axios.get(`${rankingGet}${emergenciaEach.idEmergency}`);
+                const rut = response.data.map(ranking => ranking.rut)
+                return { ...emergenciaEach, ids: rut };
             });
             emergencia.value = await Promise.all(fetchPromises); // Correctly await all promises
         } catch (error) {
@@ -71,12 +70,12 @@ async function fetchVoluntarios() {
 }
 
 async function fetchVoluntariosData() {
-    const voluntarioGet = "http://localhost:8090/voluntarios/porId/";
+    const voluntarioGet = "http://localhost:8090/api/users/rut/";
     if (emergencia.value && emergencia.value.length > 0) {
         try {
             const fetchPromises = emergencia.value.map(async (emergenciaEach) => {
-                const voluntarioPromises = emergenciaEach.ids.map(async (id) => {
-                    const responseVoluntario = await axios.get(`${voluntarioGet}${id}`);
+                const voluntarioPromises = emergenciaEach.ids.map(async (rut) => {
+                    const responseVoluntario = await axios.get(`${voluntarioGet}${rut}`);
                     return responseVoluntario.data
                 })
                 return { ...emergenciaEach, voluntarios: await Promise.all(voluntarioPromises) };

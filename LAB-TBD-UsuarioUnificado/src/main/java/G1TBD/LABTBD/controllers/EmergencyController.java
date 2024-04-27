@@ -54,9 +54,13 @@ public class EmergencyController {
         return emergencyService.getAllClosed();
     }
 
+    /*
+
     @GetMapping("/data")
     public List<SingleEmergencyData> getEveryEmergencyData() {
         return emergencyService.getEveryEmergencyData();
     }
+
+    */
 
 }

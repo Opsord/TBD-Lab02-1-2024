@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class VolunteerAttributeEntity {
+public class UserInstitutionEntity {
 
-    private long idVolunteerAttribute;
-    private long idVolunteer;
-    private long idAttribute;
+    private long idUserInstitution;
+    private long rut;
+    private long idInstitution;
 
 }

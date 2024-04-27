@@ -13,16 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
  */
 
-import G1TBD.LABTBD.repositories.CoordinatorRepository;
-import G1TBD.LABTBD.repositories.VolunteerRepository;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
 public class AppConfig {
-
-    private final VolunteerRepository volunteerRepository;
-    private final CoordinatorRepository coordinatorRepository;
 
     /*
     @Bean

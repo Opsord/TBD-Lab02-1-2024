@@ -2,16 +2,16 @@
 INSERT INTO Users (rut, email, name, lastName, birthDate, sex, password, role, availability)
 VALUES
 -- Voluntarios
-    ('12345678-9', 'juan@example.com', 'Juan', 'Pérez', '1999-03-12', 'M', 'contraseña123', 'VOLUNTARIO', true),
-    ('98765432-1', 'maria@example.com', 'María', 'González', '1994-05-18', 'F', 'clave456', 'VOLUNTARIO', false),
-    ('11223344-5', 'carlos@example.com', 'Carlos', 'López', '1984-02-06', 'M', 'pass1234', 'VOLUNTARIO', true),
-    ('55443322-1', 'ana@example.com', 'Ana', 'Martínez', '1996-07-24', 'F', '123456', 'VOLUNTARIO', true),
-    ('87654321-0', 'pedro@example.com', 'Pedro', 'Sánchez', '1989-09-15', 'M', 'p@$$w0rd', 'VOLUNTARIO', false),
-    ('33221100-K', 'laura@example.com', 'Laura', 'Rodríguez', '2002-04-01', 'F', 'laura123', 'VOLUNTARIO', true),
-    ('45678901-2', 'diego@example.com', 'Diego', 'Hernández', '1997-02-22', 'M', 'd1ego789', 'VOLUNTARIO', false),
-    ('99887766-3', 'sofia@example.com', 'Sofía', 'Gómez', '1991-08-10', 'F', 'sofia321', 'VOLUNTARIO', true),
-    ('12454633-4', 'miguel@example.com', 'Miguel', 'Díaz', '1995-06-14', 'M', 'diazmiguel', 'VOLUNTARIO', true),
-    ('44556677-5', 'paula@example.com', 'Paula', 'Fernández', '1998-11-29', 'F', 'fernandez', 'VOLUNTARIO', false),
+    ('12345678-9', 'juan@example.com', 'Juan', 'Pérez', '1999-03-12', 'M', 'contraseña123', 'VOLUNTEER', true),
+    ('98765432-1', 'maria@example.com', 'María', 'González', '1994-05-18', 'F', 'clave456', 'VOLUNTEER', false),
+    ('11223344-5', 'carlos@example.com', 'Carlos', 'López', '1984-02-06', 'M', 'pass1234', 'VOLUNTEER', true),
+    ('55443322-1', 'ana@example.com', 'Ana', 'Martínez', '1996-07-24', 'F', '123456', 'VOLUNTEER', true),
+    ('87654321-0', 'pedro@example.com', 'Pedro', 'Sánchez', '1989-09-15', 'M', 'p@$$w0rd', 'VOLUNTEER', false),
+    ('33221100-K', 'laura@example.com', 'Laura', 'Rodríguez', '2002-04-01', 'F', 'laura123', 'VOLUNTEER', true),
+    ('45678901-2', 'diego@example.com', 'Diego', 'Hernández', '1997-02-22', 'M', 'd1ego789', 'VOLUNTEER', false),
+    ('99887766-3', 'sofia@example.com', 'Sofía', 'Gómez', '1991-08-10', 'F', 'sofia321', 'VOLUNTEER', true),
+    ('12454633-4', 'miguel@example.com', 'Miguel', 'Díaz', '1995-06-14', 'M', 'diazmiguel', 'VOLUNTEER', true),
+    ('44556677-5', 'paula@example.com', 'Paula', 'Fernández', '1998-11-29', 'F', 'fernandez', 'VOLUNTEER', false),
 -- Coordinadores
     ('1234678-9', 'maria_coordinador@example.com', 'María', 'García', '1999-12-11', 'F', 'pass1234', 'COORDINATOR', false),
     ('9871432-1', 'carlos_coordinador@example.com', 'Carlos', 'Rodríguez', '1949-11-03', 'M', 'contrdawa1', 'COORDINATOR', false),

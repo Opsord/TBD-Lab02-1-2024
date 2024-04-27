@@ -1,9 +1,6 @@
 package G1TBD.LABTBD.services;
 
-import G1TBD.LABTBD.data.SingleEmergencyData;
 import G1TBD.LABTBD.entities.EmergencyEntity;
-import G1TBD.LABTBD.entities.TaskEntity;
-import G1TBD.LABTBD.entities.VolunteerEntity;
 import G1TBD.LABTBD.repositories.EmergencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +14,6 @@ public class EmergencyService {
     private EmergencyRepository emergencyRepository;
     @Autowired
     private TaskService taskService;
-    @Autowired
-    private VolunteerService volunteerService;
 
     public EmergencyEntity create(EmergencyEntity emergency) {
         return emergencyRepository.create(emergency);
@@ -48,6 +43,8 @@ public class EmergencyService {
         return emergencyRepository.getAllClosed();
     }
 
+    /*
+
     // Funcionalidad SQL 48
     public List<SingleEmergencyData> getEveryEmergencyData() {
         List<EmergencyEntity> closedEmergencies = getAllClosed();
@@ -64,4 +61,7 @@ public class EmergencyService {
 
         return singleEmergencyDataList;
     }
+
+     */
+
 }

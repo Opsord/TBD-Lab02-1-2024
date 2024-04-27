@@ -29,7 +29,7 @@ public class EmergencyRepositoryImp implements EmergencyRepository {
                     .addParameter("estadoEmergencia", emergency.isStatus())
                     .addParameter("tituloEmergencia", emergency.getTitle())
                     .addParameter("descripcionEmergencia", emergency.getDescription())
-                    .addParameter("idCoordinador", emergency.getIdCoordinator())
+                    .addParameter("idCoordinador", emergency.getCoordinator())
                     .executeUpdate()
                     .getKey();
 

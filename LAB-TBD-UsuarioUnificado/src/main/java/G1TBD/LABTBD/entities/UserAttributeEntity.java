@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RankingEntity {
+public class UserAttributeEntity {
 
-    private long idRanking;
+    private long idUserAttribute;
     private String rut;
-    private long idTask;
-    private Integer value;
+    private long idAttribute;
 
 }

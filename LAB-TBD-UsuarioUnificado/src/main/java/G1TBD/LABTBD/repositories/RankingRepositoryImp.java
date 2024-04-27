@@ -28,9 +28,9 @@ public class RankingRepositoryImp implements RankingRepository{
 
         try (Connection conn = sql2o.open()) {
             long id = (long) conn.createQuery(sql)
-                    .addParameter("idVoluntario", ranking.getIdVolunteer())
+                    .addParameter("idVoluntario", ranking.getRut())
                     .addParameter("idTarea", ranking.getIdTask())
-                    .addParameter("valorRanking", ranking.getValorRanking())
+                    .addParameter("valorRanking", ranking.getValue())
                     .executeUpdate()
                             .getKey();
 
@@ -77,9 +77,9 @@ public class RankingRepositoryImp implements RankingRepository{
         try (Connection conn = sql2o.open()) {
             conn.createQuery(sql)
                     .addParameter("idRanking", ranking.getIdRanking())
-                    .addParameter("idVoluntario", ranking.getIdVolunteer())
+                    .addParameter("idVoluntario", ranking.getRut())
                     .addParameter("idTarea", ranking.getIdTask())
-                    .addParameter("valorRanking", ranking.getValorRanking())
+                    .addParameter("valorRanking", ranking.getValue())
                     .executeUpdate();
             conn.commit();
             return true;

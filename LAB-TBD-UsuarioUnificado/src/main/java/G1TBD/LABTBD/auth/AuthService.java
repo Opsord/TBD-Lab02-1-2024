@@ -2,7 +2,6 @@ package G1TBD.LABTBD.auth;
 /*
 import G1TBD.LABTBD.entities.VolunteerEntity;
 import G1TBD.LABTBD.jwt.JwtService;
-import G1TBD.LABTBD.repositories.VolunteerRepository;
 import G1TBD.LABTBD.user.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-
-    @Autowired
-    private VolunteerRepository voluntarioRepository;
 
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;

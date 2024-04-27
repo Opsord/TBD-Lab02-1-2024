@@ -34,7 +34,7 @@ function onSubmit() {
                 <FormItem>
                     <FormLabel>Nombre:</FormLabel>
                     <FormControl>
-                        <Input type="text" placeholder="Su nombre" v-model="formModel.nombreVoluntario" />
+                        <Input type="text" placeholder="Su nombre" v-model="formModel.name" />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
@@ -44,7 +44,7 @@ function onSubmit() {
                 <FormItem>
                     <FormLabel>Apellido:</FormLabel>
                     <FormControl>
-                        <Input type="text" placeholder="Su Apellido" v-model="formModel.apellidoVoluntario" />
+                        <Input type="text" placeholder="Su Apellido" v-model="formModel.lastName" />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
@@ -54,7 +54,7 @@ function onSubmit() {
                 <FormItem>
                     <FormLabel>R.U.T:</FormLabel>
                     <FormControl>
-                        <Input type="text" placeholder="R.U.T" v-model="formModel.rutVoluntario" />
+                        <Input type="text" placeholder="R.U.T" v-model="formModel.rut" />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
@@ -74,10 +74,10 @@ function onSubmit() {
                 <FormItem class="space-x-2 gap-4">
                     <FormLabel>Sexo:</FormLabel>
                     <FormControl>
-                        <input type="radio" placeholder="edad" value=false v-model="formModel.sexoVoluntario" />
+                        <input type="radio" placeholder="edad" value=false v-model="formModel.sex" />
                         <label for="false">Hombre</label>
 
-                        <input type="radio" placeholder="edad" value=true v-model="formModel.sexoVoluntario" />
+                        <input type="radio" placeholder="edad" value=true v-model="formModel.sex" />
                         <label for="true">Mujer</label>
                     </FormControl>
                     <FormMessage />
@@ -89,13 +89,13 @@ function onSubmit() {
                 <FormItem>
                     <FormLabel>Contraseña</FormLabel>
                     <FormControl>
-                        <Input type="text" placeholder="contraseña-segura" v-model="formModel.contrasena" />
+                        <Input type="text" placeholder="contraseña-segura" v-model="formModel.password" />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
             </FormField>
 
-            <FormField name="disponibilidad" type="checkbox" v-model="formModel.disponibilidad">
+            <FormField name="disponibilidad" type="checkbox" v-model="formModel.availability">
                 <FormItem class="flex flex-row items-center align-middle space-x-2">
                     <FormLabel>¿Disponible de inmediato?</FormLabel>
                     <FormControl>
