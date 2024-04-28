@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.logging.Logger;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
     private final AuthService authService;
+    private static final Logger logger = Logger.getLogger(AuthController.class.getName());
 
     @Autowired
     public AuthController(AuthService authService) {
@@ -24,11 +27,13 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+        logger.info("Registering user: " + request.toString());
         return ResponseEntity.ok(authService.register(request));
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
+        logger.info("Logging in user: " + request.toString());
         return ResponseEntity.ok(authService.login(request));
     }
 
