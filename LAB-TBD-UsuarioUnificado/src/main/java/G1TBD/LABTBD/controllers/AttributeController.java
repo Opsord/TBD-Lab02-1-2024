@@ -12,8 +12,13 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:8090/attributes")
 public class AttributeController {
 
+    private final AttributeService attributeService;
+
     @Autowired
-    private AttributeService attributeService;
+    public AttributeController(AttributeService attributeService) {
+        this.attributeService = attributeService;
+    }
+
 
     String homeLinkRedirect = "redirect:/attributes";
 

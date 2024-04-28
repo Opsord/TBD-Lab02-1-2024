@@ -31,6 +31,7 @@ public class UserAttributeRepositoryImp implements UserAttributeRepository{
                     .addParameter("idAttribute", userAttribute.getIdAttribute())
                     .executeUpdate();
             return userAttribute;
+
         } catch (Exception e) {
             logger.severe("Error al crear atributo de usuario: " + e.getMessage());
             return null;
@@ -40,9 +41,11 @@ public class UserAttributeRepositoryImp implements UserAttributeRepository{
     @Override
     public List<UserAttributeEntity> getAll() {
         String sql = "SELECT * FROM User_Attribute";
+
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
                     .executeAndFetch(UserAttributeEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener todos los atributos de usuario: " + e.getMessage());
             return List.of();
@@ -57,6 +60,7 @@ public class UserAttributeRepositoryImp implements UserAttributeRepository{
             return conn.createQuery(sql)
                     .addParameter("idUserAttribute", id)
                     .executeAndFetchFirst(UserAttributeEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener atributo de usuario por id: " + e.getMessage());
             return null;
@@ -74,6 +78,7 @@ public class UserAttributeRepositoryImp implements UserAttributeRepository{
                     .addParameter("idUserAttribute", userAttribute.getIdUserAttribute())
                     .executeUpdate();
             return true;
+
         } catch (Exception e) {
             logger.severe("Error al actualizar atributo de usuario: " + e.getMessage());
             return false;
@@ -89,6 +94,7 @@ public class UserAttributeRepositoryImp implements UserAttributeRepository{
                     .addParameter("idUserAttribute", id)
                     .executeUpdate();
             return true;
+
         } catch (Exception e) {
             logger.severe("Error al eliminar atributo de usuario: " + e.getMessage());
             return false;
@@ -102,6 +108,7 @@ public class UserAttributeRepositoryImp implements UserAttributeRepository{
             return conn.createQuery(sql)
                     .addParameter("rut", rut)
                     .executeAndFetch(UserAttributeEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener atributos de usuario por rut: " + e.getMessage());
             return List.of();
@@ -111,10 +118,12 @@ public class UserAttributeRepositoryImp implements UserAttributeRepository{
     @Override
     public List<UserAttributeEntity> getByAttributeId(long attributeId) {
         String sql = "SELECT * FROM User_Attribute WHERE idAttribute = :idAttribute";
+
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
                     .addParameter("idAttribute", attributeId)
                     .executeAndFetch(UserAttributeEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener atributos de usuario por id de atributo: " + e.getMessage());
             return List.of();

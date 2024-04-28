@@ -69,6 +69,7 @@ EXECUTE FUNCTION prevent_user_duplicate_institutions_func();
 CREATE TABLE Emergency_auditTrigger (
     idTrigger SERIAL PRIMARY KEY,
     idEmergency BIGINT,
+    status BOOLEAN,
     title VARCHAR(255),
     description TEXT,
     coordinator VARCHAR(20),
@@ -79,8 +80,8 @@ CREATE TABLE Emergency_auditTrigger (
 CREATE OR REPLACE FUNCTION emergency_audit_trigger_function()
 RETURNS TRIGGER AS $$
 BEGIN
-    INSERT INTO Emergency_auditTrigger (idEmergency, title, description, coordinator, date, operation)
-    VALUES (NEW.idEmergency, NEW.title, NEW.description, NEW.coordinator, CURRENT_TIMESTAMP, TG_OP);
+    INSERT INTO Emergency_auditTrigger (idEmergency, status, title, description, coordinator, date, operation)
+    VALUES (NEW.idEmergency, NEW.status, NEW.title, NEW.description, NEW.coordinator, CURRENT_TIMESTAMP, TG_OP);
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

@@ -1,6 +1,10 @@
 package G1TBD.LABTBD.auth;
-/*
-import lombok.RequiredArgsConstructor;
+
+import G1TBD.LABTBD.auth.entities.AuthResponse;
+import G1TBD.LABTBD.auth.entities.LoginRequest;
+import G1TBD.LABTBD.auth.entities.RegisterRequest;
+import G1TBD.LABTBD.auth.services.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,30 +13,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/loginVoluntario")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(authService.loginVoluntario(loginRequest));
+    @Autowired
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
-    @PostMapping("/registerVoluntario")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest registerRequest) {
-        return ResponseEntity.ok(authService.registerVoluntario(registerRequest));
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(authService.register(request));
     }
 
-    @PostMapping("/loginCoordinador")
-    public ResponseEntity<AuthResponse> loginCoordinador(@RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(authService.loginCoordinador(loginRequest));
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok(authService.login(request));
     }
 
-    @PostMapping("/registerCoordinador")
-    public ResponseEntity<AuthResponse> registerCoordinador(@RequestBody RegisterRequest registerRequest) {
-        return ResponseEntity.ok(authService.registerCoordinador(registerRequest));
-    }
 }
-
- */

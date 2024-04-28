@@ -14,24 +14,24 @@ import java.util.logging.Logger;
 @Repository
 public class AttributeRepositoryImp implements AttributeRepository {
 
+    private final Sql2o sql2o;
     private static final Logger  logger = Logger.getLogger(AttributeRepositoryImp.class.getName());
 
     @Autowired
-    private Sql2o sql2o;
+    public AttributeRepositoryImp(Sql2o sql2o) {
+        this.sql2o = sql2o;
+    }
 
     @Override
     public AttributeEntity create(AttributeEntity attribute) {
-        String sql = "INSERT INTO Atributo (atributo) " +
-                "VALUES (:atributo)";
-
+        String sql = "INSERT INTO attributes (attribute) VALUES (:attribute)";
 
         try (Connection conn = sql2o.open()) {
-            long id = (long) conn.createQuery(sql)
-                    .addParameter("atributo", attribute.getAttribute())
+            conn.createQuery(sql)
+                    .addParameter("attribute", attribute.getAttribute())
                     .executeUpdate()
                     .getKey();
-
-            attribute.setIdAttribute(id);
+            conn.commit();
             return attribute;
 
         } catch (Exception e) {
@@ -42,10 +42,11 @@ public class AttributeRepositoryImp implements AttributeRepository {
 
     @Override
     public List<AttributeEntity> getAll() {
-        String sql = "SELECT * FROM Atributo";
+        String sql = "SELECT * FROM attributes";
+
         try (Connection conn = sql2o.open()) {
-            return conn.createQuery(sql)
-                    .executeAndFetch(AttributeEntity.class);
+            return conn.createQuery(sql).executeAndFetch(AttributeEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener todos los atributos: " + e.getMessage());
             return Collections.emptyList();
@@ -54,12 +55,13 @@ public class AttributeRepositoryImp implements AttributeRepository {
 
     @Override
     public AttributeEntity getById(long id) {
-        String sql = "SELECT * FROM Atributo WHERE idAtributo = :idAtributo";
+        String sql = "SELECT * FROM attributes WHERE idattribute = :idAttribute";
 
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
-                    .addParameter("idAtributo", id)
+                    .addParameter("idAttribute", id)
                     .executeAndFetchFirst(AttributeEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener atributo por id: " + e.getMessage());
             return null;
@@ -79,16 +81,17 @@ public class AttributeRepositoryImp implements AttributeRepository {
 
     @Override
     public boolean update(AttributeEntity attribute) {
-        String sql = "UPDATE Atributo SET atributo = :atributo " +
-                "WHERE idAtributo = :idAtributo";
+        String sql = "UPDATE attributes SET attribute = :attribute " +
+                "WHERE idattribute = :idAttribute";
 
         try (Connection conn = sql2o.open()) {
             conn.createQuery(sql)
-                    .addParameter("idAtributo", attribute.getIdAttribute())
-                    .addParameter("atributo", attribute.getAttribute())
+                    .addParameter("idAttribute", attribute.getIdAttribute())
+                    .addParameter("attribute", attribute.getAttribute())
                     .executeUpdate();
             conn.commit();
             return true;
+
         } catch (Exception e) {
             logger.severe("Error al actualizar atributo: " + e.getMessage());
             return false;
@@ -97,11 +100,11 @@ public class AttributeRepositoryImp implements AttributeRepository {
 
     @Override
     public boolean delete(long id) {
-        String sql = "DELETE FROM Atributo WHERE idAtributo = :idAtributo";
+        String sql = "DELETE FROM attributes WHERE idattribute = :idAttribute";
 
         try (Connection conn = sql2o.open()) {
             conn.createQuery(sql)
-                    .addParameter("idAtributo", id)
+                    .addParameter("idAttribute", id)
                     .executeUpdate();
             conn.commit();
             return true;

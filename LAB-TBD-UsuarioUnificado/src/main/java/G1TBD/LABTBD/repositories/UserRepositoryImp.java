@@ -1,12 +1,14 @@
 package G1TBD.LABTBD.repositories;
 
 import G1TBD.LABTBD.entities.UserEntity;
+import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Repository
@@ -38,6 +40,7 @@ public class UserRepositoryImp implements UserRepository {
                     .addParameter("availability", user.isAvailability())
                     .executeUpdate();
             return user;
+
         } catch (Exception e) {
             logger.severe("Error al crear usuario: " + e.getMessage());
             return null;
@@ -47,27 +50,46 @@ public class UserRepositoryImp implements UserRepository {
     @Override
     public List<UserEntity> getAll() {
         String sql = "SELECT * FROM Users";
+
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
                     .executeAndFetch(UserEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener todos los usuarios: " + e.getMessage());
-            return null;
+            return Collections.emptyList();
         }
     }
 
     @Override
-    public UserEntity getByRut(String rut) {
+    public Optional<UserEntity> getByRut(String rut) {
         String sql = "SELECT * FROM Users WHERE rut = :rut";
 
         try (Connection conn = sql2o.open()) {
             List<UserEntity> users = conn.createQuery(sql)
                     .addParameter("rut", rut)
                     .executeAndFetch(UserEntity.class);
-            return users.isEmpty() ? null : users.get(0);
+            return users.isEmpty() ? Optional.empty() : Optional.of(users.get(0));
+
         } catch (Exception e) {
             logger.severe("Error al obtener usuario por rut: " + e.getMessage());
-            return null;
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<UserEntity> getByEmail(String email) {
+        String sql = "SELECT * FROM Users WHERE email = :email";
+
+        try (Connection conn = sql2o.open()) {
+            List<UserEntity> users = conn.createQuery(sql)
+                    .addParameter("email", email)
+                    .executeAndFetch(UserEntity.class);
+            return users.isEmpty() ? Optional.empty() : Optional.of(users.get(0));
+
+        } catch (Exception e) {
+            logger.severe("Error al obtener usuario por email: " + e.getMessage());
+            return Optional.empty();
         }
     }
 
@@ -77,6 +99,7 @@ public class UserRepositoryImp implements UserRepository {
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
                     .executeAndFetch(UserEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener voluntarios: " + e.getMessage());
             return List.of();
@@ -89,6 +112,7 @@ public class UserRepositoryImp implements UserRepository {
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
                     .executeAndFetch(UserEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener coordinadores: " + e.getMessage());
             return List.of();
@@ -114,6 +138,7 @@ public class UserRepositoryImp implements UserRepository {
                     .addParameter("rut", user.getRut())
                     .executeUpdate();
             return true;
+
         } catch (Exception e) {
             logger.severe("Error al actualizar usuario: " + e.getMessage());
             return false;
@@ -129,6 +154,7 @@ public class UserRepositoryImp implements UserRepository {
                     .addParameter("rut", rut)
                     .executeUpdate();
             return true;
+
         } catch (Exception e) {
             logger.severe("Error al eliminar usuario: " + e.getMessage());
             return false;
@@ -143,6 +169,7 @@ public class UserRepositoryImp implements UserRepository {
             return conn.createQuery(sql)
                     .addParameter("role", role)
                     .executeAndFetch(UserEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener usuario por rol: " + e.getMessage());
             return List.of();
@@ -157,6 +184,7 @@ public class UserRepositoryImp implements UserRepository {
             return conn.createQuery(sql)
                     .addParameter("availability", availability)
                     .executeAndFetch(UserEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener usuario por disponibilidad: " + e.getMessage());
             return List.of();

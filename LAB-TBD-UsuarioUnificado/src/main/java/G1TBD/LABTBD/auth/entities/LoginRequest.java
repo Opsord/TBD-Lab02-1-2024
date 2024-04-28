@@ -1,4 +1,4 @@
-package G1TBD.LABTBD.auth;
+package G1TBD.LABTBD.auth.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,8 +7,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class AuthResponse {
-    String token;
+@NoArgsConstructor
+public class LoginRequest {
+
+    private String rut;
+    private String password;
+
 }

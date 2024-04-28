@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @RestController
@@ -34,8 +35,13 @@ public class UserController {
     }
 
     @GetMapping("/rut/{rut}")
-    public UserEntity getByRut(@PathVariable String rut) {
+    public Optional<UserEntity> getByRut(@PathVariable String rut) {
         return userService.getByRut(rut);
+    }
+
+    @GetMapping("/email/{email}")
+    public Optional<UserEntity> getByEmail(@PathVariable String email) {
+        return userService.getByEmail(email);
     }
 
     @PutMapping("/update")

@@ -15,8 +15,12 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:8090/emergencies")
 public class EmergencyController {
 
+    private final EmergencyService emergencyService;
+
     @Autowired
-    private EmergencyService emergencyService;
+    public EmergencyController(EmergencyService emergencyService) {
+        this.emergencyService = emergencyService;
+    }
 
     @PostMapping("/create")
     public ResponseEntity<EmergencyEntity> create(@RequestBody EmergencyEntity emergency) {

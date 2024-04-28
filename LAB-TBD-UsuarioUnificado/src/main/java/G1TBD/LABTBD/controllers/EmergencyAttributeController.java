@@ -14,8 +14,12 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:8090/emergencyAttribute")
 public class EmergencyAttributeController {
 
+    private final EmergencyAttributeService emergencyAttributeService;
+
     @Autowired
-    private EmergencyAttributeService emergencyAttributeService;
+    public EmergencyAttributeController(EmergencyAttributeService emergencyAttributeService) {
+        this.emergencyAttributeService = emergencyAttributeService;
+    }
 
     String homeLinkRedirect = "redirect:/emergencyAttribute";
 

@@ -3,6 +3,7 @@ package G1TBD.LABTBD.repositories;
 import G1TBD.LABTBD.entities.UserEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository {
 
@@ -10,7 +11,9 @@ public interface UserRepository {
 
     List<UserEntity> getAll();
 
-    UserEntity getByRut(String rut);
+    Optional<UserEntity> getByRut(String rut);
+
+    Optional<UserEntity> getByEmail(String email);
 
     boolean update(UserEntity user);
 

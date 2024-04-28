@@ -31,6 +31,7 @@ public class UserInstitutionRepositoryImp implements UserInstitutionRepository{
                     .addParameter("idInstitution", userInstitution.getIdInstitution())
                     .executeUpdate();
             return userInstitution;
+
         } catch (Exception e) {
             logger.severe("Error al crear institucion de usuario: " + e.getMessage());
             return null;
@@ -40,9 +41,11 @@ public class UserInstitutionRepositoryImp implements UserInstitutionRepository{
     @Override
     public List<UserInstitutionEntity> getAll() {
         String sql = "SELECT * FROM User_Institution";
+
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
                     .executeAndFetch(UserInstitutionEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener todas las instituciones de usuario: " + e.getMessage());
             return List.of();
@@ -57,6 +60,7 @@ public class UserInstitutionRepositoryImp implements UserInstitutionRepository{
             return conn.createQuery(sql)
                     .addParameter("idUserInstitution", id)
                     .executeAndFetchFirst(UserInstitutionEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener institucion de usuario por id: " + e.getMessage());
             return null;
@@ -75,6 +79,7 @@ public class UserInstitutionRepositoryImp implements UserInstitutionRepository{
                     .addParameter("idUserInstitution", userInstitution.getIdUserInstitution())
                     .executeUpdate();
             return true;
+
         } catch (Exception e) {
             logger.severe("Error al actualizar institucion de usuario: " + e.getMessage());
             return false;
@@ -90,6 +95,7 @@ public class UserInstitutionRepositoryImp implements UserInstitutionRepository{
                     .addParameter("idUserInstitution", id)
                     .executeUpdate();
             return true;
+
         } catch (Exception e) {
             logger.severe("Error al eliminar institucion de usuario: " + e.getMessage());
             return false;
@@ -103,6 +109,7 @@ public class UserInstitutionRepositoryImp implements UserInstitutionRepository{
             return conn.createQuery(sql)
                     .addParameter("rut", rut)
                     .executeAndFetchFirst(UserInstitutionEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener institucion de usuario por rut: " + e.getMessage());
             return null;
@@ -112,10 +119,12 @@ public class UserInstitutionRepositoryImp implements UserInstitutionRepository{
     @Override
     public List<UserInstitutionEntity> getByInstitutionId(long institutionId) {
         String sql = "SELECT * FROM User_Institution WHERE idInstitution = :idInstitution";
+
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
                     .addParameter("idInstitution", institutionId)
                     .executeAndFetch(UserInstitutionEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener institucion de usuario por id de institucion: " + e.getMessage());
             return List.of();

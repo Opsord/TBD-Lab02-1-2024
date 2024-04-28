@@ -38,7 +38,7 @@ CREATE TABLE User_Institution (
 
 CREATE TABLE Emergencies (
     idEmergency BIGSERIAL PRIMARY KEY,
-    state BOOLEAN NOT NULL,
+    status BOOLEAN NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     coordinator VARCHAR(20),

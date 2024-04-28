@@ -14,29 +14,29 @@ import java.util.logging.Logger;
 @Repository
 public class RankingRepositoryImp implements RankingRepository{
 
+    private final Sql2o sql2o;
     private static final Logger logger = Logger.getLogger(RankingRepositoryImp.class.getName());
 
     @Autowired
-    private Sql2o sql2o;
+    public RankingRepositoryImp(Sql2o sql2o) {
+        this.sql2o = sql2o;
+    }
 
     @Override
     public RankingEntity create(RankingEntity ranking) {
-        String sql = "INSERT INTO Ranking (idVoluntario, idTarea, valorRanking) " +
-                "VALUES (:idVoluntario, :idTarea, :valorRanking)";
-
-        String idRanking = java.util.UUID.randomUUID().toString();
+        String sql = "INSERT INTO ranking (volunteer, idtask, value) " +
+                "VALUES (:volunteer, :idtask, :value)";
 
         try (Connection conn = sql2o.open()) {
-            long id = (long) conn.createQuery(sql)
-                    .addParameter("idVoluntario", ranking.getRut())
-                    .addParameter("idTarea", ranking.getIdTask())
-                    .addParameter("valorRanking", ranking.getValue())
+            conn.createQuery(sql)
+                    .addParameter("volunteer", ranking.getRut())
+                    .addParameter("idtask", ranking.getIdTask())
+                    .addParameter("value", ranking.getValue())
                     .executeUpdate()
-                            .getKey();
-
-            ranking.setIdRanking(id);
-
+                    .getKey();
+            conn.commit();
             return ranking;
+
         } catch (Exception e) {
             logger.severe("Error al crear ranking: " + e.getMessage());
             return null;
@@ -71,18 +71,19 @@ public class RankingRepositoryImp implements RankingRepository{
 
     @Override
     public boolean update(RankingEntity ranking) {
-        String sql = "UPDATE Ranking SET idVoluntario = :idVoluntario, idTarea = :idTarea, valorRanking = :valorRanking " +
+        String sql = "UPDATE Ranking SET volunteer = :volunteer, idtask = :idtask, value = :value " +
                 "WHERE idRanking = :idRanking";
 
         try (Connection conn = sql2o.open()) {
             conn.createQuery(sql)
                     .addParameter("idRanking", ranking.getIdRanking())
-                    .addParameter("idVoluntario", ranking.getRut())
-                    .addParameter("idTarea", ranking.getIdTask())
-                    .addParameter("valorRanking", ranking.getValue())
+                    .addParameter("volunteer", ranking.getRut())
+                    .addParameter("idtask", ranking.getIdTask())
+                    .addParameter("value", ranking.getValue())
                     .executeUpdate();
             conn.commit();
             return true;
+
         } catch (Exception e) {
             logger.severe("Error al actualizar ranking: " + e.getMessage());
             return false;
@@ -107,12 +108,13 @@ public class RankingRepositoryImp implements RankingRepository{
 
     @Override
     public List<RankingEntity> getByTaskId(long idTask) {
-        String sql = "SELECT * FROM Ranking WHERE idTarea = :idTarea";
+        String sql = "SELECT * FROM Ranking WHERE idtask = :idtask";
 
         try(Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
-                    .addParameter("idTarea", idTask)
+                    .addParameter("idtask", idTask)
                     .executeAndFetch(RankingEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener ranking por id de emergencia: " + e.getMessage());
             return Collections.emptyList();

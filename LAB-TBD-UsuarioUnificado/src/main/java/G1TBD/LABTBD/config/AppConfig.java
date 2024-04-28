@@ -1,7 +1,9 @@
 package G1TBD.LABTBD.config;
 
+import G1TBD.LABTBD.repositories.UserRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-/*
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -11,33 +13,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
- */
-
 import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
 public class AppConfig {
 
-    /*
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
+    private final UserRepository userRepository;
 
     @Bean
     public UserDetailsService userDetailService() {
-        return username -> {
-            VolunteerEntity voluntario = volunteerRepository.obtenerPorRut(username);
-            if (voluntario != null) {
-                return voluntario;
-            }
-            CoordinatorEntity coordinador = coordinatorRepository.obtenerPorRut(username);
-            if (coordinador != null) {
-                return coordinador;
-            }
-            throw new UsernameNotFoundException("User not found");
-        };
+        return username -> userRepository.getByRut(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     @Bean
@@ -53,8 +40,9 @@ public class AppConfig {
         return new BCryptPasswordEncoder();
     }
 
-
-     */
-
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
 
 }

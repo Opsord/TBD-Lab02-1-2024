@@ -67,7 +67,7 @@ VALUES
     (3, '1353344-5', 3);
 
 --Poblacion de la tabla Emergencia
-INSERT INTO Emergencies (idEmergency, state, title, description, coordinator)
+INSERT INTO Emergencies (idEmergency, status, title, description, coordinator)
 VALUES 
     (1, true, 'Incendio forestal en zona rural', 'Se ha reportado un incendio forestal en la zona de la Reserva Nacional. Se necesita asistencia inmediata.', '9871432-1'),
     (2, false, 'Evacuación por fuga de gas', 'Se ha detectado una fuga de gas en un edificio residencial. Se requiere evacuación de los residentes.', '1234678-9'),

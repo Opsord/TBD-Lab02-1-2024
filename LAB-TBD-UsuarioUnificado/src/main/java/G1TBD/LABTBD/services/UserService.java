@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -25,8 +26,12 @@ public class UserService {
         return userRepository.getAll();
     }
 
-    public UserEntity getByRut(String rut) {
+    public Optional<UserEntity> getByRut(String rut) {
         return userRepository.getByRut(rut);
+    }
+
+    public Optional<UserEntity> getByEmail(String email) {
+        return userRepository.getByEmail(email);
     }
 
     public boolean update(UserEntity user) {

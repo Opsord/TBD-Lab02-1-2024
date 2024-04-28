@@ -1,6 +1,7 @@
 package G1TBD.LABTBD.repositories;
 
 import G1TBD.LABTBD.entities.EmergencyAttributeEntity;
+import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
@@ -19,20 +20,17 @@ public class EmergencyAttributeRepositoryImp implements EmergencyAttributeReposi
 
     @Override
     public EmergencyAttributeEntity create(EmergencyAttributeEntity emergencyAttribute) {
-        String sql = "INSERT INTO Emergencia_Atributo (idEmergencia,idAtributo, compatibilidad) " +
-                "VALUES (:idEmergencia, :idAtributo, :compatibilidad)";
-
+        String sql = "INSERT INTO emergency_attribute (idemergency,idattribute, compatibility) " +
+                "VALUES (:idEmergency, :idAttribute, :compatibility)";
 
         try (Connection conn = sql2o.open()) {
-            long id = (long) conn.createQuery(sql)
-                    .addParameter("idEmergencia", emergencyAttribute.getIdEmergency())
-                    .addParameter("idAtributo", emergencyAttribute.getIdAttribute())
-                    .addParameter("compatibilidad", emergencyAttribute.isCompatibility())
+            conn.createQuery(sql)
+                    .addParameter("idEmergency", emergencyAttribute.getIdEmergency())
+                    .addParameter("idAttribute", emergencyAttribute.getIdAttribute())
+                    .addParameter("compatibility", emergencyAttribute.isCompatibility())
                     .executeUpdate()
                     .getKey();
-
-            emergencyAttribute.setIdAttribute(id);
-
+            conn.commit();
             return emergencyAttribute;
 
         } catch (Exception e) {
@@ -43,25 +41,27 @@ public class EmergencyAttributeRepositoryImp implements EmergencyAttributeReposi
 
     @Override
     public List<EmergencyAttributeEntity> getAll() {
-        String sql = "SELECT * FROM Emergencia_Atributo";
+        String sql = "SELECT * FROM emergency_attribute";
 
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
                     .executeAndFetch(EmergencyAttributeEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener todos los emergenciaAtributo: " + e.getMessage());
-            return null;
+            return Collections.emptyList();
         }
     }
 
     @Override
     public EmergencyAttributeEntity getById(long id) {
-        String sql = "SELECT * FROM Emergencia_Atributo WHERE idAtributo = :idAtributo";
+        String sql = "SELECT * FROM emergency_attribute WHERE idattribute = :idAttribute";
 
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
-                    .addParameter("idAtributo", id)
+                    .addParameter("idAttribute", id)
                     .executeAndFetchFirst(EmergencyAttributeEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener emergenciaAtributo por id: " + e.getMessage());
             return null;
@@ -70,16 +70,18 @@ public class EmergencyAttributeRepositoryImp implements EmergencyAttributeReposi
 
     @Override
     public boolean update(EmergencyAttributeEntity emergencyAttribute) {
-        String sql = "UPDATE Emergencia_Atributo SET idEmergencia = :idEmergencia, compatibilidad = :compatibilidad WHERE idAtributo = :idAtributo";
+        String sql = "UPDATE emergency_attribute SET idemergency = :idEmergency, compatibility = :compatibility " +
+                "WHERE idattribute = :idAttribute";
 
         try (Connection conn = sql2o.open()) {
             conn.createQuery(sql)
-                    .addParameter("idEmergencia", emergencyAttribute.getIdEmergency())
-                    .addParameter("compatibilidad", emergencyAttribute.isCompatibility())
-                    .addParameter("idAtributo", emergencyAttribute.getIdAttribute())
+                    .addParameter("idEmergency", emergencyAttribute.getIdEmergency())
+                    .addParameter("compatibility", emergencyAttribute.isCompatibility())
+                    .addParameter("idAttribute", emergencyAttribute.getIdAttribute())
                     .executeUpdate();
             conn.commit();
             return true;
+
         } catch (Exception e) {
             logger.severe("Error al actualizar emergenciaAtributo: " + e.getMessage());
             return false;
@@ -88,17 +90,19 @@ public class EmergencyAttributeRepositoryImp implements EmergencyAttributeReposi
 
     @Override
     public boolean delete(long id) {
-        String sql = "DELETE FROM Emergencia_Atributo WHERE idAtributo = :idAtributo";
+        String sql = "DELETE FROM emergency_attribute WHERE idattribute = :idAttribute";
 
         try (Connection conn = sql2o.open()) {
             conn.createQuery(sql)
-                    .addParameter("idAtributo", id)
+                    .addParameter("idAttribute", id)
                     .executeUpdate();
             conn.commit();
             return true;
+
         } catch (Exception e) {
             logger.severe("Error al eliminar emergenciaAtributo: " + e.getMessage());
             return false;
         }
     }
+
 }
