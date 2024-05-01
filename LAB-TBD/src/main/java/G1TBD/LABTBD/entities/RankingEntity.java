@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class RankingEntity {
 
     private long idRanking;
-    private String idVolunteer;
+    private String rut;
     private long idTask;
-    private Integer valorRanking;
+    private Integer value;
 
 }

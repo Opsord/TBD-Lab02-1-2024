@@ -13,24 +13,24 @@ import java.util.logging.Logger;
 @Repository
 public class InstitutionRepositoryImp implements InstitutionRepository {
 
+    private final Sql2o sql2o;
     private static final Logger logger = Logger.getLogger(InstitutionRepositoryImp.class.getName());
 
     @Autowired
-    private Sql2o sql2o;
+    public InstitutionRepositoryImp(Sql2o sql2o) {
+        this.sql2o = sql2o;
+    }
 
     @Override
     public InstitutionEntity create(InstitutionEntity institution) {
-        String sql = "INSERT INTO Institucion (nombreInstitucion)" +
-                "VALUES (:nombreInstitucion)";
+        String sql = "INSERT INTO institutions (name)" +
+                "VALUES (:name)";
 
         try (Connection conn = sql2o.open()) {
-            long id = (long) conn.createQuery(sql)
-                    .addParameter("nombreInstitucion", institution.getName())
+            conn.createQuery(sql)
+                    .addParameter("name", institution.getName())
                     .executeUpdate()
                     .getKey();
-
-            institution.setIdInstitution(id);
-
             return institution;
 
         } catch (Exception e) {
@@ -41,11 +41,12 @@ public class InstitutionRepositoryImp implements InstitutionRepository {
 
     @Override
     public List<InstitutionEntity> getAll() {
-        String sql = "SELECT * FROM Institucion ORDER BY idInstitucion ASC";
+        String sql = "SELECT * FROM institutions ORDER BY idinstitution ";
 
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
                     .executeAndFetch(InstitutionEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener todas las instituciones: " + e.getMessage());
             return Collections.emptyList();
@@ -54,12 +55,13 @@ public class InstitutionRepositoryImp implements InstitutionRepository {
 
     @Override
     public InstitutionEntity getById(long id) {
-        String sql = "SELECT * FROM Institucion WHERE idInstitucion = :idInstitucion";
+        String sql = "SELECT * FROM institutions WHERE idinstitution = :idInstitution";
 
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
-                    .addParameter("idInstitucion", id)
+                    .addParameter("idInstitution", id)
                     .executeAndFetchFirst(InstitutionEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener institucion por id: " + e.getMessage());
             return null;
@@ -68,17 +70,17 @@ public class InstitutionRepositoryImp implements InstitutionRepository {
 
     @Override
     public boolean update(InstitutionEntity institution) {
-        String sql = "UPDATE Institucion SET nombreInstitucion = :nombreInstitucion" +
-                "WHERE idInstitucion = :idInstitucion";
+        String sql = "UPDATE institutions SET name = :name WHERE idinstitution = :idInstitution";
 
         try (Connection conn = sql2o.open()) {
             conn.createQuery(sql)
-                    .addParameter("idInstitucion", institution.getIdInstitution())
-                    .addParameter("nombreInstitucion", institution.getName())
+                    .addParameter("idInstitution", institution.getIdInstitution())
+                    .addParameter("name", institution.getName())
                     .executeUpdate()
                     .getKey();
             conn.commit();
             return true;
+
         } catch (Exception e) {
             logger.severe("Error al actualizar institucion: " + e.getMessage());
             return false;
@@ -87,14 +89,15 @@ public class InstitutionRepositoryImp implements InstitutionRepository {
 
     @Override
     public boolean delete(long id){
-        String sql = "DELETE FROM Institucion WHERE idInstitucion = :idInstitucion";
+        String sql = "DELETE FROM institutions WHERE idinstitution = :idInstitution";
 
         try (Connection conn = sql2o.open()) {
             conn.createQuery(sql)
-                    .addParameter("idInstitucion", id)
+                    .addParameter("idInstitution", id)
                     .executeUpdate();
             conn.commit();
             return true;
+
         } catch (Exception e) {
             logger.severe("Error al eliminar institucion: " + e.getMessage());
             return false;

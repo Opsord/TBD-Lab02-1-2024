@@ -26,4 +26,5 @@ public interface UserRepository {
     List<UserEntity> getVolunteers();
 
     List<UserEntity> getCoordinators();
+
 }

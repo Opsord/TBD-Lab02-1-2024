@@ -12,8 +12,12 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:8090/institutions")
 public class InstitutionController {
 
+    private final InstitutionService institutionService;
+
     @Autowired
-    private InstitutionService institutionService;
+    public InstitutionController(InstitutionService institutionService) {
+        this.institutionService = institutionService;
+    }
 
     String homeLinkRedirect = "redirect:/institutions";
 

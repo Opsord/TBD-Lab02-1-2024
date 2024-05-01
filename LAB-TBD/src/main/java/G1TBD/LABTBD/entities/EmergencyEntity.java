@@ -15,6 +15,9 @@ public class EmergencyEntity {
     private boolean status;
     private String title;
     private String description;
-    private long idCoordinator;
+    private String coordinator;
+
+    private Double latitude;
+    private Double longitude;
 
 }

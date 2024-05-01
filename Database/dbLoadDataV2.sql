@@ -1,4 +1,5 @@
---Poblacion de la tabla Voluntarios
+-- Poblacion de la tabla Voluntarios
+-- Las contraseñas son el primer nombre en "minuscula"+"primeros 3 digitos del rut"
 INSERT INTO Users (rut, email, name, lastName, birthDate, sex, password, role, availability)
 VALUES
 -- Voluntarios

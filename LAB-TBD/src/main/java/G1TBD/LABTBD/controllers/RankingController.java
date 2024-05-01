@@ -12,8 +12,12 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:8090/rankings")
 public class RankingController {
 
+    private final RankingService rankingService;
+
     @Autowired
-    private RankingService rankingService;
+    public RankingController(RankingService rankingService) {
+        this.rankingService = rankingService;
+    }
 
     String homeLinkRedirect = "redirect:/rankings";
 

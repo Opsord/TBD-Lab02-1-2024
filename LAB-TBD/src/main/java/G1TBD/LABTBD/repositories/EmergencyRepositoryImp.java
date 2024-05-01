@@ -14,27 +14,29 @@ import java.util.logging.Logger;
 @Repository
 public class EmergencyRepositoryImp implements EmergencyRepository {
 
+    private final Sql2o sql2o;
     private static final Logger logger = Logger.getLogger(EmergencyRepositoryImp.class.getName());
 
     @Autowired
-    private Sql2o sql2o;
+    public EmergencyRepositoryImp(Sql2o sql2o) {
+        this.sql2o = sql2o;
+    }
 
     @Override
     public EmergencyEntity create(EmergencyEntity emergency){
-        String sql = "INSERT INTO Emergencia (estadoEmergencia, tituloEmergencia, descripcionEmergencia, idCoordinador)" +
-                "VALUES (:estadoEmergencia, :tituloEmergencia, :descripcionEmergencia, :idCoordinador)";
+        String sql = "INSERT INTO emergencies (status, title, description) " +
+                "VALUES (:status, :title, :description)";
 
         try (Connection conn = sql2o.open()) {
-            long id = (long) conn.createQuery(sql)
-                    .addParameter("estadoEmergencia", emergency.isStatus())
-                    .addParameter("tituloEmergencia", emergency.getTitle())
-                    .addParameter("descripcionEmergencia", emergency.getDescription())
-                    .addParameter("idCoordinador", emergency.getIdCoordinator())
+            conn.createQuery(sql, true)
+                    .addParameter("status", emergency.isStatus())
+                    .addParameter("title", emergency.getTitle())
+                    .addParameter("description", emergency.getDescription())
                     .executeUpdate()
                     .getKey();
-
-            emergency.setIdEmergency(id);
+            conn.commit();
             return emergency;
+
         } catch (Exception e) {
             logger.severe("Error al crear emergencia: " + e.getMessage());
             return null;
@@ -44,22 +46,24 @@ public class EmergencyRepositoryImp implements EmergencyRepository {
 
     @Override
     public List<EmergencyEntity> getAll(){
-        String sql = "SELECT * FROM Emergencia";
+        String sql = "SELECT * FROM emergencies";
 
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
                     .executeAndFetch(EmergencyEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener todas las emergencias: " + e.getMessage());
             return Collections.emptyList();
         }
     }
     public List<EmergencyEntity> getAllActive(){
-        String sql = "SELECT * FROM Emergencia WHERE estadoemergencia = true";
+        String sql = "SELECT * FROM emergencies WHERE status = true";
 
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
                     .executeAndFetch(EmergencyEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener todas las emergencias: " + e.getMessage());
             return Collections.emptyList();
@@ -68,12 +72,13 @@ public class EmergencyRepositoryImp implements EmergencyRepository {
 
     @Override
     public EmergencyEntity getById(long id){
-        String sql = "SELECT * FROM Emergencia WHERE idEmergencia = :idEmergencia";
+        String sql = "SELECT * FROM emergencies WHERE idemergency = :idEmergency";
 
         try (Connection conn = sql2o.open()) {
             return conn.createQuery(sql)
-                    .addParameter("idEmergencia", id)
+                    .addParameter("idEmergency", id)
                     .executeAndFetchFirst(EmergencyEntity.class);
+
         } catch (Exception e) {
             logger.severe("Error al obtener emergencia por id: " + e.getMessage());
             return null;
@@ -81,31 +86,21 @@ public class EmergencyRepositoryImp implements EmergencyRepository {
 
     }
 
-//    @Override
-//    public List<EmergencyEntity> obtenerEmergenciaPorEstado(){
-//        String sql = "SELECT * FROM Emergencia WHERE estadoEmergencia = true";
-//
-//        try (Connection con = sql2o.open()) {
-//            return con.createQuery(sql).executeAndFetch(EmergencyEntity.class);
-//        }
-//    }
-
-
     @Override
     public boolean update(EmergencyEntity emergency){
-        String sql = "UPDATE Emergencia SET estadoEmergencia = :estadoEmergencia, tituloEmergencia = :tituloEmergencia, "+
-                "descripcionEmergencia = :descripcionEmergencia" +
-                "WHERE idEmergencia = :idEmergencia";
+        String sql = "UPDATE emergencies SET status = :status, title = :title, description = :description " +
+                "WHERE idemergency = :idEmergency";
 
         try (Connection conn = sql2o.open()) {
             conn.createQuery(sql)
-                    .addParameter("idEmergencia", emergency.getIdEmergency())
-                    .addParameter("estadoEmergencia", emergency.isStatus())
-                    .addParameter("tituloEmergencia", emergency.getTitle())
-                    .addParameter("descripcionEmergencia", emergency.getDescription())
+                    .addParameter("state", emergency.isStatus())
+                    .addParameter("title", emergency.getTitle())
+                    .addParameter("description", emergency.getDescription())
+                    .addParameter("idEmergency", emergency.getIdEmergency())
                     .executeUpdate();
             conn.commit();
             return true;
+
         } catch (Exception e) {
             logger.severe("Error al actualizar emergencia: " + e.getMessage());
             return false;
@@ -114,14 +109,15 @@ public class EmergencyRepositoryImp implements EmergencyRepository {
 
     @Override
     public boolean delete(long id){
-        String sql = "DELETE FROM Emergencia WHERE idEmergencia = :idEmergencia";
+        String sql = "DELETE FROM emergencies WHERE idEmergency = :idEmergency";
 
-        try (Connection conn = sql2o.open()){
+        try (Connection conn = sql2o.open()) {
             conn.createQuery(sql)
-                    .addParameter("idEmergencia", id)
+                    .addParameter("idEmergency", id)
                     .executeUpdate();
             conn.commit();
             return true;
+
         } catch (Exception e) {
             logger.severe("Error al eliminar emergencia: " + e.getMessage());
             return false;
@@ -131,12 +127,11 @@ public class EmergencyRepositoryImp implements EmergencyRepository {
     @Override
     public List<EmergencyEntity> getAllClosed(){
         try (Connection connection = sql2o.open()) {
-            String sql = "SELECT e.* " +
-                    "FROM Emergencia e " +
-                    "WHERE e.estadoEmergencia = false";
+            String sql = "SELECT e.* FROM emergencies e WHERE e.status = false";
 
             return connection.createQuery(sql)
                     .executeAndFetch(EmergencyEntity.class);
+
         } catch (Exception exception) {
             logger.severe("Error al obtener emergencias finalizadas: " + exception.getMessage());
             return Collections.emptyList();
@@ -160,9 +155,6 @@ public class EmergencyRepositoryImp implements EmergencyRepository {
             return Collections.emptyList();
         }
     }
-
-     */
-
-
+    */
 
 }
