@@ -1,8 +1,8 @@
 <template>
     <div class="col-span-2 flex justify-center">
-        <a @click="handleClick" class="inline-block px-8 py-2 bg-amber-500 text-white font-medium uppercase tracking-widest rounded-full hover:bg-amber-600">
+        <button @click="handleClick" class="inline-block px-8 py-2 bg-amber-500 text-white font-medium uppercase tracking-widest rounded-full hover:bg-amber-600">
             {{ buttonText }}
-        </a>
+        </button>
     </div>
 </template>
   
