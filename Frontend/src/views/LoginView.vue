@@ -51,6 +51,7 @@ const loginUser = async () => {
         const response = await axios.post('http://localhost:8090/auth/login', data);
         console.log("Usuario logeado correctamente", response.data);
         store.token = response.data;
+        console.log("Token guardado: ", store.token);
         redirectToHome();
     } catch (error) {
         console.log("Error al iniciar sesión");
@@ -59,7 +60,7 @@ const loginUser = async () => {
 
 const redirectToHome = () => {
     console.log("Redirigiendo a /home");
-    router.push('/home');
+    router.push('/registrar-emergencia');
 }
 
 const redirectToRegister = () => {

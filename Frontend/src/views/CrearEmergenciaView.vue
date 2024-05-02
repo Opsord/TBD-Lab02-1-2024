@@ -72,8 +72,8 @@ async function onSubmit() {
 
 </script>
 <template>
-    <div class="flex align-middle items-center justify-center mt-4 ">
-        <form class=" space-y-4 flex flex-col" @submit="onSubmit">
+<div class="flex align-middle items-center justify-center mt-4 ">
+            <form class=" space-y-4 flex flex-col" @submit="onSubmit">
             <FormField name="titulo">
                 <FormItem>
                     <FormLabel>Titulo:</FormLabel>
@@ -142,5 +142,6 @@ async function onSubmit() {
                 Enviar
             </Button>
         </form>
+        crear Emergencia
     </div>
 </template>

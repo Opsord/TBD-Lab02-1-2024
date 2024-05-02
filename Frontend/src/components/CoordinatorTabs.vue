@@ -7,24 +7,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
     <div class="flex flex-row justify-center align-middle bg-gray-50 border-b border-gray-200">
         <Tabs default-value="account">
             <TabsList>
-                <TabsTrigger value="inicio">
-                    <RouterLink to="/">Inicio</RouterLink>
-                </TabsTrigger>
-                <TabsTrigger value="ingreso">
-                    <RouterLink to="/crearEmergencia">
+                <TabsTrigger value="registrar">
+                    <RouterLink to="/registrar-emergencia">
                         Registrar Emergencia
                     </RouterLink>
                 </TabsTrigger>
                 <TabsTrigger value="emergencias">
-                    <RouterLink to="/verEmergencia">
+                    <RouterLink to="/ver-emergencia">
                         Emergencias Activas
                     </RouterLink>
                 </TabsTrigger>
                 <TabsTrigger value="finalizadas">
-                    <RouterLink to="/emergenciaFinalizadas">
+                    <RouterLink to="/emergencias-finalizadas">
                         Emergencias Finalizadas
                     </RouterLink>
-
                 </TabsTrigger>
             </TabsList>
         </Tabs>
