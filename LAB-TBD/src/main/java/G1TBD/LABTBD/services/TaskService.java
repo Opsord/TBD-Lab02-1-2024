@@ -1,7 +1,7 @@
 package G1TBD.LABTBD.services;
 
 import G1TBD.LABTBD.entities.TaskEntity;
-import G1TBD.LABTBD.repositories.TaskRepositoryImp;
+import G1TBD.LABTBD.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +10,12 @@ import java.util.List;
 @Service
 public class TaskService {
 
+    private final TaskRepository taskRepository;
+
     @Autowired
-    TaskRepositoryImp taskRepository;
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     public TaskEntity create(TaskEntity task) {
         return taskRepository.create(task);

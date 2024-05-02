@@ -10,8 +10,12 @@ import java.util.List;
 @Service
 public class InstitutionService {
 
+    private final InstitutionRepository institutionRepository;
+
     @Autowired
-    private InstitutionRepository institutionRepository;
+    public InstitutionService(InstitutionRepository institutionRepository) {
+        this.institutionRepository = institutionRepository;
+    }
 
     public InstitutionEntity create(InstitutionEntity institution) {
         return institutionRepository.create(institution);

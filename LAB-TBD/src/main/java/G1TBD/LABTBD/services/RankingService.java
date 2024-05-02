@@ -10,8 +10,12 @@ import java.util.List;
 @Service
 public class RankingService {
 
+    private final RankingRepository rankingRepository;
+
     @Autowired
-    private RankingRepository rankingRepository;
+    public RankingService(RankingRepository rankingRepository) {
+        this.rankingRepository = rankingRepository;
+    }
 
     public RankingEntity create(RankingEntity ranking) {
         return rankingRepository.create(ranking);

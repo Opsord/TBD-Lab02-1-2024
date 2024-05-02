@@ -1,7 +1,7 @@
 package G1TBD.LABTBD.services;
 
 import G1TBD.LABTBD.entities.AttributeEntity;
-import G1TBD.LABTBD.repositories.AttributeRepositoryImp;
+import G1TBD.LABTBD.repositories.AttributeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +10,12 @@ import java.util.List;
 @Service
 public class AttributeService {
 
+    private final AttributeRepository attributeRepository;
+
     @Autowired
-    private AttributeRepositoryImp attributeRepository;
+    public AttributeService(AttributeRepository attributeRepository) {
+        this.attributeRepository = attributeRepository;
+    }
 
     public AttributeEntity create(AttributeEntity attribute) {
         return attributeRepository.create(attribute);

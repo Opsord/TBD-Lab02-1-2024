@@ -10,10 +10,14 @@ import java.util.*;
 @Service
 public class EmergencyService {
 
+    private final EmergencyRepository emergencyRepository;
+    private final TaskService taskService;
+
     @Autowired
-    private EmergencyRepository emergencyRepository;
-    @Autowired
-    private TaskService taskService;
+    public EmergencyService(EmergencyRepository emergencyRepository, TaskService taskService) {
+        this.emergencyRepository = emergencyRepository;
+        this.taskService = taskService;
+    }
 
     public EmergencyEntity create(EmergencyEntity emergency) {
         return emergencyRepository.create(emergency);

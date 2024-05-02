@@ -11,8 +11,12 @@ import java.util.List;
 @Service
 public class EmergencyAttributeService {
     
+    private final EmergencyAttributeRepository emergencyAttributeRepository;
+
     @Autowired
-    private EmergencyAttributeRepository emergencyAttributeRepository;
+    public EmergencyAttributeService(EmergencyAttributeRepository emergencyAttributeRepository) {
+        this.emergencyAttributeRepository = emergencyAttributeRepository;
+    }
 
     public EmergencyAttributeEntity create(EmergencyAttributeEntity emergencyAttribute) {
         return emergencyAttributeRepository.create(emergencyAttribute);
