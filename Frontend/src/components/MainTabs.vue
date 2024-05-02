@@ -1,10 +1,6 @@
 <template>
-    <div v-if="role === 'VOLUNTEER'">
-        <VolunteerTabs />
-    </div>
-    <div v-else-if="role === 'COORDINATOR'">
-        <CoordinatorTabs />
-    </div>
+    <CoordinatorTabs v-if="role === 'COORDINATOR'"/>
+    <VolunteerTabs v-else-if="role === 'VOLUNTEER'"/>
 </template>
 
 <script setup>
@@ -12,8 +8,8 @@ import { jwtDecode } from 'jwt-decode';
 import { store } from '@/store';
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
-import CoordinatorTabs from '@/components/CoordinatorTabs.vue';
-import VolunteerTabs from '@/components/VolunteerTabs.vue';
+import CoordinatorTabs from './CoordinatorTabs.vue';
+import VolunteerTabs from './VolunteerTabs.vue';
 
 const role = ref(null);
 
