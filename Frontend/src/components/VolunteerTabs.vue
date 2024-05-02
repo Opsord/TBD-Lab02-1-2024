@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
         <Tabs default-value="account">
             <TabsList>
                 <TabsTrigger value="emergencias">
-                    <RouterLink to="/ver-emergencia">
+                    <RouterLink to="/emergencias-activas">
                         Emergencias Activas
                     </RouterLink>
                 </TabsTrigger>

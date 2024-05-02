@@ -52,15 +52,15 @@ const loginUser = async () => {
         console.log("Usuario logeado correctamente", response.data);
         store.token = response.data;
         console.log("Token guardado: ", store.token);
-        redirectToHome();
+        redirectToPortal();
     } catch (error) {
         console.log("Error al iniciar sesión");
     }
 }
 
-const redirectToHome = () => {
-    console.log("Redirigiendo a /home");
-    router.push('/registrar-emergencia');
+const redirectToPortal = () => {
+    console.log("Redirigiendo a /portal");
+    router.push('/portal');
 }
 
 const redirectToRegister = () => {

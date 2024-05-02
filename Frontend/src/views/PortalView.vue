@@ -1,18 +1,9 @@
-<template>
-    <div>
-        <h1 v-if="role === 'VOLUNTEER'">Voluntario</h1>
-        <h1 v-else-if="role === 'COORDINATOR'">Coordinador</h1>
-        <h1 v-else>Sistema de Voluntario</h1>
-    </div>
-</template>
-
 <script setup>
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { store } from '@/store';
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import axios from 'axios';
-
-const role = ref(null);
+import router from '@/router';
 
 async function fetchUserRole() {
     const decodedRut = jwtDecode(store.token.token).sub;
@@ -25,10 +16,26 @@ async function fetchUserRole() {
             }
         });
         console.log("Rol usuario obtenido correctamente", response.data.role);
-        role.value = response.data.role;
+        store.role = response.data.role;
+        
+        if (store.role === "COORDINATOR") {
+            redirectToHomeCoordinator();
+        } else if (store.role === "VOLUNTEER") {
+            redirectToHomeVolunteer();
+        }
     } catch (error) {
         console.log("Ha ocurrido un error al obtener el rol de usuario", error);
     }
+}
+
+const redirectToHomeVolunteer = () => {
+    console.log("Redirigiendo a /emergencias-activas");
+    router.push('/emergencias-activas');
+}
+
+const redirectToHomeCoordinator = () => {
+    console.log("Redirigiendo a /registrar-emergencia");
+    router.push('/registrar-emergencia');
 }
 
 onMounted(fetchUserRole);
