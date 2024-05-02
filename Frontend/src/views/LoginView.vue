@@ -8,26 +8,28 @@
             <h2 class="mb-8 text-center">Por favor, ingresa tus datos</h2>
             <form class="space-y-5">
                 <div class="flex flex-col gap-2">
-                    <label for="email" class="text-sm">Correo electrónico</label>
-                    <Input v-model="email" type="email" placeholder="usuario@email.com"/>
+                    <label for="rut" class="text-sm">RUT</label>
+                    <Input v-model="rut" type="text" placeholder="12.345.678-9" />
                 </div>
                 <div class="flex flex-col gap-2">
-                    <label for="contrasena" class="text-sm">Contraseña</label>
-                    <Input v-model="contrasena" type="password" placeholder="********"/>
+                    <label for="password" class="text-sm">Contraseña</label>
+                    <Input v-model="password" type="password" placeholder="********" />
                 </div>
+            </form>
+            <div class="mt-5 space-y-5">
                 <ButtonPrimary @click="loginUser" buttonText="Ingresar"/>
                 <div class="flex justify-center gap-2 text-sm">
                     <span>¿Aún no tienes cuenta?</span>
                     <button class="font-bold text-teal-600 hover:underline" @click="redirectToRegister">Registrate</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
 import { useRouter } from "vue-router";
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { store } from "../store";
 import axios from 'axios';
 import ButtonPrimary from '../components/ButtonPrimary.vue';
@@ -35,35 +37,29 @@ import Input from "../components/Input.vue";
 
 const router = useRouter();
 
-const email = ref("");
-const contrasena = ref("");
-
-const isLoginFormValid = computed(() => {
-    return email.value.trim() !== "" && contrasena.value.trim() !== "";
-});
+const rut = ref("");
+const password = ref("");
 
 const loginUser = async () => {
-    // Verificar datos validos
-    // Guardar valores ingresados
-    // Try-Catch
-    // Llamar backend
-    // Comprobar response
-    // Guardar autenticacion en store
-    // Router push
-    if(isLoginFormValid.value) {
-        const data = {
-            email: email.value,
-            contrasena: contrasena.value
-        }
-        console.log(data)
-        
-        try {
-            console.log("Redirigiendo a /home");
-            router.push('/home');
-        } catch {
-            
-        }
+    const data = {
+        rut: rut.value,
+        password: password.value
     }
+    console.log(data)
+    
+    try {
+        const response = await axios.post('http://localhost:8090/auth/login', data);
+        console.log("Usuario logeado correctamente", response.data);
+        store.token = response.data;
+        redirectToHome();
+    } catch (error) {
+        console.log("Error al iniciar sesión");
+    }
+}
+
+const redirectToHome = () => {
+    console.log("Redirigiendo a /home");
+    router.push('/home');
 }
 
 const redirectToRegister = () => {
