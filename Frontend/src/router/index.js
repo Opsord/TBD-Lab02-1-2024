@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '../views/LoginView.vue';
 import RegisterView from '../views/RegisterView.vue';
-import PortalView from '../views/PortalView.vue';
 import CrearEmergenciaView from '../views/CrearEmergenciaView.vue'
 import VerEmergenciaView from '../views/VerEmergenciaView.vue';
 import VerEmergenciaFinalizadaView from '../views/VerEmergenciaFinalizadaView.vue';
@@ -18,11 +17,6 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: RegisterView
-    },
-    {
-      path: '/portal',
-      name: 'portal',
-      component: PortalView
     },
     {
       path: '/registrar-emergencia',

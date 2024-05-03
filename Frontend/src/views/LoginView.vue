@@ -30,7 +30,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { ref } from "vue";
-import { store } from "../store";
+import { store, fetchUserRole } from "../store";
 import axios from 'axios';
 import ButtonPrimary from '../components/ButtonPrimary.vue';
 import Input from "../components/Input.vue";
@@ -39,6 +39,8 @@ const router = useRouter();
 
 const rut = ref("");
 const password = ref("");
+
+const role = ref("");
 
 const loginUser = async () => {
     const data = {
@@ -52,15 +54,28 @@ const loginUser = async () => {
         console.log("Usuario logeado correctamente", response.data);
         store.token = response.data;
         console.log("Token guardado: ", store.token);
-        redirectToPortal();
+        
+        const user = await fetchUserRole();
+        role.value = user.role;
+
+        if (role.value === "COORDINATOR") {
+            redirectToHomeCoordinator();
+        } else if (role.value === "VOLUNTEER") {
+            redirectToHomeVolunteer();
+        }
     } catch (error) {
         console.log("Error al iniciar sesión");
     }
 }
 
-const redirectToPortal = () => {
-    console.log("Redirigiendo a /portal");
-    router.push('/portal');
+const redirectToHomeVolunteer = () => {
+    console.log("Redirigiendo a /emergencias-activas");
+    router.push('/emergencias-activas');
+}
+
+const redirectToHomeCoordinator = () => {
+    console.log("Redirigiendo a /registrar-emergencia");
+    router.push('/registrar-emergencia');
 }
 
 const redirectToRegister = () => {
