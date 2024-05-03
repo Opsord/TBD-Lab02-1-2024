@@ -6,19 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class InstitutionService {
 
     private final InstitutionRepository institutionRepository;
+    private static final Logger logger = Logger.getLogger(InstitutionService.class.getName());
 
     @Autowired
     public InstitutionService(InstitutionRepository institutionRepository) {
         this.institutionRepository = institutionRepository;
     }
 
-    public InstitutionEntity create(InstitutionEntity institution) {
-        return institutionRepository.create(institution);
+    public void create(InstitutionEntity institution) {
+        institutionRepository.create(institution.getName());
+        logger.info("Institution created successfully");
     }
 
     public List<InstitutionEntity> getAll() {
@@ -29,11 +32,13 @@ public class InstitutionService {
         return institutionRepository.getById(id);
     }
 
-    public boolean update(InstitutionEntity institution) {
-        return institutionRepository.update(institution);
+    public void update(InstitutionEntity institution) {
+        institutionRepository.update(institution.getInstitution_id(), institution.getName());
+        logger.info("Institution updated successfully");
     }
 
-    public boolean delete(long id) {
-        return institutionRepository.delete(id);
+    public void delete(long id) {
+        institutionRepository.delete(id);
+        logger.info("Institution deleted successfully");
     }
 }

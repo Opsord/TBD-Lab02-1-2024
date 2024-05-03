@@ -1,18 +1,37 @@
 package G1TBD.LABTBD.repositories;
 
 import G1TBD.LABTBD.entities.AttributeEntity;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface AttributeRepository {
+@Repository
+public interface AttributeRepository extends CrudRepository<AttributeEntity, Long> {
 
-    AttributeEntity create(AttributeEntity attribute);
+    @Query(value = "INSERT INTO attributes (attribute) VALUES (:attribute)", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void create(@Param("attribute") String attribute);
 
+    @Query(value = "SELECT * FROM attributes", nativeQuery = true)
     List<AttributeEntity> getAll();
 
-    AttributeEntity getById(long id);
+    @Query(value = "SELECT * FROM attributes WHERE attribute_id = :attribute_id", nativeQuery = true)
+    AttributeEntity getById(@Param("attribute_id") long attribute_id);
 
-    boolean update(AttributeEntity attribute);
+    @Query(value = "UPDATE attributes SET attribute = :attribute WHERE attribute_id = :attribute_id", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void update(@Param("attribute_id") long attribute_id, @Param("attribute") String attribute);
 
-    boolean delete(long id);
+    @Query(value = "DELETE FROM attributes WHERE attribute_id = :attribute_id", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void delete(@Param("attribute_id") long attribute_id);
+
 }

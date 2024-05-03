@@ -63,7 +63,7 @@ async function fetchTarea() {
     if (emergencia.value && emergencia.value.length > 0) {
         try {
             const fetchPromises = emergencia.value.map(async (emergenciaEach) => {
-                const response = await axios.get(`${tareaGet}${emergenciaEach.idEmergency}`);
+                const response = await axios.get(`${tareaGet}${emergenciaEach.emergencyId}`);
                 const tareas = response.data
                 return { ...emergenciaEach, tareas: tareas };
             });
@@ -79,7 +79,7 @@ async function fetchVoluntarios() {
     if (emergencia.value && emergencia.value.length > 0) {
         try {
             const fetchPromises = emergencia.value.map(async (emergenciaEach) => {
-                const response = await axios.get(`${rankingGet}${emergenciaEach.idEmergency}`);
+                const response = await axios.get(`${rankingGet}${emergenciaEach.emergencyId}`);
                 const rut = response.data.map(ranking => ranking.rut)
                 return { ...emergenciaEach, ids: rut };
             });

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/rankings")
@@ -13,6 +14,7 @@ import java.util.List;
 public class RankingController {
 
     private final RankingService rankingService;
+    private static final Logger logger = Logger.getLogger(RankingController.class.getName());
 
     @Autowired
     public RankingController(RankingService rankingService) {
@@ -24,6 +26,8 @@ public class RankingController {
     @PostMapping("/create")
     public String create(@RequestBody RankingEntity ranking) {
         rankingService.create(ranking);
+        logger.info("Ranking created: ");
+        logger.info(ranking.toString());
         return homeLinkRedirect;
     }
 
@@ -37,18 +41,24 @@ public class RankingController {
         return rankingService.getById(id);
     }
 
-    @GetMapping("/taskId/{id}")
-    public List<RankingEntity> getByTaskId(@PathVariable long id) {
+    @GetMapping("/task_id/{id}")
+    public List<RankingEntity> getBytask_id(@PathVariable long id) {
         return rankingService.getByTaskId(id);
     }
 
     @PutMapping("/update")
-    public boolean update(@RequestBody RankingEntity ranking) {
-        return rankingService.update(ranking);
+    public String update(@RequestBody RankingEntity ranking) {
+        rankingService.update(ranking);
+        logger.info("Ranking updated: ");
+        logger.info(ranking.toString());
+        return homeLinkRedirect;
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable long id) {
-        return rankingService.delete(id);
+    public String delete(@PathVariable long id) {
+        rankingService.delete(id);
+        logger.info("Ranking deleted: ");
+        logger.info(String.valueOf(id));
+        return homeLinkRedirect;
     }
 }

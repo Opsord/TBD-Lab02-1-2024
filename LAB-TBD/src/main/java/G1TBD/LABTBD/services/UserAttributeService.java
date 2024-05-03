@@ -6,19 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class UserAttributeService {
 
     private final UserAttributeRepository userAttributeRepository;
+    private static final Logger logger = Logger.getLogger(UserAttributeService.class.getName());
 
     @Autowired
     public UserAttributeService(UserAttributeRepository userAttributeRepository) {
         this.userAttributeRepository = userAttributeRepository;
     }
 
-    public UserAttributeEntity create(UserAttributeEntity userAttribute) {
-        return userAttributeRepository.create(userAttribute);
+    public void create(UserAttributeEntity userAttribute) {
+        userAttributeRepository.create(
+                userAttribute.getUser().getRut(),
+                userAttribute.getAttribute().getAttribute_id());
+        logger.info("UserAttribute created");
     }
 
     public List<UserAttributeEntity> getAll() {
@@ -29,20 +34,25 @@ public class UserAttributeService {
         return userAttributeRepository.getById(id);
     }
 
-    public boolean update(UserAttributeEntity userAttribute) {
-        return userAttributeRepository.update(userAttribute);
+    public void update(UserAttributeEntity userAttribute) {
+        userAttributeRepository.update(
+                userAttribute.getUser_attribute_id(),
+                userAttribute.getUser().getRut(),
+                userAttribute.getAttribute().getAttribute_id());
+        logger.info("UserAttribute updated");
     }
 
-    public boolean delete(long id) {
-        return userAttributeRepository.delete(id);
+    public void delete(long id) {
+        userAttributeRepository.delete(id);
+        logger.info("UserAttribute deleted");
     }
 
     public List<UserAttributeEntity> getByRut(String rut) {
         return userAttributeRepository.getByRut(rut);
     }
 
-    public List<UserAttributeEntity> getByAttributeId(long attributeId) {
-        return userAttributeRepository.getByAttributeId(attributeId);
+    public List<UserAttributeEntity> getByAttributeId(long attribute_id) {
+        return userAttributeRepository.getByAttributeId(attribute_id);
     }
 
 }

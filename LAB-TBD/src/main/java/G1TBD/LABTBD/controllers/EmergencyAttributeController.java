@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/emergencyAttribute")
@@ -15,18 +16,18 @@ import java.util.List;
 public class EmergencyAttributeController {
 
     private final EmergencyAttributeService emergencyAttributeService;
+    private static final Logger logger = Logger.getLogger(EmergencyAttributeController.class.getName());
 
     @Autowired
     public EmergencyAttributeController(EmergencyAttributeService emergencyAttributeService) {
         this.emergencyAttributeService = emergencyAttributeService;
     }
 
-    String homeLinkRedirect = "redirect:/emergencyAttribute";
-
     @PostMapping("/create")
-    public String create(@RequestBody EmergencyAttributeEntity emergencyAttribute) {
+    public void create(@RequestBody EmergencyAttributeEntity emergencyAttribute) {
         emergencyAttributeService.create(emergencyAttribute);
-        return homeLinkRedirect;
+        logger.info("EmergencyAttribute created: ");
+        logger.info(emergencyAttribute.toString());
     }
 
     @PostMapping("/createVarious")
@@ -52,13 +53,17 @@ public class EmergencyAttributeController {
     }
 
     @PutMapping("/update")
-    public boolean update(@RequestBody EmergencyAttributeEntity emergencyAttribute) {
-        return emergencyAttributeService.update(emergencyAttribute);
+    public void update(@RequestBody EmergencyAttributeEntity emergencyAttribute) {
+        emergencyAttributeService.update(emergencyAttribute);
+        logger.info("EmergencyAttribute updated: ");
+        logger.info(emergencyAttribute.toString());
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable long id) {
-        return emergencyAttributeService.delete(id);
+    public void delete(@PathVariable long id) {
+        emergencyAttributeService.delete(id);
+        logger.info("EmergencyAttribute deleted: ");
+        logger.info(String.valueOf(id));
     }
 
 }

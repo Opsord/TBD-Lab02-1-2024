@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-center items-center align-middle">
         <div v-if="emergencia && emergencia.length">
-            <div v-for="data in emergencia" :key="data.idEmergency">
+            <div v-for="data in emergencia" :key="data.emergencyId">
                 <Card>
                     <CardHeader>
                         <CardTitle>{{ data.title }}</CardTitle>

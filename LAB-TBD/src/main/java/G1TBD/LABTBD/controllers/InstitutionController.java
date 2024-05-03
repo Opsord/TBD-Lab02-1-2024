@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/institutions")
@@ -13,6 +14,7 @@ import java.util.List;
 public class InstitutionController {
 
     private final InstitutionService institutionService;
+    private static final Logger logger = Logger.getLogger(InstitutionController.class.getName());
 
     @Autowired
     public InstitutionController(InstitutionService institutionService) {
@@ -24,6 +26,8 @@ public class InstitutionController {
     @PostMapping("/create")
     public String create(@RequestBody InstitutionEntity institution) {
         institutionService.create(institution);
+        logger.info("Institution created: ");
+        logger.info(institution.toString());
         return homeLinkRedirect;
     }
 
@@ -38,12 +42,18 @@ public class InstitutionController {
     }
 
     @PutMapping("/update")
-    public boolean update(@RequestBody InstitutionEntity institution) {
-        return institutionService.update(institution);
+    public String update(@RequestBody InstitutionEntity institution) {
+        institutionService.update(institution);
+        logger.info("Institution updated: ");
+        logger.info(institution.toString());
+        return homeLinkRedirect;
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable long id) {
-        return institutionService.delete(id);
+    public String delete(@PathVariable long id) {
+        institutionService.delete(id);
+        logger.info("Institution deleted: ");
+        logger.info(String.valueOf(id));
+        return homeLinkRedirect;
     }
 }

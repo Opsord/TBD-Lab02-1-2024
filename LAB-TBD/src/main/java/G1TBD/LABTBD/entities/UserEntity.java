@@ -1,5 +1,6 @@
 package G1TBD.LABTBD.entities;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,16 +14,21 @@ import java.util.Date;
 import java.util.List;
 
 @Data
+@Entity
+@Table(name = "users")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserEntity implements UserDetails {
 
+    @Id
+    @Column(unique = true, nullable = false)
     private String rut;
+
     private String email;
     private String name;
-    private String lastName;
-    private Date birthDate;
+    private String lastname;
+    private Date birthdate;
     private String sex;
     private String password;
     private String role;

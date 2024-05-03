@@ -6,19 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class AttributeService {
 
     private final AttributeRepository attributeRepository;
+    private static final Logger logger = Logger.getLogger(AttributeService.class.getName());
 
     @Autowired
     public AttributeService(AttributeRepository attributeRepository) {
         this.attributeRepository = attributeRepository;
     }
 
-    public AttributeEntity create(AttributeEntity attribute) {
-        return attributeRepository.create(attribute);
+    public void create(AttributeEntity attribute) {
+        attributeRepository.create(attribute.getAttribute());
+        logger.info("Attribute created: " + attribute.getAttribute());
     }
 
     public List<AttributeEntity> getAll() {
@@ -29,11 +32,13 @@ public class AttributeService {
         return attributeRepository.getById(id);
     }
 
-    public boolean update(AttributeEntity attribute) {
-        return attributeRepository.update(attribute);
+    public void update(AttributeEntity attribute) {
+        attributeRepository.update(attribute.getAttribute_id(), attribute.getAttribute());
+        logger.info("Attribute updated: " + attribute.getAttribute());
     }
 
-    public boolean delete(long id) {
-        return attributeRepository.delete(id);
+    public void delete(long id) {
+        attributeRepository.delete(id);
+        logger.info("Attribute deleted: " + id);
     }
 }

@@ -5,7 +5,7 @@ import G1TBD.LABTBD.auth.entities.LoginRequest;
 import G1TBD.LABTBD.auth.entities.RegisterRequest;
 import G1TBD.LABTBD.config.JwtService;
 import G1TBD.LABTBD.entities.UserEntity;
-import G1TBD.LABTBD.repositories.UserRepository;
+import G1TBD.LABTBD.services.UserService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,11 +13,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Logger;
+
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImp implements AuthService{
 
-    private final UserRepository userRepository;
+    private static final Logger logger = Logger.getLogger(AuthServiceImp.class.getName());
+
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -28,14 +32,14 @@ public class AuthServiceImp implements AuthService{
                 .rut(request.getRut())
                 .email(request.getEmail())
                 .name(request.getName())
-                .lastName(request.getLastName())
-                .birthDate(request.getBirthDate())
+                .lastname(request.getLastName())
+                .birthdate(request.getBirthDate())
                 .sex(request.getSex())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .availability(request.isAvailability())
                 .build();
-        userRepository.create(user);
+        userService.create(user);
 
         var jwtToken = jwtService.generateToken(user);
         return AuthResponse.builder()
@@ -48,8 +52,10 @@ public class AuthServiceImp implements AuthService{
                 new UsernamePasswordAuthenticationToken(request.getRut(), request.getPassword())
         );
 
-        var user = userRepository.getByRut(request.getRut()).orElseThrow();
+        var user = userService.getByRut(request.getRut()).orElseThrow();
+        logger.info("User logged in: " + user.getRut());
         var jwtToken = jwtService.generateToken(user);
+        logger.info("Token generated: " + jwtToken);
         return AuthResponse.builder()
                 .token(jwtToken).build();
     }

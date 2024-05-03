@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/emergencies")
@@ -16,16 +17,21 @@ import java.util.List;
 public class EmergencyController {
 
     private final EmergencyService emergencyService;
+    private static final Logger logger = Logger.getLogger(EmergencyController.class.getName());
 
     @Autowired
     public EmergencyController(EmergencyService emergencyService) {
         this.emergencyService = emergencyService;
     }
 
+    String homeLinkRedirect = "redirect:/emergencies";
+
     @PostMapping("/create")
-    public ResponseEntity<EmergencyEntity> create(@RequestBody EmergencyEntity emergency) {
-        EmergencyEntity newEmergency = emergencyService.create(emergency);
-        return new ResponseEntity<>(newEmergency, HttpStatus.CREATED);
+    public String create(@RequestBody EmergencyEntity emergency) {
+        emergencyService.create(emergency);
+        logger.info("Emergency created: ");
+        logger.info(emergency.toString());
+        return homeLinkRedirect;
     }
 
     @GetMapping("/all")
@@ -44,13 +50,19 @@ public class EmergencyController {
     }
 
     @PutMapping("/update")
-    public boolean update(@RequestBody EmergencyEntity emergency) {
-        return emergencyService.update(emergency);
+    public String update(@RequestBody EmergencyEntity emergency) {
+        emergencyService.update(emergency);
+        logger.info("Emergency updated: ");
+        logger.info(emergency.toString());
+        return homeLinkRedirect;
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable Long id) {
-        return emergencyService.delete(id);
+    public String delete(@PathVariable Long id) {
+        emergencyService.delete(id);
+        logger.info("Emergency deleted: ");
+        logger.info(String.valueOf(id));
+        return homeLinkRedirect;
     }
 
     @GetMapping("/closed")

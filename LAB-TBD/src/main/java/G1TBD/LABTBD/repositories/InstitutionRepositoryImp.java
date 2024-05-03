@@ -1,5 +1,5 @@
 package G1TBD.LABTBD.repositories;
-
+/*
 import G1TBD.LABTBD.entities.InstitutionEntity;
 import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,3 +104,4 @@ public class InstitutionRepositoryImp implements InstitutionRepository {
         }
     }
 }
+ */

@@ -6,19 +6,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private static final Logger logger = Logger.getLogger(TaskService.class.getName());
 
     @Autowired
     public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
-    public TaskEntity create(TaskEntity task) {
-        return taskRepository.create(task);
+    public void create(TaskEntity task) {
+        taskRepository.create(
+                task.getEmergency().getEmergency_id(),
+                task.getType(),
+                task.getDescription(),
+                task.isState());
+        logger.info("Task created");
     }
 
     public List<TaskEntity> getAll() {
@@ -29,16 +36,23 @@ public class TaskService {
         return taskRepository.getById(id);
     }
 
-    public List<TaskEntity> getByEmergencyId(long id) {
+    public List<TaskEntity> getByemergency_id(long id) {
         return taskRepository.getByEmergencyId(id);
     }
 
-    public boolean update(TaskEntity task) {
-        return taskRepository.update(task);
+    public void update(TaskEntity task) {
+        taskRepository.update(
+                task.getTask_id(),
+                task.getEmergency().getEmergency_id(),
+                task.getType(),
+                task.getDescription(),
+                task.isState());
+        logger.info("Task updated");
     }
 
-    public boolean delete(long id) {
-        return taskRepository.delete(id);
+    public void delete(long id) {
+        taskRepository.delete(id);
+        logger.info("Task deleted");
     }
 
 }

@@ -28,7 +28,7 @@ VALUES
     ('98482714-4', 'correo.ejemplo@gmail.com', 'Elba', 'Calao', '1994-04-20', 'F', '$2a$10$Y0ntA2TXhIKuTIcrtTWOm.uyC7dvYjiNLL5cJsBkMWb1clYQnbVgS', 'COORDINATOR', True);
 
 --Poblacion de la tabla Atributo
-INSERT INTO Attributes (idAttribute, attribute)
+INSERT INTO Attributes (attribute_id, attribute)
 VALUES 
     (1, 'Fuerza fisica'),
     (2, 'Rescate en Terreno'),
@@ -39,7 +39,7 @@ VALUES
     (7, 'Capacidad para la búsqueda y localización de personas perdidas');
 
 --Poblacion de la tabla Voluntario_Atributo
-INSERT INTO User_Attribute (idUserAttribute, rut, idAttribute)
+INSERT INTO User_Attribute (user_attribute_id, rut, attribute)
 VALUES 
     (1, '3641746726-4', '1'),
     (2, '3641746726-4', '2'),
@@ -63,14 +63,14 @@ VALUES
     (20, '7126476122-4', '3');
 
 --Poblacion de la tabla Institucion
-INSERT INTO Institutions (idInstitution, name) 
+INSERT INTO Institutions (institution_id, name) 
 VALUES 
     (1, 'Cruz Roja de Chile'),
     (2, 'Bomberos Municipales'),
     (3, 'Equipo de rescate de desastres naturales');
 
 -- Poblacion de la tabla User_Institution
-INSERT INTO User_Institution (idUserInstitution, rut, idInstitution)
+INSERT INTO User_Institution (user_institution_id, rut, institution)
 VALUES 
     (1, '7126371263-k', '1'),
     (2, '65265412312-k', '2'),
@@ -78,7 +78,7 @@ VALUES
 
 
 --Poblacion de la tabla Emergencia
-INSERT INTO Emergencies (idEmergency, status, title, description, coordinator)
+INSERT INTO Emergencies (emergency_id, status, title, description, coordinator)
 VALUES 
     (1, true, 'Incendio forestal en zona rural', 'Se ha reportado un incendio forestal en la zona de la Reserva Nacional. Se necesita asistencia inmediata.', '7126371263-k'),
     (2, false, 'Evacuación por fuga de gas', 'Se ha detectado una fuga de gas en un edificio residencial. Se requiere evacuación de los residentes.', '7126371263-k'),
@@ -88,7 +88,7 @@ VALUES
 
 --Poblacion de tabla
 -- Población de la tabla Emergencia_Atributo
-INSERT INTO Emergency_Attribute (idEmergencyAttribute, idEmergency, idAttribute, compatibility)
+INSERT INTO Emergency_Attribute (emergency_attribute_id, emergency, attribute, compatibility)
 VALUES 
     (1, 1, 1, true),   -- La emergencia 1 tiene compatibilidad con el atributo 1 (Fuerza física)
     (2, 1, 2, true),   -- La emergencia 1 tiene compatibilidad con el atributo 2 (Rescate en Terreno)
@@ -103,7 +103,7 @@ VALUES
     (11, 5, 7, true);  -- La emergencia 5 tiene compatibilidad con el atributo 7 (Capacidad para la búsqueda y localización de personas perdidas)
 
 -- Población de la tabla Tarea
-INSERT INTO Tasks (idTask, idEmergency, type, description, state)
+INSERT INTO Tasks (task_id, emergency, type, description, state)
 VALUES 
     (1, 1, 'Evacuación de residentes', 'Coordinar y ejecutar la evacuación de los residentes afectados por el incendio forestal.', true),
     (2, 2, 'Control de fuga de gas', 'Gestionar la contención y control de la fuga de gas en el edificio residencial.', false),
@@ -114,7 +114,7 @@ VALUES
     (7, 2, 'Apoyo psicológico a afectados', 'Brindar apoyo emocional y asistencia psicológica a las personas afectadas por la fuga de gas.', false);
 
 -- Población de la tabla Ranking
-INSERT INTO Ranking (idRanking, volunteer, idTask, value)
+INSERT INTO Rankings (ranking_id, volunteer, task, value)
 VALUES 
     (1, '123271472-1', 1, 4),   -- Juan participó en la evacuación de residentes del incendio forestal y recibió un valor de ranking de 4.
     (2, '176271472-1', 2, 3),   -- María estuvo a cargo del control de la fuga de gas y recibió un valor de ranking de 3.

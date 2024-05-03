@@ -22,10 +22,9 @@ public class UserAttributeController {
     }
 
     @PostMapping("/create")
-    public String create(@RequestBody UserAttributeEntity userAttribute) {
+    public void create(@RequestBody UserAttributeEntity userAttribute) {
         logger.info("Creating user attribute: " + userAttribute.toString());
         userAttributeService.create(userAttribute);
-        return "redirect:/api/user-attribute";
     }
 
     @GetMapping("/all")
@@ -38,19 +37,21 @@ public class UserAttributeController {
         return userAttributeService.getByRut(rut);
     }
 
-    @GetMapping("/attribute-id/{attributeId}")
-    public List<UserAttributeEntity> getByAttributeId(@PathVariable long attributeId) {
-        return userAttributeService.getByAttributeId(attributeId);
+    @GetMapping("/attribute-id/{attribute_id}")
+    public List<UserAttributeEntity> getByattribute_id(@PathVariable long attribute_id) {
+        return userAttributeService.getByAttributeId(attribute_id);
     }
 
     @PutMapping("/update")
-    public boolean update(@RequestBody UserAttributeEntity userAttribute) {
-        return userAttributeService.update(userAttribute);
+    public void update(@RequestBody UserAttributeEntity userAttribute) {
+        logger.info("Updating user attribute: " + userAttribute.toString());
+        userAttributeService.update(userAttribute);
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable long id) {
-        return userAttributeService.delete(id);
+    public void delete(@PathVariable long id) {
+        logger.info("Deleting user attribute with id: " + id);
+        userAttributeService.delete(id);
     }
 
 }

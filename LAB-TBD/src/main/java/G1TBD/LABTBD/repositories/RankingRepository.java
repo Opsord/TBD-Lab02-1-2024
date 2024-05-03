@@ -1,20 +1,43 @@
 package G1TBD.LABTBD.repositories;
 
 import G1TBD.LABTBD.entities.RankingEntity;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface RankingRepository {
+@Repository
+public interface RankingRepository extends CrudRepository<RankingEntity, Long> {
 
-    RankingEntity create(RankingEntity ranking);
+        @Query(value = "INSERT INTO rankings (volunteer, task, value) " +
+                        "VALUES (:volunteer, :task, :value)", nativeQuery = true)
+        @Modifying
+        @Transactional
+        void create(@Param("volunteer") String volunteer,
+                        @Param("task") long idtask, @Param("value") int value);
 
-    List<RankingEntity> getAll();
+        @Query(value = "SELECT * FROM rankings", nativeQuery = true)
+        List<RankingEntity> getAll();
 
-    RankingEntity getById(long id);
+        @Query(value = "SELECT * FROM rankings WHERE ranking_id = :ranking_id", nativeQuery = true)
+        RankingEntity getById(@Param("ranking_id") long ranking_id);
 
-    boolean update(RankingEntity ranking);
+        @Query(value = "UPDATE rankings SET volunteer = :volunteer, task = :task, value = :value " +
+                        "WHERE ranking_id = :ranking_id", nativeQuery = true)
+        @Modifying
+        @Transactional
+        void update(@Param("ranking_id") long ranking_id, @Param("volunteer") String volunteer,
+                    @Param("task") long task, @Param("value") int value);
 
-    boolean delete(long id);
+        @Query(value = "DELETE FROM rankings WHERE ranking_id = :ranking_id", nativeQuery = true)
+        @Modifying
+        @Transactional
+        void delete(@Param("ranking_id") long ranking_id);
 
-    public List<RankingEntity> getByTaskId(long idTask);
+        @Query(value = "SELECT * FROM rankings WHERE task = :task", nativeQuery = true)
+        public List<RankingEntity> getByTaskId(@Param("task") long task);
 }

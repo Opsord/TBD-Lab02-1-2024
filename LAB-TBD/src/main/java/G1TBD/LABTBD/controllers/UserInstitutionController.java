@@ -22,10 +22,9 @@ public class UserInstitutionController {
     }
 
     @PostMapping("/create")
-    public String create(@RequestBody UserInstitutionEntity userInstitution) {
+    public void create(@RequestBody UserInstitutionEntity userInstitution) {
         logger.info("Creating user institution: " + userInstitution.toString());
         userInstitutionService.create(userInstitution);
-        return "redirect:/api/user-institution";
     }
 
     @RequestMapping("/all")
@@ -38,19 +37,21 @@ public class UserInstitutionController {
         return userInstitutionService.getByRut(rut);
     }
 
-    @RequestMapping("/institution-id/{institutionId}")
-    public List<UserInstitutionEntity> getByInstitutionId(@PathVariable long institutionId) {
-        return userInstitutionService.getByInstitutionId(institutionId);
+    @RequestMapping("/institution-id/{institution_id}")
+    public List<UserInstitutionEntity> getByinstitution_id(@PathVariable long institution_id) {
+        return userInstitutionService.getByinstitution_id(institution_id);
     }
 
     @RequestMapping("/update")
-    public boolean update(@RequestBody UserInstitutionEntity userInstitution) {
-        return userInstitutionService.update(userInstitution);
+    public void update(@RequestBody UserInstitutionEntity userInstitution) {
+        logger.info("Updating user institution: " + userInstitution.toString());
+        userInstitutionService.update(userInstitution);
     }
 
     @RequestMapping("/delete/{id}")
-    public boolean delete(@PathVariable long id) {
-        return userInstitutionService.delete(id);
+    public void delete(@PathVariable long id) {
+        logger.info("Deleting user institution with id: " + id);
+        userInstitutionService.delete(id);
     }
 
 }

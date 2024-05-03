@@ -2,7 +2,7 @@
 
 -- Audit trigger
 CREATE TABLE User_auditTrigger (
-    idTrigger SERIAL PRIMARY KEY,
+    triggerId SERIAL PRIMARY KEY,
     rut VARCHAR(20),
     name VARCHAR(255),
     lastName VARCHAR(255),
@@ -34,7 +34,7 @@ EXECUTE FUNCTION user_audit_trigger_function();
 CREATE OR REPLACE FUNCTION prevent_user_duplicate_attributes_func()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF (SELECT COUNT(*) FROM User_Attribute WHERE rut = NEW.rut AND idAttribute = NEW.idAttribute) > 0 THEN
+    IF (SELECT COUNT(*) FROM User_Attribute WHERE rut = NEW.rut AND attribute = NEW.attribute) > 0 THEN
         RAISE EXCEPTION 'Un usuario no puede tener atributos duplicados.';
     END IF;
     RETURN NEW;
@@ -50,7 +50,7 @@ EXECUTE FUNCTION prevent_user_duplicate_attributes_func();
 CREATE OR REPLACE FUNCTION prevent_user_duplicate_institutions_func()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF (SELECT COUNT(*) FROM User_Institution WHERE rut = NEW.rut AND idInstitution = NEW.idInstitution) > 0 THEN
+    IF (SELECT COUNT(*) FROM User_Institution WHERE rut = NEW.rut AND institution = NEW.institution) > 0 THEN
         RAISE EXCEPTION 'Un usuario no puede tener instituciones duplicadas.';
     END IF;
     RETURN NEW;
@@ -67,8 +67,8 @@ EXECUTE FUNCTION prevent_user_duplicate_institutions_func();
 
 -- Audit trigger
 CREATE TABLE Emergency_auditTrigger (
-    idTrigger SERIAL PRIMARY KEY,
-    idEmergency BIGINT,
+    triggerId SERIAL PRIMARY KEY,
+    emergency_id BIGINT,
     status BOOLEAN,
     title VARCHAR(255),
     description TEXT,
@@ -80,8 +80,8 @@ CREATE TABLE Emergency_auditTrigger (
 CREATE OR REPLACE FUNCTION emergency_audit_trigger_function()
 RETURNS TRIGGER AS $$
 BEGIN
-    INSERT INTO Emergency_auditTrigger (idEmergency, status, title, description, coordinator, date, operation)
-    VALUES (NEW.idEmergency, NEW.status, NEW.title, NEW.description, NEW.coordinator, CURRENT_TIMESTAMP, TG_OP);
+    INSERT INTO Emergency_auditTrigger (emergency_id, status, title, description, coordinator, date, operation)
+    VALUES (NEW.emergency_id, NEW.status, NEW.title, NEW.description, NEW.coordinator, CURRENT_TIMESTAMP, TG_OP);
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -95,7 +95,7 @@ EXECUTE FUNCTION emergency_audit_trigger_function();
 CREATE OR REPLACE FUNCTION prevent_emergency_duplicate_attributes_func()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF (SELECT COUNT(*) FROM Emergency_Attribute WHERE idEmergency = NEW.idEmergency AND idAttribute = NEW.idAttribute) > 0 THEN
+    IF (SELECT COUNT(*) FROM Emergency_Attribute WHERE emergency = NEW.emergency AND attribute = NEW.attribute) > 0 THEN
         RAISE EXCEPTION 'Una emergencia no puede tener atributos duplicados.';
     END IF;
     RETURN NEW;

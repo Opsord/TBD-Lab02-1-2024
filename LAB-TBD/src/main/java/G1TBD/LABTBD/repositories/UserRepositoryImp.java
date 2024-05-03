@@ -1,5 +1,5 @@
 package G1TBD.LABTBD.repositories;
-
+/*
 import G1TBD.LABTBD.entities.UserEntity;
 import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -192,3 +192,4 @@ public class UserRepositoryImp implements UserRepository {
     }
 
 }
+*/

@@ -1,21 +1,30 @@
 package G1TBD.LABTBD.entities;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Entity
+@Table(name = "emergencies")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmergencyEntity {
 
-    private long idEmergency;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long emergency_id;
+
     private boolean status;
     private String title;
     private String description;
-    private String coordinator;
+
+    @OneToOne
+    @JoinColumn(name = "rut")
+    private UserEntity coordinator;
 
     private Double latitude;
     private Double longitude;

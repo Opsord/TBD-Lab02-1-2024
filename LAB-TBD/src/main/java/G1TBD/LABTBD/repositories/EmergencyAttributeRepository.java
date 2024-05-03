@@ -1,18 +1,41 @@
 package G1TBD.LABTBD.repositories;
 
 import G1TBD.LABTBD.entities.EmergencyAttributeEntity;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface EmergencyAttributeRepository {
+@Repository
+public interface EmergencyAttributeRepository extends CrudRepository<EmergencyAttributeEntity, Long> {
 
-    EmergencyAttributeEntity create(EmergencyAttributeEntity emergencyAttribute);
+        @Query(value = "INSERT INTO emergency_attribute (emergency, attribute, compatibility) " +
+                        "VALUES (:emergency, :attribute, :compatibility)", nativeQuery = true)
+        @Modifying
+        @Transactional
+        void create(@Param("emergency") long emergency,
+                    @Param("attribute") long attribute, @Param("compatibility") boolean compatibility);
 
-    List<EmergencyAttributeEntity> getAll();
+        @Query(value = "SELECT * FROM emergency_attribute", nativeQuery = true)
+        List<EmergencyAttributeEntity> getAll();
 
-    EmergencyAttributeEntity getById(long id);
+        @Query(value = "SELECT * FROM emergency_attribute WHERE emergency_attribute_id = :emergency_attribute_id", nativeQuery = true)
+        EmergencyAttributeEntity getById(@Param("emergency_attribute_id") long emergency_attribute_id);
 
-    boolean update(EmergencyAttributeEntity emergencyAttribute);
+        @Query(value = "UPDATE emergency_attribute SET emergency = :emergency, attribute = :attribute, " +
+                        "compatibility = :compatibility WHERE emergency_attribute_id = :emergency_attribute_id", nativeQuery = true)
+        @Modifying
+        @Transactional
+        void update(@Param("emergency_attribute_id") long emergency_attribute_id, @Param("emergency") long emergency,
+                    @Param("attribute") long attribute, @Param("compatibility") boolean compatibility);
 
-    boolean delete(long id);
+        @Query(value = "DELETE FROM emergency_attribute WHERE emergency_attribute_id = :emergency_attribute_id", nativeQuery = true)
+        @Modifying
+        @Transactional
+        void delete(@Param("emergency_attribute_id") long emergency_attribute_id);
+
 }

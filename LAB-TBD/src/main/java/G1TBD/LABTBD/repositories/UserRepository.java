@@ -1,30 +1,63 @@
 package G1TBD.LABTBD.repositories;
 
 import G1TBD.LABTBD.entities.UserEntity;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository {
+@Repository
+public interface UserRepository extends CrudRepository<UserEntity, String> {
 
-    UserEntity create(UserEntity user);
+    @Query(value = "INSERT INTO users (rut, email, name, lastname, birthdate, sex, password, role, availability) " +
+            "VALUES (:rut, :email, :name, :lastname, :birthdate, :sex, :password, :role, :availability)", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void create(@Param("rut") String rut, @Param("email") String email, @Param("name") String name,
+                @Param("lastname") String lastname, @Param("birthdate") Date birthdate, @Param("sex") String sex,
+                @Param("password") String password, @Param("role") String role,
+                @Param("availability") boolean availability);
 
+    @Query(value = "SELECT * FROM users", nativeQuery = true)
     List<UserEntity> getAll();
 
-    Optional<UserEntity> getByRut(String rut);
+    @Query(value = "SELECT * FROM users WHERE rut = :rut", nativeQuery = true)
+    Optional<UserEntity> getByRut(@Param("rut") String rut);
 
-    Optional<UserEntity> getByEmail(String email);
+    @Query(value = "SELECT * FROM users WHERE email = :email", nativeQuery = true)
+    Optional<UserEntity> getByEmail(@Param("email") String email);
 
-    boolean update(UserEntity user);
+    @Query(value = "UPDATE users SET email = :email, name = :name, lastname = :lastname, birthdate = :birthdate, " +
+            "sex = :sex, password = :password, role = :role, availability = :availability " +
+            "WHERE rut = :rut", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void update(@Param("rut") String rut, @Param("email") String email, @Param("name") String name,
+                   @Param("lastname") String lastname, @Param("birthdate") Date birthdate, @Param("sex") String sex,
+                   @Param("password") String password, @Param("role") String role,
+                   @Param("availability") boolean availability);
 
-    boolean delete(String rut);
+    @Query(value = "DELETE FROM users WHERE rut = :rut", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void delete(@Param("rut") String rut);
 
-    List<UserEntity> getByRole(String role);
+    @Query(value = "SELECT * FROM users WHERE role = :role", nativeQuery = true)
+    List<UserEntity> getByRole(@Param("role") String role);
 
-    List<UserEntity> getByAvailability(boolean availability);
+    @Query(value = "SELECT * FROM users WHERE availability = :availability", nativeQuery = true)
+    List<UserEntity> getByAvailability(@Param("availability") boolean availability);
 
+    @Query(value = "SELECT * FROM users WHERE role = 'VOLUNTEER'", nativeQuery = true)
     List<UserEntity> getVolunteers();
 
+    @Query(value = "SELECT * FROM users WHERE role = 'COORDINATOR'", nativeQuery = true)
     List<UserEntity> getCoordinators();
 
 }

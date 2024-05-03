@@ -7,19 +7,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private static final Logger logger = Logger.getLogger(UserService.class.getName());
 
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public UserEntity create(UserEntity user) {
-        return userRepository.create(user);
+    public void create(UserEntity user) {
+        userRepository.create(
+                user.getRut(), user.getEmail(), user.getName(),
+                user.getLastname(), user.getBirthdate(), user.getSex(),
+                user.getPassword(), user.getRole(), user.isAvailability());
+        logger.info("Usuario creado: " + user.getRut());
     }
 
     public List<UserEntity> getAll() {
@@ -34,12 +40,17 @@ public class UserService {
         return userRepository.getByEmail(email);
     }
 
-    public boolean update(UserEntity user) {
-        return userRepository.update(user);
+    public void update(UserEntity user) {
+        userRepository.update(
+                user.getRut(), user.getEmail(), user.getName(),
+                user.getLastname(), user.getBirthdate(), user.getSex(),
+                user.getPassword(), user.getRole(), user.isAvailability());
+        logger.info("Usuario actualizado: " + user.getRut());
     }
 
-    public boolean delete(String rut) {
-        return userRepository.delete(rut);
+    public void delete(String rut) {
+        userRepository.delete(rut);
+        logger.info("Usuario eliminado: " + rut);
     }
 
     public List<UserEntity> getByRole(String role) {

@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 @Service
 public class EmergencyService {
 
     private final EmergencyRepository emergencyRepository;
     private final TaskService taskService;
+    private static final Logger logger = Logger.getLogger(EmergencyService.class.getName());
 
     @Autowired
     public EmergencyService(EmergencyRepository emergencyRepository, TaskService taskService) {
@@ -19,8 +21,13 @@ public class EmergencyService {
         this.taskService = taskService;
     }
 
-    public EmergencyEntity create(EmergencyEntity emergency) {
-        return emergencyRepository.create(emergency);
+    public void create(EmergencyEntity emergency) {
+        emergencyRepository.create(
+                emergency.getTitle(),
+                emergency.getDescription(),
+                emergency.isStatus(),
+                emergency.getCoordinator().getRut());
+        logger.info("Emergency created: " + emergency.getTitle());
     }
 
     public List<EmergencyEntity> getAll() {
@@ -35,12 +42,19 @@ public class EmergencyService {
         return emergencyRepository.getById(id);
     }
 
-    public boolean update(EmergencyEntity emergency) {
-        return emergencyRepository.update(emergency);
+    public void update(EmergencyEntity emergency) {
+        emergencyRepository.update(
+                emergency.getEmergency_id(),
+                emergency.getTitle(),
+                emergency.getDescription(),
+                emergency.isStatus(),
+                emergency.getCoordinator().getRut());
+        logger.info("Emergency updated: " + emergency.getTitle());
     }
 
-    public boolean delete(long id) {
-        return emergencyRepository.delete(id);
+    public void delete(long id) {
+        emergencyRepository.delete(id);
+        logger.info("Emergency deleted: " + id);
     }
 
     public List<EmergencyEntity> getAllClosed() {
@@ -48,24 +62,27 @@ public class EmergencyService {
     }
 
     /*
-
-    // Funcionalidad SQL 48
-    public List<SingleEmergencyData> getEveryEmergencyData() {
-        List<EmergencyEntity> closedEmergencies = getAllClosed();
-        List<SingleEmergencyData> singleEmergencyDataList = new ArrayList<>();
-
-        for (EmergencyEntity emergency : closedEmergencies) {
-            long idEmergency = emergency.getIdEmergency();
-            List<TaskEntity> taskList = taskService.getByEmergencyId(idEmergency);
-            List<VolunteerEntity> volunteerList = volunteerService.getByEmergencyId(idEmergency);
-
-            SingleEmergencyData singleEmergencyData = new SingleEmergencyData(emergency.getTitle(), volunteerList.size(), taskList.size());
-            singleEmergencyDataList.add(singleEmergencyData);
-        }
-
-        return singleEmergencyDataList;
-    }
-
+     * 
+     * // Funcionalidad SQL 48
+     * public List<SingleEmergencyData> getEveryEmergencyData() {
+     * List<EmergencyEntity> closedEmergencies = getAllClosed();
+     * List<SingleEmergencyData> singleEmergencyDataList = new ArrayList<>();
+     * 
+     * for (EmergencyEntity emergency : closedEmergencies) {
+     * long emergency_id = emergency.getemergency_id();
+     * List<TaskEntity> taskList = taskService.getByemergency_id(emergency_id);
+     * List<VolunteerEntity> volunteerList =
+     * volunteerService.getByemergency_id(emergency_id);
+     * 
+     * SingleEmergencyData singleEmergencyData = new
+     * SingleEmergencyData(emergency.getTitle(), volunteerList.size(),
+     * taskList.size());
+     * singleEmergencyDataList.add(singleEmergencyData);
+     * }
+     * 
+     * return singleEmergencyDataList;
+     * }
+     * 
      */
 
 }

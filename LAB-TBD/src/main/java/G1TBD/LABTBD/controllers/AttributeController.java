@@ -2,6 +2,8 @@ package G1TBD.LABTBD.controllers;
 
 import G1TBD.LABTBD.entities.AttributeEntity;
 import G1TBD.LABTBD.services.AttributeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,18 +15,20 @@ import java.util.List;
 public class AttributeController {
 
     private final AttributeService attributeService;
+    private static final Logger logger = LoggerFactory.getLogger(AttributeController.class);
 
     @Autowired
     public AttributeController(AttributeService attributeService) {
         this.attributeService = attributeService;
     }
 
-
     String homeLinkRedirect = "redirect:/attributes";
 
     @PostMapping("/create")
     public String create(@RequestBody AttributeEntity attribute) {
         attributeService.create(attribute);
+        logger.info("Attribute created: ");
+        logger.info(attribute.toString());
         return homeLinkRedirect;
     }
 
@@ -39,13 +43,19 @@ public class AttributeController {
     }
 
     @PutMapping("/update")
-    public boolean update(@RequestBody AttributeEntity attribute) {
-        return attributeService.update(attribute);
+    public String update(@RequestBody AttributeEntity attribute) {
+        attributeService.update(attribute);
+        logger.info("Attribute updated: ");
+        logger.info(attribute.toString());
+        return homeLinkRedirect;
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable long id) {
-        return attributeService.delete(id);
+    public String delete(@PathVariable long id) {
+        attributeService.delete(id);
+        logger.info("Attribute deleted: ");
+        logger.info(String.valueOf(id));
+        return homeLinkRedirect;
     }
 
 }

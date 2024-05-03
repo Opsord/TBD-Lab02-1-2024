@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/tasks")
@@ -13,6 +14,7 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
+    private static final Logger logger = Logger.getLogger(TaskController.class.getName());
 
     @Autowired
     public TaskController(TaskService taskService) {
@@ -24,6 +26,8 @@ public class TaskController {
     @PostMapping("/create")
     public String create(@RequestBody TaskEntity task) {
         taskService.create(task);
+        logger.info("Task created: ");
+        logger.info(task.toString());
         return homeLinkRedirect;
     }
 
@@ -37,19 +41,25 @@ public class TaskController {
         return taskService.getById(id);
     }
 
-    @GetMapping("/emergencyId/{id}")
-    public List<TaskEntity> getByEmergencyId(@PathVariable long id) {
-        return taskService.getByEmergencyId(id);
+    @GetMapping("/emergency_id/{id}")
+    public List<TaskEntity> getByemergency_id(@PathVariable long id) {
+        return taskService.getByemergency_id(id);
     }
 
     @PutMapping("/update")
-    public boolean update(@RequestBody TaskEntity task) {
-        return taskService.update(task);
+    public String update(@RequestBody TaskEntity task) {
+        taskService.update(task);
+        logger.info("Task updated: ");
+        logger.info(task.toString());
+        return homeLinkRedirect;
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable long id) {
-        return taskService.delete(id);
+    public String delete(@PathVariable long id) {
+        taskService.delete(id);
+        logger.info("Task deleted: ");
+        logger.info(String.valueOf(id));
+        return homeLinkRedirect;
     }
 
 }

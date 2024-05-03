@@ -1,6 +1,5 @@
 package G1TBD.LABTBD.repositories;
-
-
+/*
 import G1TBD.LABTBD.entities.AttributeEntity;
 import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,4 +113,4 @@ public class AttributeRepositoryImp implements AttributeRepository {
         }
     }
 }
-
+ */

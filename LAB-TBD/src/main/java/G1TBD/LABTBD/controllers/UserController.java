@@ -22,11 +22,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    String homeLinkRedirect = "redirect:/api/users";
+
     @PostMapping("/create")
     public String create(@RequestBody UserEntity user) {
         logger.info("Creating user: " + user.toString());
         userService.create(user);
-        return "redirect:/api/users";
+        return homeLinkRedirect;
     }
 
     @GetMapping("/all")
@@ -45,13 +47,17 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public boolean update(@RequestBody UserEntity user) {
-        return userService.update(user);
+    public String update(@RequestBody UserEntity user) {
+        userService.update(user);
+        logger.info("User updated: " + user.toString());
+        return homeLinkRedirect;
     }
 
     @DeleteMapping("/delete/{rut}")
-    public boolean delete(@PathVariable String rut) {
-        return userService.delete(rut);
+    public String delete(@PathVariable String rut) {
+        userService.delete(rut);
+        logger.info("User deleted: " + rut);
+        return homeLinkRedirect;
     }
 
     @GetMapping("/role/{role}")

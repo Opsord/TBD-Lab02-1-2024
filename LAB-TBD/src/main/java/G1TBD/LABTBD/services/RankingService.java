@@ -6,19 +6,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class RankingService {
 
     private final RankingRepository rankingRepository;
+    private static final Logger logger = Logger.getLogger("InfoLogging");
 
     @Autowired
     public RankingService(RankingRepository rankingRepository) {
         this.rankingRepository = rankingRepository;
     }
 
-    public RankingEntity create(RankingEntity ranking) {
-        return rankingRepository.create(ranking);
+    public void create(RankingEntity ranking) {
+        rankingRepository.create(
+                ranking.getUser().getRut(),
+                ranking.getTask().getTask_id(),
+                ranking.getValue());
+        logger.info("Ranking created");
     }
 
     public List<RankingEntity> getAll() {
@@ -33,11 +39,17 @@ public class RankingService {
         return rankingRepository.getByTaskId(id);
     }
 
-    public boolean update(RankingEntity ranking) {
-        return rankingRepository.update(ranking);
+    public void update(RankingEntity ranking) {
+        rankingRepository.update(
+                ranking.getRanking_id(),
+                ranking.getUser().getRut(),
+                ranking.getTask().getTask_id(),
+                ranking.getValue());
+        logger.info("Ranking updated");
     }
 
-    public boolean delete(long id) {
-        return rankingRepository.delete(id);
+    public void delete(long id) {
+        rankingRepository.delete(id);
+        logger.info("Ranking deleted");
     }
 }
