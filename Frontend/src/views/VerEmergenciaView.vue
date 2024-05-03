@@ -4,23 +4,20 @@
             <div v-for="data in emergencia" :key="data.idEmergency">
                 <Card>
                     <CardHeader>
-                        <CardTitle>{{ data.tituloEmergencia }}</CardTitle>
+                        <CardTitle>{{ data.title }}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        {{ data.descripcionEmergencia }}
+                        {{ data.description }}
                     </CardContent>
                     <CardFooter class=" whitespace-pre-line">
                         <p>Voluntarios registrados:</p>
-                        <p v-for="voluntario in data.voluntarios">
+                        <p v-for="voluntario in data.voluntarios" :key="voluntario">
                             &nbsp;
                             {{ voluntario.nombreVoluntario }} {{
                                 voluntario.apellidoVoluntario }}
                         </p>
-
                     </CardFooter>
-
                 </Card>
-
             </div>
         </div>
     </div>
@@ -39,30 +36,37 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import { store } from '@/store';
 
 const emergencia = ref(null)
 
 async function fetchEmergencia() {
     try {
-        const response = await axios.get('http://localhost:8090/emergencies/active');
-        emergencia.value = response.data; // Make sure to adjust this according to the actual structure of your response
+        const response = await axios.get(`http://localhost:8090/emergencies/active`, {
+            headers: {
+                Authorization: `Bearer ${store.token.token}`
+            }
+        });
+        emergencia.value = response.data;
     } catch (error) {
         console.error('There was an error fetching the user data:', error);
     }
 }
 
-
-
 async function fetchVoluntarios() {
-    const rankingGet = "http://localhost:8090/rankings/taskId/";
     if (emergencia.value && emergencia.value.length > 0) {
+        console.log(emergencia.value);
         try {
             const fetchPromises = emergencia.value.map(async (emergenciaEach) => {
-                const response = await axios.get(`${rankingGet}${emergenciaEach.idEmergency}`);
-                const rut = response.data.map(ranking => ranking.rut)
+                const response = await axios.get(`http://localhost:8090/rankings/taskId/${emergenciaEach.idEmergency}`, {
+                    headers: {
+                        Authorization: `Bearer ${store.token.token}`
+                    }
+                });
+                const rut = response.data.map(ranking => ranking.rut);
                 return { ...emergenciaEach, ids: rut };
             });
-            emergencia.value = await Promise.all(fetchPromises); // Correctly await all promises
+            emergencia.value = await Promise.all(fetchPromises);
         } catch (error) {
             console.error('There was an error fetching the volunteers data:', error);
         }
@@ -70,23 +74,27 @@ async function fetchVoluntarios() {
 }
 
 async function fetchVoluntariosData() {
-    const voluntarioGet = "http://localhost:8090/api/users/rut/";
     if (emergencia.value && emergencia.value.length > 0) {
         try {
             const fetchPromises = emergencia.value.map(async (emergenciaEach) => {
+                ;
                 const voluntarioPromises = emergenciaEach.ids.map(async (rut) => {
-                    const responseVoluntario = await axios.get(`${voluntarioGet}${rut}`);
-                    return responseVoluntario.data
+                    const response = await axios.get(`http://localhost:8090/api/users/rut/${rut}`, {
+                        headers: {
+                            Authorization: `Bearer ${store.token.token}`
+                        }
+                    })
+                    return response.data
                 })
                 return { ...emergenciaEach, voluntarios: await Promise.all(voluntarioPromises) };
             });
-            emergencia.value = await Promise.all(fetchPromises); // Correctly await all promises
+            emergencia.value = await Promise.all(fetchPromises);
         } catch (error) {
             console.error('There was an error fetching the volunteers data:', error);
         }
     }
 }
-// If you want to fetch data when the component mounts
+
 onMounted(async () => { await fetchEmergencia(); await fetchVoluntarios(); await fetchVoluntariosData() });
 
 </script>
