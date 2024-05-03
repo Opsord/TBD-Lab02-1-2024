@@ -11,15 +11,15 @@ import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import ScrollArea from '@/components/ui/scroll-area/ScrollArea.vue';
-import { store } from '@/store';
+import { store, fetchUserRole } from '@/store';
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 
-// Separar esto en reqeust para emregencias y otro para los atributos
 const formModel = ref({
     title: '',
-    status: true,
+    status: false,
     description: '',
+    /* coordinator: '' */
 });
 
 const habilidadModel = ref([])
@@ -41,16 +41,21 @@ async function fetchAttributes() {
 
 async function createEmergency(emergency) {
     try {
-        const response = await axios.get(`http://localhost:8090/emergencies/create`, emergency, {
+        const user = await fetchUserRole();
+        emergency.coordinator = user.rut;
+        console.log("Emergency: ", emergency);
+
+        const response = await axios.post(`http://localhost:8090/emergencies/create`, emergency, {
             headers: {
                 Authorization: `Bearer ${store.token.token}`
             }
         });
-        return response.data.idEmergencia
+
+        console.log(response.data);
+        return response.data.idEmergency;
 
     } catch (err) {
         console.log(err)
-
     }
 }
 
@@ -59,6 +64,8 @@ async function createEmergencyAttribute(idEmergencia) {
     const newModel = habilidadModel.value.map(habilidad => {
         return { ...habilidad, idEmergency: idEmergencia }
     })
+    console.log("Nuevo modelo". newModel);
+    
     try {
         const response = await axios.get(`http://localhost:8090/emergencyAttribute/createVarious`, newModel, {
             headers: {
@@ -69,7 +76,6 @@ async function createEmergencyAttribute(idEmergencia) {
 
     } catch (err) {
         console.log(err)
-
     }
 }
 
@@ -136,12 +142,12 @@ async function onSubmit() {
                     </div>
                 </ScrollArea>
             </div>
-            <FormField name="activa" type="checkbox" v-model="formModel.disponibilidad">
+            <FormField name="activa" type="checkbox" v-model="formModel.status">
                 <FormItem class="flex flex-row items-center align-middle space-x-2">
                     <FormLabel>¿Marcar como activa?</FormLabel>
                     <FormControl>
-                        <Checkbox id="disponibilidad" :checked="formModel.estadoEmergencia"
-                            @update:checked="value => formModel.estadoEmergencia = value" class="bg-slate-100 flex" />
+                        <Checkbox id="disponibilidad" :checked="formModel.status"
+                            @update:checked="value => formModel.status = value" class="bg-slate-100 flex" />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
