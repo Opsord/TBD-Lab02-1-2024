@@ -43,15 +43,12 @@ async function createEmergency(emergency) {
     try {
         const user = await fetchUserRole();
         emergency.coordinator = user.rut;
-        console.log("Emergency: ", emergency);
 
         const response = await axios.post(`http://localhost:8090/emergencies/create`, emergency, {
             headers: {
                 Authorization: `Bearer ${store.token.token}`
             }
         });
-
-        console.log(response.data);
         return response.data.idEmergency;
 
     } catch (err) {
@@ -60,18 +57,19 @@ async function createEmergency(emergency) {
 }
 
 async function createEmergencyAttribute(idEmergencia) {
-    console.log(idEmergencia)
+    console.log("ID emergencia: ", idEmergencia)
     const newModel = habilidadModel.value.map(habilidad => {
         return { ...habilidad, idEmergency: idEmergencia }
     })
-    console.log("Nuevo modelo". newModel);
+    console.log("Nuevo modelo", newModel);
     
     try {
-        const response = await axios.get(`http://localhost:8090/emergencyAttribute/createVarious`, newModel, {
+        const response = await axios.post(`http://localhost:8090/emergencyAttribute/createVarious`, newModel, {
             headers: {
                 Authorization: `Bearer ${store.token.token}`
             }
         });
+        console.log("Emergencia-Atributo: ", response.data);
         return response.data
 
     } catch (err) {
