@@ -28,36 +28,36 @@ VALUES
     ('98482714-4', 'correo.ejemplo@gmail.com', 'Elba', 'Calao', '1994-04-20', 'F', '$2a$10$Y0ntA2TXhIKuTIcrtTWOm.uyC7dvYjiNLL5cJsBkMWb1clYQnbVgS', 'COORDINATOR', True);
 
 --Poblacion de la tabla Atributo
-INSERT INTO Attributes (attribute_id, attribute)
+INSERT INTO Attributes (attribute)
 VALUES 
-    (1, 'Fuerza fisica'),
-    (2, 'Rescate en Terreno'),
-    (3, 'Apoyo psicologico'),
-    (4, 'Manejo de herramientas de rescate'),
-    (5, 'Conocimientos en primeros auxilios'),
-    (6, 'Manejo de equipos de comunicacion'),
-    (7, 'Capacidad para la búsqueda y localización de personas perdidas');
+    ('Fuerza fisica'),
+    ('Rescate en Terreno'),
+    ('Apoyo psicologico'),
+    ('Manejo de herramientas de rescate'),
+    ('Conocimientos en primeros auxilios'),
+    ('Manejo de equipos de comunicacion'),
+    ('Capacidad para la búsqueda y localización de personas perdidas');
 
 --Poblacion de la tabla Voluntario_Atributo
 INSERT INTO User_Attribute (user_attribute_id, rut, attribute)
 VALUES 
-    (1, '3641746726-4', '1'),
-    (2, '3641746726-4', '2'),
-    (3, '176271472-1', '3'),
-    (4, '176271472-1', '4'),
-    (5, '182473567-4', '5'),
-    (6, '182473567-4', '6'),
-    (7, '948128124-1', '7'),
-    (8, '948128124-1', '1'),
-    (9, '81723817246-1', '4'),
-    (10, '81723817246-1', '1'),
-    (11, '71264646674-4', '6'),
-    (12, '71264646674-4', '7'),
-    (13, '5872873212-4', '1'),
-    (14, '5872873212-4', '2'),
-    (15, '123271472-1', '7'),
-    (16, '123271472-1', '3'),
-    (17, '876327463-4', '1'),
+    ('3641746726-4', '1'),
+    ('3641746726-4', '2'),
+    ('176271472-1', '3'),
+    ('176271472-1', '4'),
+    ('182473567-4', '5'),
+    ('182473567-4', '6'),
+    ('948128124-1', '7'),
+    ('948128124-1', '1'),
+    ('81723817246-1', '4'),
+    ('81723817246-1', '1'),
+    ('71264646674-4', '6'),
+    ('71264646674-4', '7'),
+    ('5872873212-4', '1'),
+    ('5872873212-4', '2'),
+    ('123271472-1', '7'),
+    ('123271472-1', '3'),
+    ('876327463-4', '1'),
     (18, '876327463-4', '2'),
     (19, '7126476122-4', '7'),
     (20, '7126476122-4', '3');
