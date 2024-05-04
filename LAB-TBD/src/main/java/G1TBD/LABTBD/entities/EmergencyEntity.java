@@ -1,5 +1,6 @@
 package G1TBD.LABTBD.entities;
 
+import G1TBD.LABTBD.data.point.PointEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +27,8 @@ public class EmergencyEntity {
     @JoinColumn(name = "rut")
     private UserEntity coordinator;
 
-    private Double latitude;
-    private Double longitude;
+    @OneToOne
+    @JoinColumn(name = "point_id")
+    private PointEntity location;
 
 }

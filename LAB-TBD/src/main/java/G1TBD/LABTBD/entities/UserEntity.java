@@ -1,5 +1,6 @@
 package G1TBD.LABTBD.entities;
 
+import G1TBD.LABTBD.data.point.PointEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +34,10 @@ public class UserEntity implements UserDetails {
     private String password;
     private String role;
     private boolean availability;
+
+    @OneToOne
+    @JoinColumn(name = "point_id")
+    private PointEntity location;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -4,8 +4,6 @@ import G1TBD.LABTBD.data.SingleEmergencyData;
 import G1TBD.LABTBD.entities.EmergencyEntity;
 import G1TBD.LABTBD.services.EmergencyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -71,12 +69,12 @@ public class EmergencyController {
     }
 
     /*
-
-    @GetMapping("/data")
-    public List<SingleEmergencyData> getEveryEmergencyData() {
-        return emergencyService.getEveryEmergencyData();
-    }
-
-    */
+     * 
+     * @GetMapping("/data")
+     * public List<SingleEmergencyData> getEveryEmergencyData() {
+     * return emergencyService.getEveryEmergencyData();
+     * }
+     * 
+     */
 
 }
