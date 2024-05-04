@@ -1,11 +1,32 @@
--- Uer triggers
+-- Point Trigger
+CREATE OR REPLACE FUNCTION generate_point_from_lat_lng()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.geom := ST_SetSRID(ST_MakePoint(NEW.latitude, NEW.longitude), 4326);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER insert_point_trigger
+BEFORE INSERT ON points
+FOR EACH ROW
+EXECUTE FUNCTION generate_point_from_lat_lng();
+
+CREATE OR REPLACE TRIGGER update_point_trigger
+BEFORE UPDATE ON points
+FOR EACH ROW
+WHEN (NEW.latitude <> OLD.latitude OR NEW.longitude <> OLD.longitude)
+EXECUTE FUNCTION generate_point_from_lat_lng();
+-----------------------------------------------------------------------------------------------------------------
+
+-- User triggers
 
 -- Audit trigger
-CREATE TABLE User_auditTrigger (
-    triggerId SERIAL PRIMARY KEY,
+CREATE TABLE user_audit_trigger (
+    trigger_id SERIAL PRIMARY KEY,
     rut VARCHAR(20),
     name VARCHAR(255),
-    lastName VARCHAR(255),
+    lastname VARCHAR(255),
     email VARCHAR(255),
     password VARCHAR(255),
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -17,9 +38,9 @@ CREATE TABLE User_auditTrigger (
 CREATE OR REPLACE FUNCTION user_audit_trigger_function()
 RETURNS TRIGGER AS $$
 BEGIN
-    -- Insert into User_auditTrigger
-    INSERT INTO User_auditTrigger (rut, name, email, lastName, password, role, date, operation)
-    VALUES (NEW.rut, NEW.name, NEW.lastName, NEW.email, NEW.password, NEW.role, CURRENT_TIMESTAMP, TG_OP);
+    -- Insert into user_audit_trigger
+    INSERT INTO user_audit_trigger (rut, name, email, lastname, password, role, date, operation)
+    VALUES (NEW.rut, NEW.name, NEW.lastname, NEW.email, NEW.password, NEW.role, CURRENT_TIMESTAMP, TG_OP);
 
     RETURN NEW;
 END;
@@ -34,7 +55,7 @@ EXECUTE FUNCTION user_audit_trigger_function();
 CREATE OR REPLACE FUNCTION prevent_user_duplicate_attributes_func()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF (SELECT COUNT(*) FROM User_Attribute WHERE rut = NEW.rut AND attribute = NEW.attribute) > 0 THEN
+    IF (SELECT COUNT(*) FROM user_attribute WHERE rut = NEW.rut AND attribute = NEW.attribute) > 0 THEN
         RAISE EXCEPTION 'Un usuario no puede tener atributos duplicados.';
     END IF;
     RETURN NEW;
@@ -42,7 +63,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER prevent_user_duplicate_attributes
-BEFORE INSERT ON User_Attribute
+BEFORE INSERT ON user_attribute
 FOR EACH ROW
 EXECUTE FUNCTION prevent_user_duplicate_attributes_func();
 
@@ -50,7 +71,7 @@ EXECUTE FUNCTION prevent_user_duplicate_attributes_func();
 CREATE OR REPLACE FUNCTION prevent_user_duplicate_institutions_func()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF (SELECT COUNT(*) FROM User_Institution WHERE rut = NEW.rut AND institution = NEW.institution) > 0 THEN
+    IF (SELECT COUNT(*) FROM user_institution WHERE rut = NEW.rut AND institution = NEW.institution) > 0 THEN
         RAISE EXCEPTION 'Un usuario no puede tener instituciones duplicadas.';
     END IF;
     RETURN NEW;
@@ -58,16 +79,16 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER prevent_user_duplicate_institutions
-BEFORE INSERT ON User_Institution
+BEFORE INSERT ON user_institution
 FOR EACH ROW
 EXECUTE FUNCTION prevent_user_duplicate_institutions_func();
-
+-----------------------------------------------------------------------------------------------------------------
 
 -- Emergency triggers
 
 -- Audit trigger
-CREATE TABLE Emergency_auditTrigger (
-    triggerId SERIAL PRIMARY KEY,
+CREATE TABLE emergency_audit_trigger (
+    trigger_id SERIAL PRIMARY KEY,
     emergency_id BIGINT,
     status BOOLEAN,
     title VARCHAR(255),
@@ -80,7 +101,7 @@ CREATE TABLE Emergency_auditTrigger (
 CREATE OR REPLACE FUNCTION emergency_audit_trigger_function()
 RETURNS TRIGGER AS $$
 BEGIN
-    INSERT INTO Emergency_auditTrigger (emergency_id, status, title, description, coordinator, date, operation)
+    INSERT INTO emergency_audit_trigger (emergency_id, status, title, description, coordinator, date, operation)
     VALUES (NEW.emergency_id, NEW.status, NEW.title, NEW.description, NEW.coordinator, CURRENT_TIMESTAMP, TG_OP);
     RETURN NEW;
 END;
@@ -95,7 +116,7 @@ EXECUTE FUNCTION emergency_audit_trigger_function();
 CREATE OR REPLACE FUNCTION prevent_emergency_duplicate_attributes_func()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF (SELECT COUNT(*) FROM Emergency_Attribute WHERE emergency = NEW.emergency AND attribute = NEW.attribute) > 0 THEN
+    IF (SELECT COUNT(*) FROM emergency_attribute WHERE emergency = NEW.emergency AND attribute = NEW.attribute) > 0 THEN
         RAISE EXCEPTION 'Una emergencia no puede tener atributos duplicados.';
     END IF;
     RETURN NEW;
@@ -103,6 +124,6 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER prevent_emergency_duplicate_attributes
-BEFORE INSERT ON Emergency_Attribute
+BEFORE INSERT ON emergency_attribute
 FOR EACH ROW
 EXECUTE FUNCTION prevent_emergency_duplicate_attributes_func();
