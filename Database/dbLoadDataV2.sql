@@ -39,7 +39,7 @@ VALUES
     ('Capacidad para la búsqueda y localización de personas perdidas');
 
 --Poblacion de la tabla Voluntario_Atributo
-INSERT INTO User_Attribute (user_attribute_id, rut, attribute)
+INSERT INTO User_Attribute (rut, attribute)
 VALUES 
     ('3641746726-4', '1'),
     ('3641746726-4', '2'),
@@ -58,72 +58,72 @@ VALUES
     ('123271472-1', '7'),
     ('123271472-1', '3'),
     ('876327463-4', '1'),
-    (18, '876327463-4', '2'),
-    (19, '7126476122-4', '7'),
-    (20, '7126476122-4', '3');
+    ('876327463-4', '2'),
+    ('7126476122-4', '7'),
+    ('7126476122-4', '3');
 
 --Poblacion de la tabla Institucion
-INSERT INTO Institutions (institution_id, name) 
+INSERT INTO Institutions (name) 
 VALUES 
-    (1, 'Cruz Roja de Chile'),
-    (2, 'Bomberos Municipales'),
-    (3, 'Equipo de rescate de desastres naturales');
+    ('Cruz Roja de Chile'),
+    ('Bomberos Municipales'),
+    ('Equipo de rescate de desastres naturales');
 
 -- Poblacion de la tabla User_Institution
-INSERT INTO User_Institution (user_institution_id, rut, institution)
+INSERT INTO User_Institution (rut, institution)
 VALUES 
-    (1, '7126371263-k', '1'),
-    (2, '65265412312-k', '2'),
-    (3, '6527442312-k', '3');
+    ('7126371263-k', '1'),
+    ('65265412312-k', '2'),
+    ('6527442312-k', '3');
 
 
 --Poblacion de la tabla Emergencia
-INSERT INTO Emergencies (emergency_id, status, title, description, coordinator)
+INSERT INTO Emergencies (status, title, description, coordinator)
 VALUES 
-    (1, true, 'Incendio forestal en zona rural', 'Se ha reportado un incendio forestal en la zona de la Reserva Nacional. Se necesita asistencia inmediata.', '7126371263-k'),
-    (2, false, 'Evacuación por fuga de gas', 'Se ha detectado una fuga de gas en un edificio residencial. Se requiere evacuación de los residentes.', '7126371263-k'),
-    (3, true, 'Inundación en área urbana', 'Las fuertes lluvias han provocado inundaciones en varios sectores de la ciudad. Se necesitan equipos de rescate.', '65265412312-k'),
-    (4, true, 'Accidente de tráfico múltiple', 'Se ha producido un accidente de tráfico en la autopista principal. Varios vehículos están involucrados.', '6527442312-k'),
-    (5, false, 'Deslizamiento de tierra en carretera', 'Un deslizamiento de tierra ha bloqueado una carretera importante. Se necesita ayuda para despejar la vía.', '6527442312-k');
+    (true, 'Incendio forestal en zona rural', 'Se ha reportado un incendio forestal en la zona de la Reserva Nacional. Se necesita asistencia inmediata.', '7126371263-k'),
+    (false, 'Evacuación por fuga de gas', 'Se ha detectado una fuga de gas en un edificio residencial. Se requiere evacuación de los residentes.', '7126371263-k'),
+    (true, 'Inundación en área urbana', 'Las fuertes lluvias han provocado inundaciones en varios sectores de la ciudad. Se necesitan equipos de rescate.', '65265412312-k'),
+    (true, 'Accidente de tráfico múltiple', 'Se ha producido un accidente de tráfico en la autopista principal. Varios vehículos están involucrados.', '6527442312-k'),
+    (false, 'Deslizamiento de tierra en carretera', 'Un deslizamiento de tierra ha bloqueado una carretera importante. Se necesita ayuda para despejar la vía.', '6527442312-k');
 
 --Poblacion de tabla
 -- Población de la tabla Emergencia_Atributo
-INSERT INTO Emergency_Attribute (emergency_attribute_id, emergency, attribute, compatibility)
+INSERT INTO Emergency_Attribute (emergency, attribute, compatibility)
 VALUES 
-    (1, 1, 1, true),   -- La emergencia 1 tiene compatibilidad con el atributo 1 (Fuerza física)
-    (2, 1, 2, true),   -- La emergencia 1 tiene compatibilidad con el atributo 2 (Rescate en Terreno)
-    (3, 1, 3, false),  -- La emergencia 1 no tiene compatibilidad con el atributo 3 (Apoyo psicológico)
-    (4, 2, 4, false),  -- La emergencia 2 no tiene compatibilidad con el atributo 4 (Manejo de herramientas de rescate)
-    (5, 2, 5, true),   -- La emergencia 2 tiene compatibilidad con el atributo 5 (Conocimientos en primeros auxilios)
-    (6, 3, 6, true),   -- La emergencia 3 tiene compatibilidad con el atributo 6 (Manejo de equipos de comunicación)
-    (7, 3, 7, true),   -- La emergencia 3 tiene compatibilidad con el atributo 7 (Capacidad para la búsqueda y localización de personas perdidas)
-    (8, 4, 1, true),   -- La emergencia 4 tiene compatibilidad con el atributo 1 (Fuerza física)
-    (9, 4, 2, false),  -- La emergencia 4 no tiene compatibilidad con el atributo 2 (Rescate en Terreno)
-    (10, 5, 6, false), -- La emergencia 5 no tiene compatibilidad con el atributo 6 (Manejo de equipos de comunicación)
-    (11, 5, 7, true);  -- La emergencia 5 tiene compatibilidad con el atributo 7 (Capacidad para la búsqueda y localización de personas perdidas)
+    (1, 1, true),   -- La emergencia 1 tiene compatibilidad con el atributo 1 (Fuerza física)
+    (1, 2, true),   -- La emergencia 1 tiene compatibilidad con el atributo 2 (Rescate en Terreno)
+    (1, 3, false),  -- La emergencia 1 no tiene compatibilidad con el atributo 3 (Apoyo psicológico)
+    (2, 4, false),  -- La emergencia 2 no tiene compatibilidad con el atributo 4 (Manejo de herramientas de rescate)
+    (2, 5, true),   -- La emergencia 2 tiene compatibilidad con el atributo 5 (Conocimientos en primeros auxilios)
+    (3, 6, true),   -- La emergencia 3 tiene compatibilidad con el atributo 6 (Manejo de equipos de comunicación)
+    (3, 7, true),   -- La emergencia 3 tiene compatibilidad con el atributo 7 (Capacidad para la búsqueda y localización de personas perdidas)
+    (4, 1, true),   -- La emergencia 4 tiene compatibilidad con el atributo 1 (Fuerza física)
+    (4, 2, false),  -- La emergencia 4 no tiene compatibilidad con el atributo 2 (Rescate en Terreno)
+    (5, 6, false), -- La emergencia 5 no tiene compatibilidad con el atributo 6 (Manejo de equipos de comunicación)
+    (5, 7, true);  -- La emergencia 5 tiene compatibilidad con el atributo 7 (Capacidad para la búsqueda y localización de personas perdidas)
 
 -- Población de la tabla Tarea
-INSERT INTO Tasks (task_id, emergency, type, description, state)
+INSERT INTO Tasks (emergency, type, description, state)
 VALUES 
-    (1, 1, 'Evacuación de residentes', 'Coordinar y ejecutar la evacuación de los residentes afectados por el incendio forestal.', true),
-    (2, 2, 'Control de fuga de gas', 'Gestionar la contención y control de la fuga de gas en el edificio residencial.', false),
-    (3, 3, 'Rescate de personas atrapadas', 'Realizar operaciones de rescate para ayudar a las personas atrapadas por la inundación.', true),
-    (4, 4, 'Atención médica a heridos', 'Brindar atención médica a los heridos en el accidente de tráfico múltiple.', true),
-    (5, 5, 'Despeje de la carretera', 'Organizar y llevar a cabo el despeje de la carretera bloqueada por el deslizamiento de tierra.', false),
-    (6, 1, 'Suministro de alimentos', 'Distribuir alimentos y agua potable a los evacuados.', true),
-    (7, 2, 'Apoyo psicológico a afectados', 'Brindar apoyo emocional y asistencia psicológica a las personas afectadas por la fuga de gas.', false);
+    (1, 'Evacuación de residentes', 'Coordinar y ejecutar la evacuación de los residentes afectados por el incendio forestal.', true),
+    (2, 'Control de fuga de gas', 'Gestionar la contención y control de la fuga de gas en el edificio residencial.', false),
+    (3, 'Rescate de personas atrapadas', 'Realizar operaciones de rescate para ayudar a las personas atrapadas por la inundación.', true),
+    (4, 'Atención médica a heridos', 'Brindar atención médica a los heridos en el accidente de tráfico múltiple.', true),
+    (5, 'Despeje de la carretera', 'Organizar y llevar a cabo el despeje de la carretera bloqueada por el deslizamiento de tierra.', false),
+    (1, 'Suministro de alimentos', 'Distribuir alimentos y agua potable a los evacuados.', true),
+    (2, 'Apoyo psicológico a afectados', 'Brindar apoyo emocional y asistencia psicológica a las personas afectadas por la fuga de gas.', false);
 
 -- Población de la tabla Ranking
-INSERT INTO Rankings (ranking_id, volunteer, task, value)
+INSERT INTO Rankings (volunteer, task, value)
 VALUES 
-    (1, '123271472-1', 1, 4),   -- Juan participó en la evacuación de residentes del incendio forestal y recibió un valor de ranking de 4.
-    (2, '176271472-1', 2, 3),   -- María estuvo a cargo del control de la fuga de gas y recibió un valor de ranking de 3.
-    (3, '182473567-4', 3, 5),   -- Carlos participó en el rescate de personas atrapadas por la inundación y recibió un valor de ranking de 5.
-    (4, '2421283874-4', 4, 4),   -- Ana brindó atención médica a los heridos en el accidente de tráfico múltiple y recibió un valor de ranking de 4.
-    (5, '3641746726-4', 5, 2),   -- Pedro ayudó en el despeje de la carretera bloqueada por el deslizamiento de tierra y recibió un valor de ranking de 2.
-    (6, '4152351623-5', 1, 3),   -- Laura participó en la evacuación de residentes del incendio forestal y recibió un valor de ranking de 3.
-    (7, '42163612342-5', 2, 4),   -- Diego estuvo a cargo del control de la fuga de gas y recibió un valor de ranking de 4.
-    (8, '4412317123-k', 3, 5),   -- Sofía participó en el rescate de personas atrapadas por la inundación y recibió un valor de ranking de 5.
-    (9, '5872873212-4', 4, 4),   -- Miguel brindó atención médica a los heridos en el accidente de tráfico múltiple y recibió un valor de ranking de 4.
-    (10, '61523512412-5', 5, 3);-- Paula ayudó en el despeje de la carretera bloqueada por el deslizamiento de tierra y recibió un valor de ranking de 3.
+    ('123271472-1', 1, 4),   -- Juan participó en la evacuación de residentes del incendio forestal y recibió un valor de ranking de 4.
+    ('176271472-1', 2, 3),   -- María estuvo a cargo del control de la fuga de gas y recibió un valor de ranking de 3.
+    ('182473567-4', 3, 5),   -- Carlos participó en el rescate de personas atrapadas por la inundación y recibió un valor de ranking de 5.
+    ('2421283874-4', 4, 4),   -- Ana brindó atención médica a los heridos en el accidente de tráfico múltiple y recibió un valor de ranking de 4.
+    ('3641746726-4', 5, 2),   -- Pedro ayudó en el despeje de la carretera bloqueada por el deslizamiento de tierra y recibió un valor de ranking de 2.
+    ('4152351623-5', 1, 3),   -- Laura participó en la evacuación de residentes del incendio forestal y recibió un valor de ranking de 3.
+    ('42163612342-5', 2, 4),   -- Diego estuvo a cargo del control de la fuga de gas y recibió un valor de ranking de 4.
+    ('4412317123-k', 3, 5),   -- Sofía participó en el rescate de personas atrapadas por la inundación y recibió un valor de ranking de 5.
+    ('5872873212-4', 4, 4),   -- Miguel brindó atención médica a los heridos en el accidente de tráfico múltiple y recibió un valor de ranking de 4.
+    ('61523512412-5', 5, 3);-- Paula ayudó en el despeje de la carretera bloqueada por el deslizamiento de tierra y recibió un valor de ranking de 3.
     
