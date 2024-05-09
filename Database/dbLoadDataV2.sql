@@ -142,7 +142,7 @@ VALUES
 
 
 --Poblacion de la tabla Punto
-INSERT INTO points (latitude, longitude)
+INSERT INTO points (longitude, latitude)
 VALUES 
 -- Sueltas por Chile
     (-33.51783, -70.68525),
