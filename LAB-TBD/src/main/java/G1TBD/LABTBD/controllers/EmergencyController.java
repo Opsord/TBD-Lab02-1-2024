@@ -1,7 +1,7 @@
 package G1TBD.LABTBD.controllers;
 
-import G1TBD.LABTBD.data.SingleEmergencyData;
 import G1TBD.LABTBD.entities.EmergencyEntity;
+import G1TBD.LABTBD.entities.UserEntity;
 import G1TBD.LABTBD.services.EmergencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -56,7 +56,7 @@ public class EmergencyController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable long id) {
         emergencyService.delete(id);
         logger.info("Emergency deleted: ");
         logger.info(String.valueOf(id));
@@ -66,6 +66,16 @@ public class EmergencyController {
     @GetMapping("/closed")
     public List<EmergencyEntity> getClosedEmergencies() {
         return emergencyService.getAllClosed();
+    }
+
+    @GetMapping("/nearby/{emergency_id}/{radius}/{quantity}")
+    public List<UserEntity> getXNearbyVolunteers(@PathVariable long emergency_id,
+                                                 @PathVariable double radius,
+                                                 @PathVariable int quantity) {
+        logger.info("Emergency ID: " + emergency_id);
+        logger.info("Radius: " + radius);
+        logger.info("Quantity: " + quantity);
+        return emergencyService.getXNearbyVolunteers(emergency_id, radius, quantity);
     }
 
     /*

@@ -77,6 +77,14 @@ CREATE TABLE tasks (
     FOREIGN KEY (emergency) REFERENCES emergencies(emergency_id)
 );
 
+CREATE TABLE task_user (
+    task_user_id BIGSERIAL PRIMARY KEY,
+    task BIGINT,
+    volunteer VARCHAR(20),
+    FOREIGN KEY (task) REFERENCES tasks(task_id),
+    FOREIGN KEY (volunteer) REFERENCES users(rut)
+);
+
 CREATE TABLE rankings (
     ranking_id BIGSERIAL PRIMARY KEY,
     volunteer VARCHAR(20),
@@ -121,6 +129,7 @@ CREATE INDEX idx_task_emergency_id ON tasks (emergency);
 CREATE INDEX idx_ranking_rut ON rankings (volunteer);
 CREATE INDEX idx_ranking_idTask ON rankings (task);
 
-
-
-
+-- Points
+CREATE INDEX idx_points_id ON points (point_id);
+CREATE INDEX idx_points_lat ON points (latitude);
+CREATE INDEX idx_points_lon ON points (longitude);

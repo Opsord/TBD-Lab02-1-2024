@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class EmergencyAttributeEntity {
 
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long emergency_attribute_id;
 
     @ManyToOne

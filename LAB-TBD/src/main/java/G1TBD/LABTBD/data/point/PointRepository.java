@@ -36,4 +36,10 @@ public interface PointRepository extends CrudRepository<PointEntity, Long>{
     @Transactional
     void delete(@Param("point_id") long point_id);
 
+    @Query(value = "SELECT * FROM points " +
+            "WHERE ST_DWithin (geom, 'POINT(:latitude :longitude)', :radius) " +
+            "LIMIT :limit", nativeQuery = true)
+    List<PointEntity> findXNearbyPoints(@Param("latitude") double latitude, @Param("longitude") double longitude,
+                                        @Param("radius") double radius, @Param("limit") int limit);
+
 }

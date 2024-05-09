@@ -1,5 +1,7 @@
 package G1TBD.LABTBD.services;
 
+import G1TBD.LABTBD.data.point.PointRepository;
+import G1TBD.LABTBD.data.point.PointService;
 import G1TBD.LABTBD.entities.UserEntity;
 import G1TBD.LABTBD.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +15,15 @@ import java.util.logging.Logger;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PointService pointService;
     private static final Logger logger = Logger.getLogger(UserService.class.getName());
+    private final PointRepository pointRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PointService pointService, PointRepository pointRepository) {
         this.userRepository = userRepository;
+        this.pointService = pointService;
+        this.pointRepository = pointRepository;
     }
 
     public void create(UserEntity user) {
@@ -67,6 +73,11 @@ public class UserService {
 
     public List<UserEntity> getByAvailability(boolean availability) {
         return userRepository.getByAvailability(availability);
+    }
+
+    public List<UserEntity> getXNearbyVolunteers(double latitude, double longitude,
+                                                 double radius, int quantity, String role, boolean availability) {
+        return userRepository.getXNearbyUsers(latitude, longitude, radius, quantity, role, availability);
     }
 
 }

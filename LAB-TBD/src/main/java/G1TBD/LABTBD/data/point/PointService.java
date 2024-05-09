@@ -40,4 +40,9 @@ public class PointService {
         logger.info("Point deleted: " + id);
     }
 
+    public List<PointEntity> getNearbyPoints(long point_id,int radius, int limit) {
+        PointEntity point = pointRepository.getById(point_id);
+        return pointRepository.findXNearbyPoints(point.getLatitude(), point.getLongitude(), radius, limit);
+    }
+
 }

@@ -60,4 +60,18 @@ public interface UserRepository extends CrudRepository<UserEntity, String> {
     @Query(value = "SELECT * FROM users WHERE role = 'COORDINATOR'", nativeQuery = true)
     List<UserEntity> getCoordinators();
 
+    @Query(value = "SELECT * FROM users " +
+            "WHERE location = " +
+            "(SELECT point_id FROM points WHERE latitude = :latitude AND longitude = :longitude)", nativeQuery = true)
+    UserEntity getByLocation(@Param("latitude") double latitude, @Param("longitude") double longitude);
+
+    @Query(value = "SELECT * FROM users " +
+            "WHERE ST_DWithin (location, 'POINT(:latitude :longitude)', :radius) " +
+            "AND role = :role " +
+            "AND availability = :availability " +
+            "LIMIT :limit", nativeQuery = true)
+    List<UserEntity> getXNearbyUsers(@Param("latitude") double latitude, @Param("longitude") double longitude,
+                                     @Param("radius") double radius, @Param("limit") int limit,
+                                     @Param("role") String role, @Param("availability") boolean availability);
+
 }

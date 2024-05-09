@@ -8,22 +8,22 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "tasks")
+@Table(name = "task_user")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskEntity {
+public class TaskUserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long task_id;
-
-    private String type;
-    private String description;
-    private boolean state;
+    private long task_user_id;
 
     @ManyToOne
-    @JoinColumn(name = "emergency")
-    private EmergencyEntity emergency;
+    @JoinColumn(name = "task_id")
+    private TaskEntity task;
+
+    @ManyToOne
+    @JoinColumn(name = "rut")
+    private UserEntity user;
 
 }

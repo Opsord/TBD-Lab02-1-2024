@@ -36,7 +36,7 @@ public class UserEntity implements UserDetails {
     private boolean availability;
 
     @OneToOne
-    @JoinColumn(name = "point_id")
+    @JoinColumn(name = "location")
     private PointEntity location;
 
     @Override

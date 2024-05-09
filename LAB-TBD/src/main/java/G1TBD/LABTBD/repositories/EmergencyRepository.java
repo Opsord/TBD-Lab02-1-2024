@@ -24,7 +24,7 @@ public interface EmergencyRepository extends CrudRepository<EmergencyEntity, Lon
         List<EmergencyEntity> getAll();
 
         @Query(value = "SELECT * FROM emergencies WHERE emergency_id = :emergency_id ", nativeQuery = true)
-        EmergencyEntity getById(@Param("emergency_id ") long emergency_id );
+        EmergencyEntity getById(@Param("emergency_id") long id );
 
         @Query(value = "SELECT * FROM emergencies WHERE status = true", nativeQuery = true)
         List<EmergencyEntity> getAllActive();
@@ -43,5 +43,11 @@ public interface EmergencyRepository extends CrudRepository<EmergencyEntity, Lon
         @Modifying
         @Transactional
         void delete(@Param("emergency_id") long emergency_id);
+
+        // Get emergency by location
+        @Query(value = "SELECT * FROM emergencies " +
+                "WHERE location = " +
+                "(SELECT point_id FROM points WHERE latitude = :latitude AND longitude = :longitude)", nativeQuery = true)
+        EmergencyEntity getByLocation(@Param("latitude") double latitude, @Param("longitude") double longitude);
 
 }

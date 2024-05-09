@@ -43,7 +43,7 @@ public class TaskController {
 
     @GetMapping("/emergency_id/{id}")
     public List<TaskEntity> getByemergency_id(@PathVariable long id) {
-        return taskService.getByemergency_id(id);
+        return taskService.getByEmergencyId(id);
     }
 
     @PutMapping("/update")

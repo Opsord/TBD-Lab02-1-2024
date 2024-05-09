@@ -24,11 +24,11 @@ public class EmergencyEntity {
     private String description;
 
     @OneToOne
-    @JoinColumn(name = "rut")
+    @JoinColumn(name = "coordinator")
     private UserEntity coordinator;
 
     @OneToOne
-    @JoinColumn(name = "point_id")
+    @JoinColumn(name = "location")
     private PointEntity location;
 
 }
