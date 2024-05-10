@@ -1,5 +1,6 @@
 package G1TBD.LABTBD.repositories;
 
+import G1TBD.LABTBD.data.point.PointEntity;
 import G1TBD.LABTBD.entities.UserEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
@@ -73,5 +74,12 @@ public interface UserRepository extends CrudRepository<UserEntity, String> {
     List<UserEntity> getXNearbyUsers(@Param("latitude") double latitude, @Param("longitude") double longitude,
                                      @Param("radius") double radius, @Param("limit") int limit,
                                      @Param("role") String role, @Param("availability") boolean availability);
+
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE users SET location = :location WHERE rut = :rut", nativeQuery = true)
+    void updateLocationByRut(@Param("location") PointEntity location, @Param("rut") String rut);
+
 
 }

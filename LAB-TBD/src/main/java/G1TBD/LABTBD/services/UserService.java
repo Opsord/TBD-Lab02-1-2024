@@ -1,5 +1,6 @@
 package G1TBD.LABTBD.services;
 
+import G1TBD.LABTBD.data.point.PointEntity;
 import G1TBD.LABTBD.data.point.PointRepository;
 import G1TBD.LABTBD.data.point.PointService;
 import G1TBD.LABTBD.entities.UserEntity;
@@ -78,6 +79,11 @@ public class UserService {
     public List<UserEntity> getXNearbyVolunteers(double latitude, double longitude,
                                                  double radius, int quantity, String role, boolean availability) {
         return userRepository.getXNearbyUsers(latitude, longitude, radius, quantity, role, availability);
+    }
+
+
+    public void updateLocationByRut(PointEntity location, String rut) {
+        userRepository.updateLocationByRut(location, rut);
     }
 
 }

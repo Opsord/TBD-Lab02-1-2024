@@ -1,5 +1,7 @@
 package G1TBD.LABTBD.controllers;
 
+import G1TBD.LABTBD.data.point.PointEntity;
+import G1TBD.LABTBD.data.point.PointService;
 import G1TBD.LABTBD.entities.EmergencyEntity;
 import G1TBD.LABTBD.entities.UserEntity;
 import G1TBD.LABTBD.services.EmergencyService;
@@ -14,11 +16,13 @@ import java.util.logging.Logger;
 @CrossOrigin(origins = "http://localhost:8090/emergencies")
 public class EmergencyController {
 
+    private final PointService pointService;
     private final EmergencyService emergencyService;
     private static final Logger logger = Logger.getLogger(EmergencyController.class.getName());
 
     @Autowired
-    public EmergencyController(EmergencyService emergencyService) {
+    public EmergencyController(PointService pointService, EmergencyService emergencyService) {
+        this.pointService = pointService;
         this.emergencyService = emergencyService;
     }
 
@@ -76,6 +80,13 @@ public class EmergencyController {
         logger.info("Radius: " + radius);
         logger.info("Quantity: " + quantity);
         return emergencyService.getXNearbyVolunteers(emergency_id, radius, quantity);
+    }
+
+    //Actualizar punto
+    @PutMapping("/point/update")
+    public void updatePoint(@RequestBody PointEntity point) {
+        pointService.update(point);
+        logger.info("Point updated: " + point.getPoint());
     }
 
     /*

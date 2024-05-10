@@ -1,5 +1,7 @@
 package G1TBD.LABTBD.controllers;
 
+import G1TBD.LABTBD.data.point.PointEntity;
+import G1TBD.LABTBD.data.point.PointService;
 import G1TBD.LABTBD.entities.UserEntity;
 import G1TBD.LABTBD.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,14 @@ import java.util.logging.Logger;
 public class UserController {
 
     private final UserService userService;
+
+    private final PointService pointService;
     private static final Logger logger = Logger.getLogger(UserController.class.getName());
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PointService pointService) {
         this.userService = userService;
+        this.pointService = pointService;
     }
 
     String homeLinkRedirect = "redirect:/api/users";
@@ -33,6 +38,7 @@ public class UserController {
 
     @GetMapping("/all")
     public List<UserEntity> getAll() {
+        System.out.println("aaaaaaa");
         return userService.getAll();
     }
 
@@ -80,4 +86,32 @@ public class UserController {
         return userService.getCoordinators();
     }
 
+
+    @PutMapping("/updateLocation/{rut}")
+    public void updateLocationByRut(@PathVariable String rut, @RequestBody PointEntity location) {
+        userService.updateLocationByRut(location, rut);
+    }
+
+    //Actualizar punto
+    @PutMapping("/point/update")
+    public void updatePoint(@RequestBody PointEntity point) {
+        pointService.update(point);
+        logger.info("Point updated: " + point.getPoint());
+    }
+
 }
+
+
+   {"rut": "111111-1",
+           "email": "correoa.ejemplo@gmail.com",
+           "name": "Elsa",
+           "lastname": "Capuntasa",
+           "birthdate": "1997-06-22T04:00:00.000+00:00",
+           "sex": "F",
+           "password": "$2a$10$JWCTjsZvnbhrh6Y99lSJuubMITj1ykX.0Rn6oysAApoteY20fbqC.",
+           "role": "VOLUNTEER",
+           "availability": false,
+           "location": {
+           "point_id": 2,
+           "latitude": 123.444,
+           "longitude": 789.022}
