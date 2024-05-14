@@ -16,6 +16,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends CrudRepository<UserEntity, String> {
 
+    //--------------------------CREATE--------------------------
     @Query(value = "INSERT INTO users (rut, email, name, lastname, birthdate, sex, password, role, availability) " +
             "VALUES (:rut, :email, :name, :lastname, :birthdate, :sex, :password, :role, :availability)", nativeQuery = true)
     @Modifying
@@ -25,6 +26,26 @@ public interface UserRepository extends CrudRepository<UserEntity, String> {
                 @Param("password") String password, @Param("role") String role,
                 @Param("availability") boolean availability);
 
+
+    //--------------------------UPDATE--------------------------
+    @Query(value = "UPDATE users SET email = :email, name = :name, lastname = :lastname, birthdate = :birthdate, " +
+            "sex = :sex, password = :password, role = :role, availability = :availability " +
+            "WHERE rut = :rut", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void update(@Param("rut") String rut, @Param("email") String email, @Param("name") String name,
+                @Param("lastname") String lastname, @Param("birthdate") Date birthdate, @Param("sex") String sex,
+                @Param("password") String password, @Param("role") String role,
+                @Param("availability") boolean availability);
+
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE users SET location = :location WHERE rut = :rut", nativeQuery = true)
+    void updateLocationByRut(@Param("location") PointEntity location, @Param("rut") String rut);
+
+
+    //---------------------------READ---------------------------
     @Query(value = "SELECT * FROM users", nativeQuery = true)
     List<UserEntity> getAll();
 
@@ -33,21 +54,6 @@ public interface UserRepository extends CrudRepository<UserEntity, String> {
 
     @Query(value = "SELECT * FROM users WHERE email = :email", nativeQuery = true)
     Optional<UserEntity> getByEmail(@Param("email") String email);
-
-    @Query(value = "UPDATE users SET email = :email, name = :name, lastname = :lastname, birthdate = :birthdate, " +
-            "sex = :sex, password = :password, role = :role, availability = :availability " +
-            "WHERE rut = :rut", nativeQuery = true)
-    @Modifying
-    @Transactional
-    void update(@Param("rut") String rut, @Param("email") String email, @Param("name") String name,
-                   @Param("lastname") String lastname, @Param("birthdate") Date birthdate, @Param("sex") String sex,
-                   @Param("password") String password, @Param("role") String role,
-                   @Param("availability") boolean availability);
-
-    @Query(value = "DELETE FROM users WHERE rut = :rut", nativeQuery = true)
-    @Modifying
-    @Transactional
-    void delete(@Param("rut") String rut);
 
     @Query(value = "SELECT * FROM users WHERE role = :role", nativeQuery = true)
     List<UserEntity> getByRole(@Param("role") String role);
@@ -60,6 +66,7 @@ public interface UserRepository extends CrudRepository<UserEntity, String> {
 
     @Query(value = "SELECT * FROM users WHERE role = 'COORDINATOR'", nativeQuery = true)
     List<UserEntity> getCoordinators();
+
 
     @Query(value = "SELECT * FROM users " +
             "WHERE location = " +
@@ -76,10 +83,21 @@ public interface UserRepository extends CrudRepository<UserEntity, String> {
                                      @Param("role") String role, @Param("availability") boolean availability);
 
 
-    @Transactional
+    //SQL funcionalidad 48 laboratorio 1
+    @Query(value = "SELECT u.* FROM users u " +
+            "JOIN user_attribute ua ON u.rut = ua.rut " +
+            "JOIN attributes a ON ua.attribute = a.attribute_id " +
+            "JOIN emergency_attribute ea ON ua.attribute = ea.attribute " +
+            "JOIN emergencies e ON ea.emergency = e.emergency_id " +
+            "WHERE e.emergency_id = :emergencyId", nativeQuery = true)
+    List<UserEntity> getByEmergencyId(@Param("emergencyId") long emergencyId);
+
+
+    //--------------------------DELETE--------------------------
+    @Query(value = "DELETE FROM users WHERE rut = :rut", nativeQuery = true)
     @Modifying
-    @Query(value = "UPDATE users SET location = :location WHERE rut = :rut", nativeQuery = true)
-    void updateLocationByRut(@Param("location") PointEntity location, @Param("rut") String rut);
+    @Transactional
+    void delete(@Param("rut") String rut);
 
 
 }

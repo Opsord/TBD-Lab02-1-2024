@@ -19,6 +19,7 @@ public class UserInstitutionService {
         this.userInstitutionRepository = userInstitutionRepository;
     }
 
+    //--------------------------CREATE--------------------------
     public void create(UserInstitutionEntity userInstitution) {
         userInstitutionRepository.create(
                 userInstitution.getUser().getRut(),
@@ -26,14 +27,8 @@ public class UserInstitutionService {
         logger.info("UserInstitution created: " + userInstitution);
     }
 
-    public List<UserInstitutionEntity> getAll() {
-        return userInstitutionRepository.getAll();
-    }
 
-    public UserInstitutionEntity getById(long id) {
-        return userInstitutionRepository.getById(id);
-    }
-
+    //--------------------------UPDATE--------------------------
     public void update(UserInstitutionEntity userInstitution) {
         userInstitutionRepository.update(
                 userInstitution.getUser_institution_id(),
@@ -42,9 +37,14 @@ public class UserInstitutionService {
         logger.info("UserInstitution updated: " + userInstitution);
     }
 
-    public void delete(long id) {
-        userInstitutionRepository.delete(id);
-        logger.info("UserInstitution deleted: " + id);
+
+    //---------------------------READ---------------------------
+    public List<UserInstitutionEntity> getAll() {
+        return userInstitutionRepository.getAll();
+    }
+
+    public UserInstitutionEntity getById(long id) {
+        return userInstitutionRepository.getById(id);
     }
 
     public UserInstitutionEntity getByRut(String rut) {
@@ -54,5 +54,14 @@ public class UserInstitutionService {
     public List<UserInstitutionEntity> getByinstitution_id(long institution_id) {
         return userInstitutionRepository.getByInstitutionId(institution_id);
     }
+
+
+    //--------------------------DELETE--------------------------
+    public void delete(long id) {
+        userInstitutionRepository.delete(id);
+        logger.info("UserInstitution deleted: " + id);
+    }
+
+
 
 }

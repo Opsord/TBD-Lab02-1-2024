@@ -13,31 +13,40 @@ import java.util.List;
 @Repository
 public interface RankingRepository extends CrudRepository<RankingEntity, Long> {
 
+        //--------------------------CREATE--------------------------
         @Query(value = "INSERT INTO rankings (volunteer, task, value) " +
-                        "VALUES (:volunteer, :task, :value)", nativeQuery = true)
+                "VALUES (:volunteer, :task, :value)", nativeQuery = true)
         @Modifying
         @Transactional
         void create(@Param("volunteer") String volunteer,
-                        @Param("task") long idtask, @Param("value") int value);
+                    @Param("task") long idtask, @Param("value") int value);
 
+
+        //--------------------------UPDATE--------------------------
+        @Query(value = "UPDATE rankings SET volunteer = :volunteer, task = :task, value = :value " +
+                "WHERE ranking_id = :ranking_id", nativeQuery = true)
+        @Modifying
+        @Transactional
+        void update(@Param("ranking_id") long ranking_id, @Param("volunteer") String volunteer,
+                    @Param("task") long task, @Param("value") int value);
+
+
+        //---------------------------READ---------------------------
         @Query(value = "SELECT * FROM rankings", nativeQuery = true)
         List<RankingEntity> getAll();
 
         @Query(value = "SELECT * FROM rankings WHERE ranking_id = :ranking_id", nativeQuery = true)
         RankingEntity getById(@Param("ranking_id") long ranking_id);
 
-        @Query(value = "UPDATE rankings SET volunteer = :volunteer, task = :task, value = :value " +
-                        "WHERE ranking_id = :ranking_id", nativeQuery = true)
-        @Modifying
-        @Transactional
-        void update(@Param("ranking_id") long ranking_id, @Param("volunteer") String volunteer,
-                    @Param("task") long task, @Param("value") int value);
+        @Query(value = "SELECT * FROM rankings WHERE task = :task", nativeQuery = true)
+        public List<RankingEntity> getByTaskId(@Param("task") long task);
 
+
+        //--------------------------DELETE--------------------------
         @Query(value = "DELETE FROM rankings WHERE ranking_id = :ranking_id", nativeQuery = true)
         @Modifying
         @Transactional
         void delete(@Param("ranking_id") long ranking_id);
 
-        @Query(value = "SELECT * FROM rankings WHERE task = :task", nativeQuery = true)
-        public List<RankingEntity> getByTaskId(@Param("task") long task);
+
 }

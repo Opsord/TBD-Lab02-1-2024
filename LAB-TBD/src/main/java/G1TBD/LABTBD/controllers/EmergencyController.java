@@ -1,5 +1,6 @@
 package G1TBD.LABTBD.controllers;
 
+import G1TBD.LABTBD.data.SingleEmergencyData;
 import G1TBD.LABTBD.data.point.PointEntity;
 import G1TBD.LABTBD.data.point.PointService;
 import G1TBD.LABTBD.entities.EmergencyEntity;
@@ -86,6 +87,12 @@ public class EmergencyController {
         return emergencyService.getXNearbyVolunteers(emergency_id, radius, quantity);
     }
 
+
+    @GetMapping("/datosEmergencias")
+    public List<SingleEmergencyData> getAllClosedEmergencyData() {
+        return emergencyService.getAllClosedEmergencyData();
+    }
+
     //--------------------------DELETE--------------------------
 
 
@@ -98,13 +105,6 @@ public class EmergencyController {
     }
 
 
-    /*
-     * 
-     * @GetMapping("/data")
-     * public List<SingleEmergencyData> getEveryEmergencyData() {
-     * return emergencyService.getEveryEmergencyData();
-     * }
-     * 
-     */
+
 
 }

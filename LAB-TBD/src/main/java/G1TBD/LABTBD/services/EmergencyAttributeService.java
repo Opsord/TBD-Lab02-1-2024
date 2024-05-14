@@ -19,7 +19,7 @@ public class EmergencyAttributeService {
     public EmergencyAttributeService(EmergencyAttributeRepository emergencyAttributeRepository) {
         this.emergencyAttributeRepository = emergencyAttributeRepository;
     }
-
+    //--------------------------CREATE--------------------------
     public void create(EmergencyAttributeEntity emergencyAttribute) {
         emergencyAttributeRepository.create(
                 emergencyAttribute.getEmergency().getEmergency_id(),
@@ -38,14 +38,8 @@ public class EmergencyAttributeService {
         return createdEmergencies;
     }
 
-    public List<EmergencyAttributeEntity> getAll() {
-        return emergencyAttributeRepository.getAll();
-    }
 
-    public EmergencyAttributeEntity getById(long id) {
-        return emergencyAttributeRepository.getById(id);
-    }
-
+    //--------------------------UPDATE--------------------------
     public void update(EmergencyAttributeEntity emergencyAttribute) {
         emergencyAttributeRepository.update(
                 emergencyAttribute.getEmergency_attribute_id(),
@@ -56,6 +50,18 @@ public class EmergencyAttributeService {
         logger.info("EmergencyAttribute updated successfully");
     }
 
+
+    //---------------------------READ---------------------------
+    public List<EmergencyAttributeEntity> getAll() {
+        return emergencyAttributeRepository.getAll();
+    }
+
+    public EmergencyAttributeEntity getById(long id) {
+        return emergencyAttributeRepository.getById(id);
+    }
+
+
+    //--------------------------DELETE--------------------------
     public void delete(long id) {
         emergencyAttributeRepository.delete(id);
         logger.info("EmergencyAttribute deleted successfully");

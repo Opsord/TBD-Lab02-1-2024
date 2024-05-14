@@ -25,6 +25,7 @@ public class TaskService {
         this.taskUserRepository = taskUserRepository;
     }
 
+    //--------------------------CREATE--------------------------
     public void create(TaskEntity task) {
         taskRepository.create(
                 task.getEmergency().getEmergency_id(),
@@ -34,18 +35,8 @@ public class TaskService {
         logger.info("Task created");
     }
 
-    public List<TaskEntity> getAll() {
-        return taskRepository.getAll();
-    }
 
-    public TaskEntity getById(long id) {
-        return taskRepository.getById(id);
-    }
-
-    public List<TaskEntity> getByEmergencyId(long id) {
-        return taskRepository.getByEmergencyId(id);
-    }
-
+    //--------------------------UPDATE--------------------------
     public void update(TaskEntity task) {
         taskRepository.update(
                 task.getTask_id(),
@@ -56,9 +47,18 @@ public class TaskService {
         logger.info("Task updated");
     }
 
-    public void delete(long id) {
-        taskRepository.delete(id);
-        logger.info("Task deleted");
+
+    //---------------------------READ---------------------------
+    public List<TaskEntity> getAll() {
+        return taskRepository.getAll();
+    }
+
+    public TaskEntity getById(long id) {
+        return taskRepository.getById(id);
+    }
+
+    public List<TaskEntity> getByEmergencyId(long id) {
+        return taskRepository.getByEmergencyId(id);
     }
 
     public List<UserEntity> getAllVolunteers(long task_id) {
@@ -78,5 +78,13 @@ public class TaskService {
         }
         return tasks;
     }
+
+
+    //--------------------------DELETE--------------------------
+    public void delete(long id) {
+        taskRepository.delete(id);
+        logger.info("Task deleted");
+    }
+
 
 }

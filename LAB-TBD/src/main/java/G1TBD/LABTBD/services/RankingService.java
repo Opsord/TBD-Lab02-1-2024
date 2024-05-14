@@ -19,6 +19,7 @@ public class RankingService {
         this.rankingRepository = rankingRepository;
     }
 
+    //--------------------------CREATE--------------------------
     public void create(RankingEntity ranking) {
         rankingRepository.create(
                 ranking.getUser().getRut(),
@@ -27,18 +28,8 @@ public class RankingService {
         logger.info("Ranking created");
     }
 
-    public List<RankingEntity> getAll() {
-        return rankingRepository.getAll();
-    }
 
-    public RankingEntity getById(long id) {
-        return rankingRepository.getById(id);
-    }
-
-    public List<RankingEntity> getByTaskId(long id) {
-        return rankingRepository.getByTaskId(id);
-    }
-
+    //--------------------------UPDATE--------------------------
     public void update(RankingEntity ranking) {
         rankingRepository.update(
                 ranking.getRanking_id(),
@@ -48,8 +39,20 @@ public class RankingService {
         logger.info("Ranking updated");
     }
 
+
+    //---------------------------READ---------------------------
+    public List<RankingEntity> getAll() {return rankingRepository.getAll();}
+
+    public RankingEntity getById(long id) {return rankingRepository.getById(id);}
+
+    public List<RankingEntity> getByTaskId(long id) {return rankingRepository.getByTaskId(id);}
+
+
+    //--------------------------DELETE--------------------------
     public void delete(long id) {
         rankingRepository.delete(id);
         logger.info("Ranking deleted");
     }
+
+
 }

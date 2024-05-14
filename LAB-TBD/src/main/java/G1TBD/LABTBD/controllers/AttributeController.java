@@ -1,6 +1,7 @@
 package G1TBD.LABTBD.controllers;
 
 import G1TBD.LABTBD.entities.AttributeEntity;
+import G1TBD.LABTBD.entities.EmergencyEntity;
 import G1TBD.LABTBD.services.AttributeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,6 @@ public class AttributeController {
     String homeLinkRedirect = "redirect:/attributes";
 
     //--------------------------CREATE--------------------------
-
     @PostMapping("/create")
     public String create(@RequestBody AttributeEntity attribute) {
         attributeService.create(attribute);
@@ -34,16 +34,8 @@ public class AttributeController {
         return homeLinkRedirect;
     }
 
-    @GetMapping("/all")
-    public List<AttributeEntity> getAll() {
-        return attributeService.getAll();
-    }
 
-    @GetMapping("/id/{id}")
-    public AttributeEntity getById(@PathVariable long id) {
-        return attributeService.getById(id);
-    }
-
+    //--------------------------UPDATE--------------------------
     @PutMapping("/update")
     public String update(@RequestBody AttributeEntity attribute) {
         attributeService.update(attribute);
@@ -51,6 +43,17 @@ public class AttributeController {
         logger.info(attribute.toString());
         return homeLinkRedirect;
     }
+
+
+    //---------------------------READ---------------------------
+    @GetMapping("/all")
+    public List<AttributeEntity> getAll(){return attributeService.getAll();}
+
+    @GetMapping("/id/{id}")
+    public AttributeEntity getById(@PathVariable long id) {return attributeService.getById(id);}
+
+
+    //--------------------------DELETE--------------------------
 
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable long id) {

@@ -13,22 +13,28 @@ import java.util.List;
 @Repository
 public interface AttributeRepository extends CrudRepository<AttributeEntity, Long> {
 
+    //--------------------------CREATE--------------------------
     @Query(value = "INSERT INTO attributes (attribute) VALUES (:attribute)", nativeQuery = true)
     @Modifying
     @Transactional
     void create(@Param("attribute") String attribute);
 
+
+    //--------------------------UPDATE--------------------------
+    @Query(value = "UPDATE attributes SET attribute = :attribute WHERE attribute_id = :attribute_id", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void update(@Param("attribute_id") long attribute_id, @Param("attribute") String attribute);
+
+
+    //---------------------------READ---------------------------
     @Query(value = "SELECT * FROM attributes", nativeQuery = true)
     List<AttributeEntity> getAll();
 
     @Query(value = "SELECT * FROM attributes WHERE attribute_id = :attribute_id", nativeQuery = true)
     AttributeEntity getById(@Param("attribute_id") long attribute_id);
 
-    @Query(value = "UPDATE attributes SET attribute = :attribute WHERE attribute_id = :attribute_id", nativeQuery = true)
-    @Modifying
-    @Transactional
-    void update(@Param("attribute_id") long attribute_id, @Param("attribute") String attribute);
-
+    //--------------------------DELETE--------------------------
     @Query(value = "DELETE FROM attributes WHERE attribute_id = :attribute_id", nativeQuery = true)
     @Modifying
     @Transactional
