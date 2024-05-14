@@ -13,12 +13,12 @@ import java.util.List;
 @Repository
 public interface EmergencyRepository extends CrudRepository<EmergencyEntity, Long> {
 
-        @Query(value = "INSERT INTO emergencies (title, description, status, coordinator) " +
-                        "VALUES (:title, :description, :status, :coordinator)", nativeQuery = true)
+        @Query(value = "INSERT INTO emergencies (title, description, status, coordinator, location) " +
+                        "VALUES (:title, :description, :status, :coordinator, :location)", nativeQuery = true)
         @Modifying
         @Transactional
         void create(@Param("title") String title, @Param("description") String description,
-                        @Param("status") boolean status, @Param("coordinator") String coordinator);
+                        @Param("status") boolean status, @Param("coordinator") String coordinator, @Param("location") Long location);
 
         @Query(value = "SELECT * FROM emergencies", nativeQuery = true)
         List<EmergencyEntity> getAll();

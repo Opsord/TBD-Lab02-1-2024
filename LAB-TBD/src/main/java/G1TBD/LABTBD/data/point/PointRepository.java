@@ -24,6 +24,10 @@ public interface PointRepository extends CrudRepository<PointEntity, Long>{
     @Query(value = "SELECT * FROM points WHERE point_id = :point_id", nativeQuery = true)
     PointEntity getById(@Param("point_id") long point_id);
 
+    @Query(value = "SELECT point_id FROM points WHERE latitude = :latitude AND longitude = :longitude ORDER BY point_id DESC LIMIT 1", nativeQuery = true)
+    Long findIdByLatitudeAndLongitude(@Param("latitude") double latitude, @Param("longitude") double longitude);
+
+
     @Query(value = "UPDATE points SET latitude = :latitude, longitude = :longitude " +
             "WHERE point_id = :point_id", nativeQuery = true)
     @Modifying

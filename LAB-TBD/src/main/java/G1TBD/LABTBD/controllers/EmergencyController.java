@@ -30,6 +30,15 @@ public class EmergencyController {
 
     @PostMapping("/create")
     public String create(@RequestBody EmergencyEntity emergency) {
+        PointEntity newPoint = new PointEntity();
+        newPoint.setLatitude(emergency.getLocation().getLatitude());
+        newPoint.setLongitude(emergency.getLocation().getLongitude());
+        pointService.create(newPoint);
+        Long point_id = pointService.findByLatitudeAndLongitude(emergency.getLocation().getLatitude(), emergency.getLocation().getLongitude());
+        PointEntity point = pointService.getById(point_id);
+        logger.info("Retrieved point" + point);
+
+        emergency.setLocation(point);
         emergencyService.create(emergency);
         logger.info("Emergency created: ");
         logger.info(emergency.toString());
@@ -85,6 +94,7 @@ public class EmergencyController {
     //Actualizar punto
     @PutMapping("/point/update")
     public void updatePoint(@RequestBody PointEntity point) {
+        System.out.println(point.getPoint());
         pointService.update(point);
         logger.info("Point updated: " + point.getPoint());
     }

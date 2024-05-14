@@ -25,4 +25,6 @@ public class PointEntity implements Serializable {
     @Column(name = "geom", columnDefinition = "geometry(Point, 4326)")
     private Point point;
 
+
+
 }

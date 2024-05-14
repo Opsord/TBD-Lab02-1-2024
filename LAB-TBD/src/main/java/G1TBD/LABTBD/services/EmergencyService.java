@@ -34,7 +34,8 @@ public class EmergencyService {
                 emergency.getTitle(),
                 emergency.getDescription(),
                 emergency.isStatus(),
-                emergency.getCoordinator().getRut());
+                emergency.getCoordinator().getRut(),
+        emergency.getLocation().getPoint_id());
         logger.info("Emergency created: " + emergency.getTitle());
     }
 

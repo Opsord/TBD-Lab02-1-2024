@@ -102,16 +102,3 @@ public class UserController {
 }
 
 
-   {"rut": "111111-1",
-           "email": "correoa.ejemplo@gmail.com",
-           "name": "Elsa",
-           "lastname": "Capuntasa",
-           "birthdate": "1997-06-22T04:00:00.000+00:00",
-           "sex": "F",
-           "password": "$2a$10$JWCTjsZvnbhrh6Y99lSJuubMITj1ykX.0Rn6oysAApoteY20fbqC.",
-           "role": "VOLUNTEER",
-           "availability": false,
-           "location": {
-           "point_id": 2,
-           "latitude": 123.444,
-           "longitude": 789.022}

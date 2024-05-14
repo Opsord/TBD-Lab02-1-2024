@@ -27,8 +27,8 @@ public class EmergencyEntity {
     @JoinColumn(name = "coordinator")
     private UserEntity coordinator;
 
-    @OneToOne
-    @JoinColumn(name = "location")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location", referencedColumnName = "point_id")
     private PointEntity location;
 
 }

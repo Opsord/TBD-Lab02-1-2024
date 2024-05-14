@@ -22,6 +22,11 @@ public class PointService {
         logger.info("Point created: " + point.getPoint());
     }
 
+    public Long findByLatitudeAndLongitude(double latitude, double longitude) {
+        return pointRepository.findIdByLatitudeAndLongitude(latitude, longitude);
+    }
+
+
     public List<PointEntity> getAll() {
         return pointRepository.getAll();
     }
