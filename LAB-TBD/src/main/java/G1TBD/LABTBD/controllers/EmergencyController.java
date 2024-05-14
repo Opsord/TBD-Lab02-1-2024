@@ -28,6 +28,7 @@ public class EmergencyController {
 
     String homeLinkRedirect = "redirect:/emergencies";
 
+    //--------------------------CREATE--------------------------
     @PostMapping("/create")
     public String create(@RequestBody EmergencyEntity emergency) {
         PointEntity newPoint = new PointEntity();
@@ -44,22 +45,7 @@ public class EmergencyController {
         logger.info(emergency.toString());
         return homeLinkRedirect;
     }
-
-    @GetMapping("/all")
-    public List<EmergencyEntity> getAll() {
-        return emergencyService.getAll();
-    }
-
-    @GetMapping("/active")
-    public List<EmergencyEntity> getAllActive() {
-        return emergencyService.getAllActive();
-    }
-
-    @GetMapping("/id/{id}")
-    public EmergencyEntity getById(@PathVariable long id) {
-        return emergencyService.getById(id);
-    }
-
+    //--------------------------UPDATE--------------------------
     @PutMapping("/update")
     public String update(@RequestBody EmergencyEntity emergency) {
         emergencyService.update(emergency);
@@ -68,18 +54,27 @@ public class EmergencyController {
         return homeLinkRedirect;
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable long id) {
-        emergencyService.delete(id);
-        logger.info("Emergency deleted: ");
-        logger.info(String.valueOf(id));
-        return homeLinkRedirect;
+    //Actualizar punto
+    @PutMapping("/point/update")
+    public void updatePoint(@RequestBody PointEntity point) {
+        System.out.println(point.getPoint());
+        pointService.update(point);
+        logger.info("Point updated: " + point.getPoint());
     }
 
+
+    //---------------------------READ---------------------------
+    @GetMapping("/all")
+    public List<EmergencyEntity> getAll(){return emergencyService.getAll();}
+
+    @GetMapping("/active")
+    public List<EmergencyEntity> getAllActive(){return  emergencyService.getAllActive();}
+
+    @GetMapping("/id/{id}")
+    public EmergencyEntity getById(@PathVariable long id) {return emergencyService.getById(id);}
+
     @GetMapping("/closed")
-    public List<EmergencyEntity> getClosedEmergencies() {
-        return emergencyService.getAllClosed();
-    }
+    public List<EmergencyEntity> getClosedEmergencies() {return emergencyService.getAllClosed();}
 
     @GetMapping("/nearby/{emergency_id}/{radius}/{quantity}")
     public List<UserEntity> getXNearbyVolunteers(@PathVariable long emergency_id,
@@ -91,13 +86,17 @@ public class EmergencyController {
         return emergencyService.getXNearbyVolunteers(emergency_id, radius, quantity);
     }
 
-    //Actualizar punto
-    @PutMapping("/point/update")
-    public void updatePoint(@RequestBody PointEntity point) {
-        System.out.println(point.getPoint());
-        pointService.update(point);
-        logger.info("Point updated: " + point.getPoint());
+    //--------------------------DELETE--------------------------
+
+
+    @DeleteMapping("/delete/{id}")
+    public String delete(@PathVariable long id) {
+        emergencyService.delete(id);
+        logger.info("Emergency deleted: ");
+        logger.info(String.valueOf(id));
+        return homeLinkRedirect;
     }
+
 
     /*
      * 

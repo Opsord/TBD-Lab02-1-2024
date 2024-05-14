@@ -24,6 +24,8 @@ public class AttributeController {
 
     String homeLinkRedirect = "redirect:/attributes";
 
+    //--------------------------CREATE--------------------------
+
     @PostMapping("/create")
     public String create(@RequestBody AttributeEntity attribute) {
         attributeService.create(attribute);
