@@ -46,11 +46,7 @@ public class AttributeController {
 
 
     //---------------------------READ---------------------------
-    @GetMapping("/all")
-    public List<AttributeEntity> getAll(){return attributeService.getAll();}
 
-    @GetMapping("/id/{id}")
-    public AttributeEntity getById(@PathVariable long id) {return attributeService.getById(id);}
 
 
     //--------------------------DELETE--------------------------

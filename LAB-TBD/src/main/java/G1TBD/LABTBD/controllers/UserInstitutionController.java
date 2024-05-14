@@ -1,5 +1,6 @@
 package G1TBD.LABTBD.controllers;
 
+import G1TBD.LABTBD.entities.AttributeEntity;
 import G1TBD.LABTBD.entities.UserInstitutionEntity;
 import G1TBD.LABTBD.services.UserInstitutionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,38 +21,41 @@ public class UserInstitutionController {
     public UserInstitutionController(UserInstitutionService userInstitutionService) {
         this.userInstitutionService = userInstitutionService;
     }
-
+    //--------------------------CREATE--------------------------
     @PostMapping("/create")
     public void create(@RequestBody UserInstitutionEntity userInstitution) {
         logger.info("Creating user institution: " + userInstitution.toString());
         userInstitutionService.create(userInstitution);
     }
 
-    @RequestMapping("/all")
-    public List<UserInstitutionEntity> getAll() {
-        return userInstitutionService.getAll();
-    }
 
-    @RequestMapping("/rut/{rut}")
-    public UserInstitutionEntity getByRut(@PathVariable String rut) {
-        return userInstitutionService.getByRut(rut);
-    }
-
-    @RequestMapping("/institution-id/{institution_id}")
-    public List<UserInstitutionEntity> getByinstitution_id(@PathVariable long institution_id) {
-        return userInstitutionService.getByinstitution_id(institution_id);
-    }
-
+    //--------------------------UPDATE--------------------------
     @RequestMapping("/update")
     public void update(@RequestBody UserInstitutionEntity userInstitution) {
         logger.info("Updating user institution: " + userInstitution.toString());
         userInstitutionService.update(userInstitution);
     }
 
+
+    //---------------------------READ---------------------------
+    @GetMapping("/all")
+    public List<UserInstitutionEntity> getAll(){return userInstitutionService.getAll();}
+
+    @RequestMapping("/rut/{rut}")
+    public UserInstitutionEntity getByRut(@PathVariable String rut) {return userInstitutionService.getByRut(rut);}
+
+    @RequestMapping("/institution-id/{institution_id}")
+    public List<UserInstitutionEntity> getByinstitution_id(@PathVariable long institution_id) {
+        return userInstitutionService.getByinstitution_id(institution_id);
+    }
+
+
+    //--------------------------DELETE--------------------------
     @RequestMapping("/delete/{id}")
     public void delete(@PathVariable long id) {
         logger.info("Deleting user institution with id: " + id);
         userInstitutionService.delete(id);
     }
+
 
 }

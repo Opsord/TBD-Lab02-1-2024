@@ -21,33 +21,36 @@ public class UserAttributeController {
         this.userAttributeService = userAttributeService;
     }
 
+    //--------------------------CREATE--------------------------
     @PostMapping("/create")
     public void create(@RequestBody UserAttributeEntity userAttribute) {
         logger.info("Creating user attribute: " + userAttribute.toString());
         userAttributeService.create(userAttribute);
     }
 
-    @GetMapping("/all")
-    public List<UserAttributeEntity> getAll() {
-        return userAttributeService.getAll();
-    }
 
-    @GetMapping("/rut/{rut}")
-    public List<UserAttributeEntity> getByRut(@PathVariable String rut) {
-        return userAttributeService.getByRut(rut);
-    }
-
-    @GetMapping("/attribute-id/{attribute_id}")
-    public List<UserAttributeEntity> getByattribute_id(@PathVariable long attribute_id) {
-        return userAttributeService.getByAttributeId(attribute_id);
-    }
-
+    //--------------------------UPDATE--------------------------
     @PutMapping("/update")
     public void update(@RequestBody UserAttributeEntity userAttribute) {
         logger.info("Updating user attribute: " + userAttribute.toString());
         userAttributeService.update(userAttribute);
     }
 
+
+    //---------------------------READ---------------------------
+    @GetMapping("/all")
+    public List<UserAttributeEntity> getAll() {return userAttributeService.getAll();}
+
+    @GetMapping("/rut/{rut}")
+    public List<UserAttributeEntity> getByRut(@PathVariable String rut) {return userAttributeService.getByRut(rut);}
+
+    @GetMapping("/attribute-id/{attribute_id}")
+    public List<UserAttributeEntity> getByattribute_id(@PathVariable long attribute_id) {
+        return userAttributeService.getByAttributeId(attribute_id);
+    }
+
+
+    //--------------------------DELETE--------------------------
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable long id) {
         logger.info("Deleting user attribute with id: " + id);

@@ -23,6 +23,7 @@ public class RankingController {
 
     String homeLinkRedirect = "redirect:/rankings";
 
+    //--------------------------CREATE--------------------------
     @PostMapping("/create")
     public String create(@RequestBody RankingEntity ranking) {
         rankingService.create(ranking);
@@ -31,21 +32,8 @@ public class RankingController {
         return homeLinkRedirect;
     }
 
-    @GetMapping("/all")
-    public List<RankingEntity> getAll() {
-        return rankingService.getAll();
-    }
 
-    @GetMapping("/id/{id}")
-    public RankingEntity getById(@PathVariable long id) {
-        return rankingService.getById(id);
-    }
-
-    @GetMapping("/task_id/{id}")
-    public List<RankingEntity> getBytask_id(@PathVariable long id) {
-        return rankingService.getByTaskId(id);
-    }
-
+    //--------------------------UPDATE--------------------------
     @PutMapping("/update")
     public String update(@RequestBody RankingEntity ranking) {
         rankingService.update(ranking);
@@ -54,6 +42,19 @@ public class RankingController {
         return homeLinkRedirect;
     }
 
+
+    //---------------------------READ---------------------------
+    @GetMapping("/all")
+    public List<RankingEntity> getAll() {return rankingService.getAll();}
+
+    @GetMapping("/id/{id}")
+    public RankingEntity getById(@PathVariable long id) {return rankingService.getById(id);}
+
+    @GetMapping("/task_id/{id}")
+    public List<RankingEntity> getBytask_id(@PathVariable long id) {return rankingService.getByTaskId(id);}
+
+
+    //--------------------------DELETE--------------------------
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable long id) {
         rankingService.delete(id);

@@ -88,7 +88,7 @@ public class EmergencyController {
     }
 
 
-    @GetMapping("/datosEmergencias")
+    @GetMapping("/closedEmergencyData")
     public List<SingleEmergencyData> getAllClosedEmergencyData() {
         return emergencyService.getAllClosedEmergencyData();
     }

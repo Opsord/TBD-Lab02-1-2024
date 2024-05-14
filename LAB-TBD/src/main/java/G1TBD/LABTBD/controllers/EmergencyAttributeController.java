@@ -22,7 +22,7 @@ public class EmergencyAttributeController {
     public EmergencyAttributeController(EmergencyAttributeService emergencyAttributeService) {
         this.emergencyAttributeService = emergencyAttributeService;
     }
-
+    //--------------------------CREATE--------------------------
     @PostMapping("/create")
     public void create(@RequestBody EmergencyAttributeEntity emergencyAttribute) {
         emergencyAttributeService.create(emergencyAttribute);
@@ -42,16 +42,8 @@ public class EmergencyAttributeController {
         }
     }
 
-    @GetMapping("/all")
-    public List<EmergencyAttributeEntity> getAll() {
-        return emergencyAttributeService.getAll();
-    }
 
-    @GetMapping("/id/{id}")
-    public EmergencyAttributeEntity getById(@PathVariable long id) {
-        return emergencyAttributeService.getById(id);
-    }
-
+    //--------------------------UPDATE--------------------------
     @PutMapping("/update")
     public void update(@RequestBody EmergencyAttributeEntity emergencyAttribute) {
         emergencyAttributeService.update(emergencyAttribute);
@@ -59,6 +51,16 @@ public class EmergencyAttributeController {
         logger.info(emergencyAttribute.toString());
     }
 
+
+    //---------------------------READ---------------------------
+    @GetMapping("/all")
+    public List<EmergencyAttributeEntity> getAll(){return emergencyAttributeService.getAll();}
+
+    @GetMapping("/id/{id}")
+    public EmergencyAttributeEntity getById(@PathVariable long id){return emergencyAttributeService.getById(id);}
+
+
+    //--------------------------DELETE--------------------------
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable long id) {
         emergencyAttributeService.delete(id);
