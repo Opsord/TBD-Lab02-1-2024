@@ -90,20 +90,29 @@ public class EmergencyService {
                 radiusInDegrees, limit, role, available);
     }
 
-    //Funcionalidad SQL 48 del laboratorio 1
-    public List<SingleEmergencyData> getAllClosedEmergencyData(){
-        List<EmergencyEntity> closedEmergencies = getAllClosed();
-        List<SingleEmergencyData> singleEmergencyDataList = new ArrayList<>();
-
-        for (EmergencyEntity emergency : closedEmergencies) {
-            long emergency_id = emergency.getEmergency_id();
-            List<TaskEntity> taskList = taskService.getByEmergencyId(emergency_id);
-            List<UserEntity> volunteerList = userService.getByEmergencyId(emergency_id);
-            SingleEmergencyData singleEmergencyData = new SingleEmergencyData(emergency.getTitle(), volunteerList.size(), taskList.size());
-            singleEmergencyDataList.add(singleEmergencyData);
-        }
-        return singleEmergencyDataList;
-    }
+    /*
+     *
+     * // Funcionalidad SQL 48
+     * public List<SingleEmergencyData> getEveryEmergencyData() {
+     * List<EmergencyEntity> closedEmergencies = getAllClosed();
+     * List<SingleEmergencyData> singleEmergencyDataList = new ArrayList<>();
+     *
+     * for (EmergencyEntity emergency : closedEmergencies) {
+     * long emergency_id = emergency.getemergency_id();
+     * List<TaskEntity> taskList = taskService.getByemergency_id(emergency_id);
+     * List<VolunteerEntity> volunteerList =
+     * volunteerService.getByemergency_id(emergency_id);
+     *
+     * SingleEmergencyData singleEmergencyData = new
+     * SingleEmergencyData(emergency.getTitle(), volunteerList.size(),
+     * taskList.size());
+     * singleEmergencyDataList.add(singleEmergencyData);
+     * }
+     *
+     * return singleEmergencyDataList;
+     * }
+     *
+     */
 
 
     //--------------------------DELETE--------------------------

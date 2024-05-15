@@ -88,14 +88,12 @@ public class EmergencyController {
     }
 
 
-    @GetMapping("/closedEmergencyData")
-    public List<SingleEmergencyData> getAllClosedEmergencyData() {
-        return emergencyService.getAllClosedEmergencyData();
-    }
+    //@GetMapping("/closedEmergencyData")
+    //public List<SingleEmergencyData> getAllClosedEmergencyData() {
+    //    return emergencyService.getAllClosedEmergencyData();
+    //}
 
     //--------------------------DELETE--------------------------
-
-
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable long id) {
         emergencyService.delete(id);
