@@ -14,6 +14,15 @@ import ScrollArea from '@/components/ui/scroll-area/ScrollArea.vue';
 import { store, fetchUserRole } from '@/store';
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
+import DialogMap from "@/components/DialogMap.vue";
+
+
+const markerPosition = ref(null);
+const handleSaveMarker = (newMarkerPosition) => {
+    markerPosition.value = newMarkerPosition;
+    console.log('Parent marker position:', markerPosition.value);
+    // Perform any additional actions with the marker position here
+};
 
 const formModel = ref({
     title: '',
@@ -62,7 +71,7 @@ async function createEmergencyAttribute(idEmergencia) {
         return { ...habilidad, idEmergency: idEmergencia }
     })
     console.log("Nuevo modelo", newModel);
-    
+
     try {
         const response = await axios.post(`http://localhost:8090/emergencyAttribute/createVarious`, newModel, {
             headers: {
@@ -86,7 +95,7 @@ async function onSubmit() {
 
 </script>
 <template>
-    <div class="flex align-middle items-center justify-center mt-4 ">
+    <div class="flex align-middle items-center justify-center mt-4 pb-12">
         <form class=" space-y-4 flex flex-col" @submit="onSubmit">
             <FormField name="titulo">
                 <FormItem>
@@ -140,6 +149,7 @@ async function onSubmit() {
                     </div>
                 </ScrollArea>
             </div>
+            <DialogMap @save-marker="handleSaveMarker" />
             <FormField name="activa" type="checkbox" v-model="formModel.status">
                 <FormItem class="flex flex-row items-center align-middle space-x-2">
                     <FormLabel>¿Marcar como activa?</FormLabel>
@@ -152,7 +162,7 @@ async function onSubmit() {
             </FormField>
             <Button variant="ghost" class="border border-zinc-600" type="button" v-on:click="onSubmit()">
                 Enviar
-            </Button>   
+            </Button>
         </form>
     </div>
 </template>
