@@ -21,7 +21,8 @@ const markerPosition = ref(null);
 const handleSaveMarker = (newMarkerPosition) => {
     markerPosition.value = newMarkerPosition;
     console.log('Parent marker position:', markerPosition.value);
-    // Perform any additional actions with the marker position here
+    formModel.value.location.latitude = markerPosition.value.position.lat
+    formModel.value.location.longitude = markerPosition.value.position.lng
 };
 
 const formModel = ref({
@@ -29,6 +30,10 @@ const formModel = ref({
     status: false,
     description: '',
     /* coordinator: '' */
+    location: {
+        latitude: 0,
+        longitude: 0,
+    }
 });
 
 const habilidadModel = ref([])
