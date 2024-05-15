@@ -41,14 +41,17 @@
                             </select>
                         </div>
                     </div>
+                    <DialogMap @save-marker="handleSaveMarker" />
                     <div class="flex flex-col gap-2">
-                        <select v-model="availability" class="px-3 py-2.5 border border-gray-400 rounded text-sm" required>
+                        <select v-model="availability" class="px-3 py-2.5 border border-gray-400 rounded text-sm"
+                            required>
                             <option value="">Disponibilidad</option>
                             <option value="true">Si</option>
                             <option value="false">No</option>
                         </select>
                     </div>
                 </div>
+
             </form>
             <div class="mt-4">
                 <ButtonPrimary @click="registerUser" buttonText="Registrarse" />
@@ -63,6 +66,15 @@ import { ref } from "vue";
 import axios from 'axios';
 import ButtonPrimary from '../components/ButtonPrimary.vue';
 import Input from "../components/Input.vue";
+import DialogMap from "@/components/DialogMap.vue";
+
+
+const markerPosition = ref(null);
+const handleSaveMarker = (newMarkerPosition) => {
+    markerPosition.value = newMarkerPosition;
+    console.log('Parent marker position:', markerPosition.value);
+    // Perform any additional actions with the marker position here
+};
 
 const router = useRouter();
 const rut = ref("");
