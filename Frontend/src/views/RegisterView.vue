@@ -73,6 +73,8 @@ const markerPosition = ref(null);
 const handleSaveMarker = (newMarkerPosition) => {
     markerPosition.value = newMarkerPosition;
     console.log('Parent marker position:', markerPosition.value);
+    latitude.value = markerPosition.value.position.lat
+    longitude.value = markerPosition.value.position.lng
     // Perform any additional actions with the marker position here
 };
 
@@ -85,6 +87,8 @@ const birthdate = ref("");
 const sex = ref("");
 const password = ref("");
 const availability = ref("");
+const latitude = ref(0);
+const longitude = ref(0);
 
 const registerUser = async () => {
     const data = {
@@ -96,7 +100,11 @@ const registerUser = async () => {
         sex: sex.value,
         password: password.value,
         role: "VOLUNTEER",
-        availability: availability.value
+        availability: availability.value,
+        location: {
+            latitude: latitude.value,
+            longitude: longitude.value,
+        }
     }
     try {
         console.log("Data antes axios: ", data);
