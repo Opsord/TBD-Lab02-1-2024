@@ -32,13 +32,25 @@ public class UserController {
     //--------------------------CREATE--------------------------
     @PostMapping("/create")
     public String create(@RequestBody UserEntity user) {
+        logger.info("Received user: " + user.toString());
+
+        // Check if the location is provided
+        if (user.getLocation() == null) {
+            throw new IllegalArgumentException("Location cannot be null");
+        }
+
+        PointEntity location = user.getLocation();
+        logger.info("Location received: " + location);
+
         PointEntity newPoint = new PointEntity();
-        newPoint.setLatitude(user.getLocation().getLatitude());
-        newPoint.setLongitude(user.getLocation().getLongitude());
+        newPoint.setLatitude(location.getLatitude());
+        newPoint.setLongitude(location.getLongitude());
+        logger.info("Creating point: " + newPoint.toString());
         pointService.create(newPoint);
-        Long point_id = pointService.findByLatitudeAndLongitude(user.getLocation().getLatitude(), user.getLocation().getLongitude());
+
+        Long point_id = pointService.findByLatitudeAndLongitude(location.getLatitude(), location.getLongitude());
         PointEntity point = pointService.getById(point_id);
-        logger.info("Retrieved point" + point);
+        logger.info("Retrieved point: " + point);
         user.setLocation(point);
         logger.info("Creating user: " + user.toString());
         userService.create(user);
