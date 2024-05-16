@@ -74,7 +74,7 @@ public interface UserRepository extends CrudRepository<UserEntity, String> {
     UserEntity getByLocation(@Param("latitude") double latitude, @Param("longitude") double longitude);
 
     @Query(value = "SELECT * FROM users " +
-            "WHERE ST_DWithin (location, 'POINT(:latitude :longitude)', :radius) " +
+            "WHERE ST_DWithin(location, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326), :radius) " +
             "AND role = :role " +
             "AND availability = :availability " +
             "LIMIT :limit", nativeQuery = true)

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SingleEmergencyData {
 
-    private String tituloEmergencia;
-    private int cantidadVoluntarios;
-    private int cantidadTareas;
+    private String emergencyTitle;//Titulo de la emergencia
+    private int volunteerQuantity;//Cantidad de voluntarios
+    private int taskQuantity;//Cantidad de tareas
 }

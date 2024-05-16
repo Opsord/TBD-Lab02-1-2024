@@ -88,10 +88,10 @@ public class EmergencyController {
     }
 
 
-    //@GetMapping("/closedEmergencyData")
-    //public List<SingleEmergencyData> getAllClosedEmergencyData() {
-    //    return emergencyService.getAllClosedEmergencyData();
-    //}
+    @GetMapping("/closedEmergencyData")
+    public List<SingleEmergencyData> getAllClosedEmergencyData() {
+        return emergencyService.getAllClosedEmergencyData();
+    }
 
     //--------------------------DELETE--------------------------
     @DeleteMapping("/delete/{id}")
