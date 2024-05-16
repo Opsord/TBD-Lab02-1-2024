@@ -32,6 +32,14 @@ public class UserController {
     //--------------------------CREATE--------------------------
     @PostMapping("/create")
     public String create(@RequestBody UserEntity user) {
+        PointEntity newPoint = new PointEntity();
+        newPoint.setLatitude(user.getLocation().getLatitude());
+        newPoint.setLongitude(user.getLocation().getLongitude());
+        pointService.create(newPoint);
+        Long point_id = pointService.findByLatitudeAndLongitude(user.getLocation().getLatitude(), user.getLocation().getLongitude());
+        PointEntity point = pointService.getById(point_id);
+        logger.info("Retrieved point" + point);
+        user.setLocation(point);
         logger.info("Creating user: " + user.toString());
         userService.create(user);
         return homeLinkRedirect;

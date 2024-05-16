@@ -32,7 +32,8 @@ public class UserService {
         userRepository.create(
                 user.getRut(), user.getEmail(), user.getName(),
                 user.getLastname(), user.getBirthdate(), user.getSex(),
-                user.getPassword(), user.getRole(), user.isAvailability());
+                user.getPassword(), user.getRole(), user.isAvailability(),
+                user.getLocation().getPoint_id());
         logger.info("Usuario creado: " + user.getRut());
     }
 
