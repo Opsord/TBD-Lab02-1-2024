@@ -35,8 +35,8 @@ public class UserEntity implements UserDetails {
     private String role;
     private boolean availability;
 
-    @OneToOne
-    @JoinColumn(name = "location")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location", referencedColumnName = "point_id")
     private PointEntity location;
 
     @Override

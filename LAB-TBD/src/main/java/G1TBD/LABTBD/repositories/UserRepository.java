@@ -17,14 +17,14 @@ import java.util.Optional;
 public interface UserRepository extends CrudRepository<UserEntity, String> {
 
     //--------------------------CREATE--------------------------
-    @Query(value = "INSERT INTO users (rut, email, name, lastname, birthdate, sex, password, role, availability) " +
-            "VALUES (:rut, :email, :name, :lastname, :birthdate, :sex, :password, :role, :availability)", nativeQuery = true)
+    @Query(value = "INSERT INTO users (rut, email, name, lastname, birthdate, sex, password, role, availability, location) " +
+            "VALUES (:rut, :email, :name, :lastname, :birthdate, :sex, :password, :role, :availability, :location)", nativeQuery = true)
     @Modifying
     @Transactional
     void create(@Param("rut") String rut, @Param("email") String email, @Param("name") String name,
                 @Param("lastname") String lastname, @Param("birthdate") Date birthdate, @Param("sex") String sex,
                 @Param("password") String password, @Param("role") String role,
-                @Param("availability") boolean availability);
+                @Param("availability") boolean availability, @Param("location") Long location);
 
 
     //--------------------------UPDATE--------------------------

@@ -38,6 +38,7 @@ public class AuthServiceImp implements AuthService{
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .availability(request.isAvailability())
+                .location(request.getLocation())
                 .build();
         userService.create(user);
 
