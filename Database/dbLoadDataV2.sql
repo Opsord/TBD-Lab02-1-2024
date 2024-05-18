@@ -39,7 +39,7 @@ VALUES
     ('Capacidad para la búsqueda y localización de personas perdidas');
 
 --Poblacion de la tabla Voluntario_Atributo
-INSERT INTO user_attribute (rut, attribute)
+INSERT INTO user_attribute (rut, attribute_id)
 VALUES 
     ('3641746726-4', '1'),
     ('3641746726-4', '2'),
@@ -88,7 +88,7 @@ VALUES
 
 --Poblacion de tabla
 -- Población de la tabla Emergencia_Atributo
-INSERT INTO emergency_attribute (emergency, attribute, compatibility)
+INSERT INTO emergency_attribute (emergency_id, attribute_id, compatibility)
 VALUES 
     (1, 1, true),   -- La emergencia 1 tiene compatibilidad con el atributo 1 (Fuerza física)
     (1, 2, true),   -- La emergencia 1 tiene compatibilidad con el atributo 2 (Rescate en Terreno)
@@ -113,7 +113,7 @@ VALUES
     (1, 'Suministro de alimentos', 'Distribuir alimentos y agua potable a los evacuados.', true),
     (2, 'Apoyo psicológico a afectados', 'Brindar apoyo emocional y asistencia psicológica a las personas afectadas por la fuga de gas.', false);
 
-INSERT INTO task_user (task, volunteer)
+INSERT INTO task_user (task, rut)
 VALUES 
     (1, '123271472-1'),
     (2, '176271472-1'),
@@ -127,7 +127,7 @@ VALUES
     (5, '61523512412-5');
 
 -- Población de la tabla Ranking
-INSERT INTO rankings (volunteer, task, value)
+INSERT INTO rankings (rut, task_id, value)
 VALUES 
     ('123271472-1', 1, 4),   -- Juan participó en la evacuación de residentes del incendio forestal y recibió un valor de ranking de 4.
     ('176271472-1', 2, 3),   -- María estuvo a cargo del control de la fuga de gas y recibió un valor de ranking de 3.
@@ -144,7 +144,9 @@ VALUES
 --Poblacion de la tabla Punto
 INSERT INTO points (longitude, latitude)
 VALUES 
+
 -- Sueltas por Chile (principalmente La Serena)
+
     (-33.51783, -70.68525),
     (-33.00139, -71.42378),
     (-31.85485, -71.15550),
