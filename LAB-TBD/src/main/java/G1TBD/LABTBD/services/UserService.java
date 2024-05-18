@@ -18,13 +18,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final PointService pointService;
     private static final Logger logger = Logger.getLogger(UserService.class.getName());
-    private final PointRepository pointRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, PointService pointService, PointRepository pointRepository) {
+    public UserService(UserRepository userRepository, PointService pointService) {
         this.userRepository = userRepository;
         this.pointService = pointService;
-        this.pointRepository = pointRepository;
     }
 
     //--------------------------CREATE--------------------------
@@ -93,7 +91,7 @@ public class UserService {
 
     public List<UserEntity> getXNearbyVolunteers(double latitude, double longitude,
                                                  double radius, int quantity, String role, boolean availability) {
-        return userRepository.getXNearbyUsers(latitude, longitude, radius, quantity, role, availability);
+        return userRepository.getXNearbyUsersFromPoint(latitude, longitude, radius, quantity, role, availability);
     }
 
     public List<UserEntity> getByEmergencyId(long id){return userRepository.getByEmergencyId(id);}

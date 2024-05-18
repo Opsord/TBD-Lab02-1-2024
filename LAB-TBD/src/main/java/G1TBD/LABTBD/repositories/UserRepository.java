@@ -79,12 +79,12 @@ public interface UserRepository extends CrudRepository<UserEntity, String> {
             "AND u.role = :role " +
             "AND u.availability = :availability " +
             "LIMIT :limit", nativeQuery = true)
-    List<UserEntity> getXNearbyUsers(@Param("latitude") double latitude,
-                                     @Param("longitude") double longitude,
-                                     @Param("radius") double radius,
-                                     @Param("limit") int limit,
-                                     @Param("role") String role,
-                                     @Param("availability") boolean availability);
+    List<UserEntity> getXNearbyUsersFromPoint(@Param("latitude") double latitude,
+                                              @Param("longitude") double longitude,
+                                              @Param("radius") double radius,
+                                              @Param("limit") int limit,
+                                              @Param("role") String role,
+                                              @Param("availability") boolean availability);
 
 
     //SQL funcionalidad 48 laboratorio 1

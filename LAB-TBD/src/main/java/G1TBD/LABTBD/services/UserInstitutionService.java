@@ -51,7 +51,7 @@ public class UserInstitutionService {
         return userInstitutionRepository.getByRut(rut);
     }
 
-    public List<UserInstitutionEntity> getByinstitution_id(long institution_id) {
+    public List<UserInstitutionEntity> getByInstitutionId(long institution_id) {
         return userInstitutionRepository.getByInstitutionId(institution_id);
     }
 

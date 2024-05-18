@@ -1,6 +1,5 @@
 package G1TBD.LABTBD.controllers;
 
-import G1TBD.LABTBD.entities.AttributeEntity;
 import G1TBD.LABTBD.entities.UserInstitutionEntity;
 import G1TBD.LABTBD.services.UserInstitutionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,7 @@ public class UserInstitutionController {
 
     @RequestMapping("/institution-id/{institution_id}")
     public List<UserInstitutionEntity> getByinstitution_id(@PathVariable long institution_id) {
-        return userInstitutionService.getByinstitution_id(institution_id);
+        return userInstitutionService.getByInstitutionId(institution_id);
     }
 
 
