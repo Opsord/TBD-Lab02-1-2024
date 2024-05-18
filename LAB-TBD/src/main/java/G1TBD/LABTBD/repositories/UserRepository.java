@@ -73,14 +73,18 @@ public interface UserRepository extends CrudRepository<UserEntity, String> {
             "(SELECT point_id FROM points WHERE latitude = :latitude AND longitude = :longitude)", nativeQuery = true)
     UserEntity getByLocation(@Param("latitude") double latitude, @Param("longitude") double longitude);
 
-    @Query(value = "SELECT * FROM users " +
-            "WHERE ST_DWithin(location, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326), :radius) " +
-            "AND role = :role " +
-            "AND availability = :availability " +
+    @Query(value = "SELECT u.* FROM users u " +
+            "JOIN points p ON u.location = p.point_id " +
+            "WHERE ST_DWithin(p.geom, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326), :radius) " +
+            "AND u.role = :role " +
+            "AND u.availability = :availability " +
             "LIMIT :limit", nativeQuery = true)
-    List<UserEntity> getXNearbyUsers(@Param("latitude") double latitude, @Param("longitude") double longitude,
-                                     @Param("radius") double radius, @Param("limit") int limit,
-                                     @Param("role") String role, @Param("availability") boolean availability);
+    List<UserEntity> getXNearbyUsers(@Param("latitude") double latitude,
+                                     @Param("longitude") double longitude,
+                                     @Param("radius") double radius,
+                                     @Param("limit") int limit,
+                                     @Param("role") String role,
+                                     @Param("availability") boolean availability);
 
 
     //SQL funcionalidad 48 laboratorio 1
