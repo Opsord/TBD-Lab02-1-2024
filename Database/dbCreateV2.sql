@@ -30,9 +30,9 @@ CREATE TABLE attributes (
 CREATE TABLE user_attribute (
     user_attribute_id BIGSERIAL PRIMARY KEY,
     rut VARCHAR(20),
-    attribute BIGINT,
+    attribute_id BIGINT,
     FOREIGN KEY (rut) REFERENCES users(rut),
-    FOREIGN KEY (attribute) REFERENCES attributes(attribute_id)
+    FOREIGN KEY (attribute_id) REFERENCES attributes(attribute_id)
 );
 
 CREATE TABLE institutions (
@@ -61,11 +61,11 @@ CREATE TABLE emergencies (
 
 CREATE TABLE emergency_attribute (
     emergency_attribute_id BIGSERIAL PRIMARY KEY,
-    emergency BIGINT,
-    attribute BIGINT,
+    emergency_id BIGINT,
+    attribute_id BIGINT,
     compatibility BOOLEAN NOT NULL,
-    FOREIGN KEY (emergency) REFERENCES emergencies(emergency_id),
-    FOREIGN KEY (attribute) REFERENCES attributes(attribute_id)
+    FOREIGN KEY (emergency_id) REFERENCES emergencies(emergency_id),
+    FOREIGN KEY (attribute_id) REFERENCES attributes(attribute_id)
 );
 
 CREATE TABLE tasks (
@@ -80,18 +80,18 @@ CREATE TABLE tasks (
 CREATE TABLE task_user (
     task_user_id BIGSERIAL PRIMARY KEY,
     task BIGINT,
-    volunteer VARCHAR(20),
+    rut VARCHAR(20),
     FOREIGN KEY (task) REFERENCES tasks(task_id),
-    FOREIGN KEY (volunteer) REFERENCES users(rut)
+    FOREIGN KEY (rut) REFERENCES users(rut)
 );
 
 CREATE TABLE rankings (
     ranking_id BIGSERIAL PRIMARY KEY,
-    volunteer VARCHAR(20),
-    task BIGINT,
+    rut VARCHAR(20),
+    task_id BIGINT,
     value INT,
-    FOREIGN KEY (volunteer) REFERENCES users(rut),
-    FOREIGN KEY (task) REFERENCES tasks(task_id)
+    FOREIGN KEY (rut) REFERENCES users(rut),
+    FOREIGN KEY (task_id) REFERENCES tasks(task_id)
 );
 
 --Indexes
