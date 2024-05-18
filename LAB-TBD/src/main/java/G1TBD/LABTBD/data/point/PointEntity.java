@@ -1,5 +1,9 @@
 package G1TBD.LABTBD.data.point;
 
+import com.bedatadriven.jackson.datatype.jts.serialization.GeometryDeserializer;
+import com.bedatadriven.jackson.datatype.jts.serialization.GeometrySerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +26,8 @@ public class PointEntity implements Serializable {
     private Double latitude;
     private Double longitude;
 
+    @JsonSerialize(using = GeometrySerializer.class)
+    @JsonDeserialize(using = GeometryDeserializer.class)
     @Column(name = "geom", columnDefinition = "geometry(Point, 4326)")
     private Point point;
 
