@@ -31,7 +31,6 @@ public class UserService {
     public void create(UserEntity user) {
         logger.info("Received user: " + user.toString());
 
-        // Check if the location is provided
         if (user.getLocation() == null) {
             throw new IllegalArgumentException("Location cannot be null");
         }
@@ -42,13 +41,14 @@ public class UserService {
         PointEntity newPoint = new PointEntity();
         newPoint.setLatitude(location.getLatitude());
         newPoint.setLongitude(location.getLongitude());
+
         logger.info("Creating point: " + newPoint.toString());
         pointService.create(newPoint);
 
-        Long point_id = pointService.findByLatitudeAndLongitude(location.getLatitude(), location.getLongitude());
-        PointEntity point = pointService.getById(point_id);
-        logger.info("Retrieved point: " + point);
-        user.setLocation(point);
+        Long pointId = pointService.findByLatitudeAndLongitude(location.getLatitude(), location.getLongitude());
+        PointEntity pointEntity = pointService.getById(pointId);
+        logger.info("Retrieved point: " + pointEntity);
+        user.setLocation(pointEntity);
 
         userRepository.create(
                 user.getRut(), user.getEmail(), user.getName(),

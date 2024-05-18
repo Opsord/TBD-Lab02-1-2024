@@ -4,6 +4,7 @@ import G1TBD.LABTBD.auth.entities.AuthResponse;
 import G1TBD.LABTBD.auth.entities.LoginRequest;
 import G1TBD.LABTBD.auth.entities.RegisterRequest;
 import G1TBD.LABTBD.config.JwtService;
+import G1TBD.LABTBD.data.point.PointEntity;
 import G1TBD.LABTBD.entities.UserEntity;
 import G1TBD.LABTBD.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,8 @@ public class AuthServiceImp implements AuthService{
 
     @Override
     public AuthResponse register(RegisterRequest request) {
+        var locationRequest = request.getLocation();
+
         var user = UserEntity.builder()
                 .rut(request.getRut())
                 .email(request.getEmail())
@@ -38,7 +41,7 @@ public class AuthServiceImp implements AuthService{
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .availability(request.isAvailability())
-                .location(request.getLocation())
+                .location(new PointEntity(null, locationRequest.getLatitude(), locationRequest.getLongitude(), null))
                 .build();
         userService.create(user);
 
@@ -46,6 +49,7 @@ public class AuthServiceImp implements AuthService{
         return AuthResponse.builder()
                 .token(jwtToken).build();
     }
+
 
     @Override
     public AuthResponse login(LoginRequest request) {

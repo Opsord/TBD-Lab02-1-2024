@@ -26,6 +26,6 @@ public class RegisterRequest {
     private String password;
     private String role;
     private boolean availability;
-    private PointEntity location;
+    private LocationRequest location;
 
 }
