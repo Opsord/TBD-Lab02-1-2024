@@ -144,14 +144,14 @@ VALUES
 --Poblacion de la tabla Punto
 INSERT INTO points (longitude, latitude)
 VALUES 
--- Sueltas por Chile
+-- Sueltas por Chile (principalmente La Serena)
     (-33.51783, -70.68525),
     (-33.00139, -71.42378),
     (-31.85485, -71.15550),
-    (-29.97272, -71.32776),
+    (-29.867673, -71.241257),
     (-29.91469, -71.24675),
-    (-30.58839, -70.87996),
-    (-46.34559, -72.77653),
+    (-29.921754, -71.212340),
+    (-29.838239, -71.270828),
     (-43.551452, -72.336967),
 
 -- Osorno
@@ -202,7 +202,7 @@ UPDATE users SET location = 2 WHERE rut = '176271472-1';
 UPDATE users SET location = 3 WHERE rut = '182473567-4';
 UPDATE users SET location = 4 WHERE rut = '2421283874-4';
 UPDATE users SET location = 30 WHERE rut = '3641746726-4';
-UPDATE users SET location = 6 WHERE rut = '4152351623-5';
+UPDATE users SET location = 5 WHERE rut = '4152351623-5';
 UPDATE users SET location = 7 WHERE rut = '42163612342-5';
 UPDATE users SET location = 8 WHERE rut = '4412317123-k';
 UPDATE users SET location = 9 WHERE rut = '5872873212-4';
@@ -223,7 +223,7 @@ UPDATE users SET location = 23 WHERE rut = '948128124-1';
 UPDATE users SET location = 24 WHERE rut = '98482714-4';
 
 -- Agregar ubicaciones a las emergencias
-UPDATE Emergencies SET location = 5 WHERE emergency_id = 1;
+UPDATE Emergencies SET location = 6 WHERE emergency_id = 1;
 UPDATE Emergencies SET location = 26 WHERE emergency_id = 2;
 UPDATE Emergencies SET location = 14 WHERE emergency_id = 3;
 UPDATE Emergencies SET location = 28 WHERE emergency_id = 4;
