@@ -1,5 +1,5 @@
 # Lab2TBD-1-2024 . README
-Este proyecto es un sistema de gestión de emergencias que permite la coordinación entre voluntarios y coordinadores para responder eficazmente a situaciones de emergencia. Para esta segunda entrega se agregaron recursos de localización con la herrameinta postGIS
+Este proyecto es un sistema de gestión de emergencias que permite la coordinación entre voluntarios y coordinadores para responder eficazmente a situaciones de emergencia. Para esta segunda entrega se agregaron recursos de localización con la herrameinta postGIS.
 
 ## Características principales
 
@@ -28,10 +28,11 @@ Este proyecto es un sistema de gestión de emergencias que permite la coordinaci
 
 1. Clona el repositorio a tu máquina local.
 2. Crea una base de datos PostgreSQL con el nombre `LabTBD-2-2024`.
-3. Ejecutar los script .sql en la carpeta "Database" en el siguiente orden: dbCreate, triggers, procedures, loadData.
-4. Abre el proyecto en tu IDE preferido (por ejemplo, IntelliJ IDEA, Eclipse).
-5. Configura las credenciales de la base de datos en el archivo `application.properties` ubicado en `src/main/resources/`.
-6. Ejecuta la aplicación. La aplicación estará disponible en [http://localhost:8090](http://localhost:8090).
+3. Abrir y configurar PostGis con las credneciales de Postgres y el nombre de la base de dato. 
+4. Ejecutar los script .sql en la carpeta "Database" en el siguiente orden: dbCreateV2, dbTriggersV2, dbProceduresV2, dbloadDataV2.
+5. Abre el proyecto en tu IDE preferido (por ejemplo, IntelliJ IDEA, Eclipse).
+6. Configura las credenciales de la base de datos en el archivo `application.properties` ubicado en `src/main/resources/`.
+7. Ejecuta la aplicación. La aplicación estará disponible en [http://localhost:8090](http://localhost:8090).
 
 ## Uso
 
