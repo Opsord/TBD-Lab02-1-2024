@@ -106,7 +106,7 @@ CREATE INDEX idx_attribute_id ON attributes (attribute_id);
 
 -- user_attribute
 CREATE INDEX idx_user_attribute_rut ON user_attribute (rut);
-CREATE INDEX idx_user_attribute_idAttribute ON user_attribute (attribute);
+CREATE INDEX idx_user_attribute_idAttribute ON user_attribute (attribute_id);
 
 -- Institution
 CREATE INDEX idx_institution_id ON institutions (institution_id);
@@ -119,15 +119,15 @@ CREATE INDEX idx_user_institution_idInstitution ON user_institution (institution
 CREATE INDEX idx_emergency_rut ON emergencies (coordinator);
 
 -- emergency_attribute
-CREATE INDEX idx_emergency_attribute_emergency_id ON emergency_attribute (emergency);
-CREATE INDEX idx_emergency_attribute_idAttribute ON emergency_attribute (attribute);
+CREATE INDEX idx_emergency_attribute_emergency_id ON emergency_attribute (emergency_id);
+CREATE INDEX idx_emergency_attribute_idAttribute ON emergency_attribute (attribute_id);
 
 -- Task
 CREATE INDEX idx_task_emergency_id ON tasks (emergency);
 
 -- Ranking
-CREATE INDEX idx_ranking_rut ON rankings (volunteer);
-CREATE INDEX idx_ranking_idTask ON rankings (task);
+CREATE INDEX idx_ranking_rut ON rankings (rut);
+CREATE INDEX idx_ranking_idTask ON rankings (task_id);
 
 -- Points
 CREATE INDEX idx_points_id ON points (point_id);
