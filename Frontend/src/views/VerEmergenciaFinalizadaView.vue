@@ -48,12 +48,11 @@ async function fetchEmergencia() {
     try {
         const response = await axios.get('http://localhost:8090/emergencies/closed');
         console.log("TERMINA - Emergencias Closed: ", response.data);
-        emergencia.value = response.data; // Make sure to adjust this according to the actual structure of your response
+        emergencia.value = response.data;
     } catch (error) {
         console.error('There was an error fetching the user data:', error);
     }
 }
-
 
 async function fetchTarea() {
     const tareaGet = "http://localhost:8090/tasks/emergency_id/";
