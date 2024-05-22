@@ -38,8 +38,8 @@ public interface RankingRepository extends CrudRepository<RankingEntity, Long> {
         @Query(value = "SELECT * FROM rankings WHERE ranking_id = :ranking_id", nativeQuery = true)
         RankingEntity getById(@Param("ranking_id") long ranking_id);
 
-        @Query(value = "SELECT * FROM rankings WHERE task = :task", nativeQuery = true)
-        public List<RankingEntity> getByTaskId(@Param("task") long task);
+        @Query(value = "SELECT * FROM rankings WHERE task_id = :id", nativeQuery = true)
+        List<RankingEntity> getByTaskId(@Param("id") long id);
 
 
         //--------------------------DELETE--------------------------
