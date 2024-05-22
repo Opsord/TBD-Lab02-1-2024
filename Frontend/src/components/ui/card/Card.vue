@@ -8,7 +8,7 @@ const props = defineProps({
 
 <template>
   <div :class="cn(
-    'rounded-lg border border-slate-200 bg-white text-slate-950 shadow-sm ',
+    'rounded-lg border border-slate-200 bg-white text-slate-950 shadow-sm w-full h-72',
     props.class
   )
     ">

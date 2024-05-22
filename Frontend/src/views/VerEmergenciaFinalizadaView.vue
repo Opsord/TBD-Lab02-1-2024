@@ -1,31 +1,28 @@
 <template>
-    <div class="flex justify-center items-center align-middle m-4">
-        <div v-if="emergencia && emergencia.length">
-            <div v-for="data in emergencia" :key="data.idEmergencia">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>{{ data.tituloEmergencia }}</CardTitle>
-                        <CardDescription>
-                            Tareas registradas:
-                            <p v-for="tarea in data.tareas">
-                                {{ tarea.tipoTarea }}</p>
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        {{ data.descripcionEmergencia }}
-                    </CardContent>
-                    <CardFooter class=" whitespace-pre-line">
-                        <p>Voluntarios registrados:</p>
-                        <p v-for="voluntario in data.voluntarios">
-                            &nbsp;
-                            {{ voluntario.nombreVoluntario }} {{
-                                voluntario.apellidoVoluntario }}
-                        </p>
-
-                    </CardFooter>
-
-                </Card>
-
+    <div class="flex justify-center my-4">
+        <div class="grid grid-cols-2 gap-8 w-10/12" v-if="emergencia && emergencia.length">
+            <div v-for="data in emergencia" :key="data.id_registro">
+                <div>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>{{ data.title }}</CardTitle>
+                            <CardContent>
+                                {{ data.description }}
+                            </CardContent>
+                            <CardDescription>
+                                Tareas registradas:
+                                <p v-for="tarea in data.tareas" :key="tarea.task_id">
+                                    {{ tarea.type }}</p>
+                            </CardDescription>
+                        </CardHeader>
+                        <CardFooter class="flex flex-col items-start">
+                            <p>Voluntarios registrados:</p>
+                            <div v-for="tarea in data.tareas" :key="tarea.task_id">
+                                <p v-for="user in tarea.user" :key="user.rut">&nbsp;{{ user.name }} {{ user.lastname }}</p>
+                            </div>
+                        </CardFooter>
+                    </Card>
+                </div>
             </div>
         </div>
     </div>
@@ -33,8 +30,6 @@
 
 
 <script setup>
-//http://localhost:8090/tasks/emergencyId/4
-
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import {
@@ -45,12 +40,14 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import { store, fetchUserRole } from '@/store';
 
 const emergencia = ref(null)
 
 async function fetchEmergencia() {
     try {
         const response = await axios.get('http://localhost:8090/emergencies/closed');
+        console.log("TERMINA - Emergencias Closed: ", response.data);
         emergencia.value = response.data; // Make sure to adjust this according to the actual structure of your response
     } catch (error) {
         console.error('There was an error fetching the user data:', error);
@@ -59,15 +56,21 @@ async function fetchEmergencia() {
 
 
 async function fetchTarea() {
-    const tareaGet = "http://localhost:8090/tasks/emergencyId/";
+    const tareaGet = "http://localhost:8090/tasks/emergency_id/";
     if (emergencia.value && emergencia.value.length > 0) {
         try {
             const fetchPromises = emergencia.value.map(async (emergenciaEach) => {
-                const response = await axios.get(`${tareaGet}${emergenciaEach.emergencyId}`);
-                const tareas = response.data
+                const response = await axios.get(`${tareaGet}${emergenciaEach.emergency_id}`, {
+                    headers: {
+                        Authorization: `Bearer ${store.token.token}`
+                    }
+                });
+                const tareas = response.data;
                 return { ...emergenciaEach, tareas: tareas };
             });
-            emergencia.value = await Promise.all(fetchPromises); // Correctly await all promises
+            const result = await Promise.all(fetchPromises);    
+            emergencia.value = result;
+            console.log("TERMINA - Emergencia Id: ", result);
         } catch (error) {
             console.error('There was an error fetching the volunteers data:', error);
         }
@@ -75,39 +78,35 @@ async function fetchTarea() {
 }
 
 async function fetchVoluntarios() {
-    const rankingGet = "http://localhost:8090/rankings/taskId/";
+    const rankingGet = "http://localhost:8090/rankings/task_id/";
     if (emergencia.value && emergencia.value.length > 0) {
         try {
             const fetchPromises = emergencia.value.map(async (emergenciaEach) => {
-                const response = await axios.get(`${rankingGet}${emergenciaEach.emergencyId}`);
-                const rut = response.data.map(ranking => ranking.rut)
-                return { ...emergenciaEach, ids: rut };
+                const tasks = emergenciaEach.tareas;
+                const taskPromises = tasks.map(async (task) => {
+                    const response = await axios.get(`${rankingGet}${task.task_id}`, {
+                        headers: {
+                            Authorization: `Bearer ${store.token.token}`
+                        }
+                    });
+                    console.log("AQUI EL ERROR: ", response.data);
+                    const user = response.data.map(ranking => ranking.user);
+                    return { ...task, user: user };
+                });
+                const taskResults = await Promise.all(taskPromises);
+                return { ...emergenciaEach, tareas: taskResults };
             });
-            emergencia.value = await Promise.all(fetchPromises); // Correctly await all promises
+            
+            const results = await Promise.all(fetchPromises);
+            emergencia.value = results;
+            console.log("TERMINA - Tarea Id: ", results);
         } catch (error) {
-            console.error('There was an error fetching the volunteers data:', error);
+            console.error(error);
         }
     }
 }
 
-async function fetchVoluntariosData() {
-    const voluntarioGet = "http://localhost:8090/api/users/rut/";
-    if (emergencia.value && emergencia.value.length > 0) {
-        try {
-            const fetchPromises = emergencia.value.map(async (emergenciaEach) => {
-                const voluntarioPromises = emergenciaEach.ids.map(async (rut) => {
-                    const responseVoluntario = await axios.get(`${voluntarioGet}${rut}`);
-                    return responseVoluntario.data
-                })
-                return { ...emergenciaEach, voluntarios: await Promise.all(voluntarioPromises) };
-            });
-            emergencia.value = await Promise.all(fetchPromises); // Correctly await all promises
-        } catch (error) {
-            console.error('There was an error fetching the volunteers data:', error);
-        }
-    }
-}
 // If you want to fetch data when the component mounts
-onMounted(async () => { await fetchEmergencia(); await fetchTarea(); await fetchVoluntarios(); await fetchVoluntariosData() });
+onMounted(async () => { await fetchEmergencia(); await fetchTarea(); await fetchVoluntarios() });
 
 </script>
