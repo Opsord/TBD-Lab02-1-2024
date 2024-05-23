@@ -36,9 +36,21 @@ const formModel = ref({
     }
 });
 
-const habilidadModel = ref([])
+const habilidadModel = ref([]);
+const attributes = ref(null);
 
-const attributes = ref(null)
+const availableAttributes = ref(attributes);
+const selectedAttributes = ref([]);
+
+const addAttribute = (attribute, compatibility) => {
+    selectedAttributes.value.push({ attribute_id: attribute.attribute_id, attribute: attribute.attribute, compatibility: compatibility });
+    availableAttributes.value = availableAttributes.value.filter(item => item.attribute_id !== attribute.attribute_id);
+}
+
+const removeAttribute = (attribute) => {
+    selectedAttributes.value = selectedAttributes.value.filter(item => item.attribute_id !== attribute.attribute_id);
+    availableAttributes.value.push(attribute);
+}
 
 async function fetchAttributes() {
     try {
@@ -64,40 +76,47 @@ async function createEmergency(emergency) {
                 Authorization: `Bearer ${store.token.token}`
             }
         });
-        console.log("TERMINADO - Crear Emergencia: ", response.data);
-        return response.data.id_emergency;
-
-    } catch (err) {
-        console.log(err)
+        console.log("TERMINADO - Crear Emergencia: ", response.data.emergency_id);
+        return response.data;
+    } catch (error) {
+        console.log(error);
     }
 }
 
-async function createEmergencyAttribute(idEmergencia) {
-    console.log("ID emergencia: ", idEmergencia)
-    const newModel = habilidadModel.value.map(habilidad => {
-        return { ...habilidad, idEmergency: idEmergencia }
-    })
-    console.log("Nuevo modelo", newModel);
+async function createEmergencyAttribute(emergency) {
+    console.log("Emergencia: ", emergency);
+    console.log("Atributos seleccionados: ", selectedAttributes.value);
+    console.log("Modelo de habilidad: ", habilidadModel.value);
+
+    const dataArray = selectedAttributes.value.map(attribute => ({
+        attribute_id : {
+            attribute_id: attribute.attribute_id,
+            attribute: attribute.attribute
+        },
+        compatibility: attribute.compatibility,
+        emergency_id: emergency
+    }));
+
+    console.log("Nuevo modelo:", dataArray);
 
     try {
-        const response = await axios.post(`http://localhost:8090/emergencyAttribute/createVarious`, newModel, {
+        const response = await axios.post(`http://localhost:8090/emergencyAttribute/createVarious`, dataArray, {
             headers: {
                 Authorization: `Bearer ${store.token.token}`
             }
         });
         console.log("Emergencia-Atributo: ", response.data);
-        return response.data
-
+        return response.data;
     } catch (err) {
-        console.log(err)
+        console.log('Error config: ', err);
     }
 }
 
 onMounted(fetchAttributes);
 
 async function onSubmit() {
-    const idEmergencia = await createEmergency(formModel.value)
-    const atributosCreados = await createEmergencyAttribute(idEmergencia)
+    const emergency = await createEmergency(formModel.value);
+    await createEmergencyAttribute(emergency);
 }
 
 </script>
@@ -123,44 +142,43 @@ async function onSubmit() {
                             <FormMessage />
                         </FormItem>
                     </FormField>
-                <div class="space-y-3">
-                    <p class="text-sm font-medium">Habilidades disponibles</p>
-                    <ScrollArea class="h-[200px] w-full">
-                        <div class="space-y-2" v-if="attributes && attributes.length">
-                            <li class="flex gap-2 items-center text-sm" v-for="data in attributes.filter(item => !habilidadModel.some(seleccionado => seleccionado.attribute_id === item.attribute_id))"
-                                :key="data.attribute_id">
-                                <Button type="button"
-                                    v-on:click="habilidadModel.push({ attribute_id: data.attribute_id, compatibility: 1 })">
-                                    ✅
-                                </Button>
-                                <Button type="button"
-                                    v-on:click="habilidadModel.push({ attribute_id: data.attribute_id, compatibility: 0 })">
-                                    ❌
-                                </Button>
-                                <div>
-                                    {{ data.attribute }}
-                                </div>
-                            </li>
-                        </div>
-                    </ScrollArea>
-                </div>
-                <div class="space-y-3">
-                    <p class="text-sm font-medium">Habilidades seleccionadas</p>
-                    <div class="flex">
+                    <div class="space-y-3">
+                        <p class="text-sm font-medium">Habilidades disponibles</p>
                         <ScrollArea class="h-[200px] w-full">
-                            <div class="space-y-2" v-if="habilidadModel && habilidadModel.length">
-                                <li class="flex gap-2 items-center text-sm" v-for="data in habilidadModel" :key="data.attribute_id">
-                                    <Button type="button" v-on:click="habilidadModel.pop(this)">
+                            <div class="space-y-2" v-if="availableAttributes && availableAttributes.length">
+                                <li class="flex gap-2 items-center text-sm" v-for="data in availableAttributes" :key="data.attribute_id">
+                                    <Button type="button"
+                                        v-on:click="addAttribute(data, 1)">
+                                        ✅
+                                    </Button>
+                                    <Button type="button"
+                                        v-on:click="addAttribute(data, 0)">
                                         ❌
                                     </Button>
-                                    {{ attributes[data.attribute_id - 1].attribute }}
-                                    <p v-if="data.compatibility === 1" class="text-green-600">&nbsp;Compatible</p>
-                                    <p v-else-if="data.compatibility === 0" class="text-red-600">&nbsp;Incompatible</p>
+                                    <div>
+                                        {{ data.attribute }}
+                                    </div>
                                 </li>
                             </div>
                         </ScrollArea>
                     </div>
-                </div>
+                    <div class="space-y-3">
+                        <p class="text-sm font-medium">Habilidades seleccionadas</p>
+                        <div class="flex">
+                            <ScrollArea class="h-[200px] w-full">
+                                <div class="space-y-2" v-if="selectedAttributes && selectedAttributes.length">
+                                    <li class="flex gap-2 items-center text-sm" v-for="data in selectedAttributes" :key="data.attribute_id">
+                                        <Button type="button" v-on:click="removeAttribute(data)">
+                                            ❌
+                                        </Button>
+                                        {{ data.attribute }}
+                                        <p v-if="data.compatibility === 1" class="text-green-600">&nbsp;Compatible</p>
+                                        <p v-else-if="data.compatibility === 0" class="text-red-600">&nbsp;Incompatible</p>
+                                    </li>
+                                </div>
+                            </ScrollArea>
+                        </div>
+                    </div>
                 <DialogMap @save-marker="handleSaveMarker" />
                 <div></div>
                 <div>
