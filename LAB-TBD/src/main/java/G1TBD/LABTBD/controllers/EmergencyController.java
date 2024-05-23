@@ -9,6 +9,8 @@ import G1TBD.LABTBD.entities.UserEntity;
 import G1TBD.LABTBD.services.EmergencyService;
 import G1TBD.LABTBD.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +38,7 @@ public class EmergencyController {
 
     //--------------------------CREATE--------------------------
     @PostMapping("/create")
-    public String create(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<EmergencyEntity> create(@RequestBody Map<String, Object> payload) {
         // Extract and convert location
         Map<String, Double> locationMap = (Map<String, Double>) payload.get("location");
         LocationRequest locationRequest = new LocationRequest(locationMap.get("latitude"), locationMap.get("longitude"));
@@ -64,7 +66,8 @@ public class EmergencyController {
 
         emergencyService.create(emergency);
         logger.info("Emergency created: " + emergency);
-        return "redirect:/home"; // Replace with your actual home link
+        EmergencyEntity emergencyCreated = emergencyService.getLatestId(emergency);
+        return new ResponseEntity<>(emergencyCreated, HttpStatus.CREATED);
     }
     //--------------------------UPDATE--------------------------
     @PutMapping("/update")

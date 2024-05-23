@@ -50,6 +50,10 @@ public interface EmergencyRepository extends CrudRepository<EmergencyEntity, Lon
                 "(SELECT point_id FROM points WHERE latitude = :latitude AND longitude = :longitude)", nativeQuery = true)
         EmergencyEntity getByLocation(@Param("latitude") double latitude, @Param("longitude") double longitude);
 
+        @Query(value = "SELECT * FROM emergencies WHERE title = :title AND description = :description AND coordinator = :coordinator ORDER BY emergency_id DESC LIMIT 1", nativeQuery = true)
+        EmergencyEntity findLatestEmergencyId(@Param("title") String title, @Param("description") String description, @Param("coordinator") String coordinator);
+
+
 
         //--------------------------DELETE--------------------------
         @Query(value = "DELETE FROM emergencies WHERE emergency_id = :emergency_id ", nativeQuery = true)

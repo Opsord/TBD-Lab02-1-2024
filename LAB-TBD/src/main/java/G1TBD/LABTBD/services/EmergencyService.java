@@ -76,6 +76,10 @@ public class EmergencyService {
         return volunteerList;
     }
 
+    public EmergencyEntity getLatestId(EmergencyEntity emergency) {
+        return emergencyRepository.findLatestEmergencyId(emergency.getTitle(), emergency.getDescription(), emergency.getCoordinator().getRut());
+    }
+
     public List<UserEntity> getXNearbyVolunteers(long emergency_id, double radiusInKilometers, int limit) {
         logger.info("Working on emergency_id: " + emergency_id);
         EmergencyEntity emergency = getById(emergency_id);
