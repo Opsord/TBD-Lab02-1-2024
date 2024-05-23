@@ -29,7 +29,7 @@ const formModel = ref({
     title: '',
     status: false,
     description: '',
-    /* coordinator: '' */
+    coordinator: '',
     location: {
         latitude: 0,
         longitude: 0,
@@ -47,6 +47,7 @@ async function fetchAttributes() {
                 Authorization: `Bearer ${store.token.token}`
             }
         });
+        console.log("TERMINADO - Get atributos: ", response.data);
         attributes.value = response.data;
     } catch (error) {
         console.error('There was an error fetching the user data:', error);
@@ -63,7 +64,8 @@ async function createEmergency(emergency) {
                 Authorization: `Bearer ${store.token.token}`
             }
         });
-        return response.data.idEmergency;
+        console.log("TERMINADO - Crear Emergencia: ", response.data);
+        return response.data.id_emergency;
 
     } catch (err) {
         console.log(err)
@@ -100,74 +102,85 @@ async function onSubmit() {
 
 </script>
 <template>
-    <div class="flex align-middle items-center justify-center mt-4 pb-12">
-        <form class=" space-y-4 flex flex-col" @submit="onSubmit">
-            <FormField name="titulo">
-                <FormItem>
-                    <FormLabel>Titulo:</FormLabel>
-                    <FormControl>
-                        <Input type="text" placeholder="Titulo de la Emergencia" v-model="formModel.title" />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            </FormField>
-            <FormField name="descripcion">
-                <FormItem>
-                    <FormLabel>Descripción:</FormLabel>
-                    <FormControl>
-                        <Input type="text" placeholder="Descripción" v-model="formModel.description" />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            </FormField>
-            <h1>Habilidades de los voluntarios actuales:</h1>
-            <div>
-                <ScrollArea class="h-[150px] w-[400px]">
-                    <div v-if="attributes && attributes.length">
-                        <li v-for="data in attributes.filter(item => !habilidadModel.some(seleccionado => seleccionado.idAttribute === item.idAttribute))"
-                            :key="data.idAttribute">
-                            {{ data.attribute }}
-                            <Button type="button"
-                                v-on:click="habilidadModel.push({ idAttribute: data.idAttribute, compatibility: 1 })">
-                                ✅
-                            </Button>
-                            <Button type="button"
-                                v-on:click="habilidadModel.push({ idAttribute: data.idAttribute, compatibility: 0 })">
-                                ❌
-                            </Button>
-                        </li>
+    <div class="flex justify-center">
+        <div class="rounded-lg border border-slate-200 bg-white text-slate-950 shadow-sm w-6/12 my-4 p-10">
+            <form class="grid grid-cols-2 gap-10" @submit="onSubmit">
+                    <FormField name="titulo">
+                        <FormItem>
+                            <FormLabel>Titulo</FormLabel>
+                            <FormControl>
+                                <Input type="text" placeholder="Titulo de la Emergencia" v-model="formModel.title" />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                    <FormField name="descripcion">
+                        <FormItem>
+                            <FormLabel>Descripción</FormLabel>
+                            <FormControl>
+                                <Input type="text" placeholder="Descripción" v-model="formModel.description" />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                <div class="space-y-3">
+                    <p class="text-sm font-medium">Habilidades disponibles</p>
+                    <ScrollArea class="h-[200px] w-full">
+                        <div class="space-y-2" v-if="attributes && attributes.length">
+                            <li class="flex gap-2 items-center text-sm" v-for="data in attributes.filter(item => !habilidadModel.some(seleccionado => seleccionado.attribute_id === item.attribute_id))"
+                                :key="data.attribute_id">
+                                <Button type="button"
+                                    v-on:click="habilidadModel.push({ attribute_id: data.attribute_id, compatibility: 1 })">
+                                    ✅
+                                </Button>
+                                <Button type="button"
+                                    v-on:click="habilidadModel.push({ attribute_id: data.attribute_id, compatibility: 0 })">
+                                    ❌
+                                </Button>
+                                <div>
+                                    {{ data.attribute }}
+                                </div>
+                            </li>
+                        </div>
+                    </ScrollArea>
+                </div>
+                <div class="space-y-3">
+                    <p class="text-sm font-medium">Habilidades seleccionadas</p>
+                    <div class="flex">
+                        <ScrollArea class="h-[200px] w-full">
+                            <div class="space-y-2" v-if="habilidadModel && habilidadModel.length">
+                                <li class="flex gap-2 items-center text-sm" v-for="data in habilidadModel" :key="data.attribute_id">
+                                    <Button type="button" v-on:click="habilidadModel.pop(this)">
+                                        ❌
+                                    </Button>
+                                    {{ attributes[data.attribute_id - 1].attribute }}
+                                    <p v-if="data.compatibility === 1" class="text-green-600">&nbsp;Compatible</p>
+                                    <p v-else-if="data.compatibility === 0" class="text-red-600">&nbsp;Incompatible</p>
+                                </li>
+                            </div>
+                        </ScrollArea>
                     </div>
-                </ScrollArea>
-            </div>
-            <h1>Habilidades seleccionadas:</h1>
-            <div>
-                <ScrollArea class="h-[200px] w-[400px]">
-                    <div v-if="habilidadModel && habilidadModel.length">
-                        <li v-for="data in habilidadModel" :key="data.idAttribute">
-                            {{ attributes[data.idAttribute - 1].attribute }}
-                            <p v-if="data.compatibility === 0" class="text-red-400">&nbsp;Incompatible
-                            </p>
-                            <Button type="button" v-on:click="habilidadModel.pop(this)">
-                                ❌
-                            </Button>
-                        </li>
-                    </div>
-                </ScrollArea>
-            </div>
-            <DialogMap @save-marker="handleSaveMarker" />
-            <FormField name="activa" type="checkbox" v-model="formModel.status">
-                <FormItem class="flex flex-row items-center align-middle space-x-2">
-                    <FormLabel>¿Marcar como activa?</FormLabel>
-                    <FormControl>
-                        <Checkbox id="disponibilidad" :checked="formModel.status"
-                            @update:checked="value => formModel.status = value" class="bg-slate-100 flex" />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            </FormField>
-            <Button variant="ghost" class="border border-zinc-600" type="button" v-on:click="onSubmit()">
-                Enviar
-            </Button>
-        </form>
+                </div>
+                <DialogMap @save-marker="handleSaveMarker" />
+                <div></div>
+                <div>
+                    <FormField name="activa" type="checkbox" v-model="formModel.status">
+                        <FormItem class="flex items-end flex-row-reverse justify-end gap-4">
+                            <FormLabel>¿Marcar como activa?</FormLabel>
+                                <FormControl>
+                                    <Checkbox id="disponibilidad" :checked="formModel.status"
+                                        @update:checked="value => formModel.status = value" class="bg-slate-100 flex" />
+                                </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                </div>
+                <div class="flex justify-center col-span-2">
+                    <Button variant="ghost" class="w-1/3 border border-zinc-600" type="button" v-on:click="onSubmit()">
+                        Enviar
+                    </Button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>

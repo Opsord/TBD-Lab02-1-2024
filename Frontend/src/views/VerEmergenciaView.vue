@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center my-4">
-        <div class="grid grid-cols-2 gap-8 w-10/12" v-if="emergencia && emergencia.length">
+        <div class="grid grid-cols-2 gap-4 w-10/12" v-if="emergencia && emergencia.length">
             <div v-for="data in emergencia" :key="data.id_registro">
                 <div>
                     <Card>
