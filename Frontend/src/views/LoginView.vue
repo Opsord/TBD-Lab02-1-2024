@@ -17,7 +17,7 @@
                 </div>
             </form>
             <div class="mt-5 space-y-5">
-                <ButtonPrimary @click="loginUser" buttonText="Ingresar"/>
+                <ButtonPrimary @click="handleSubmit" buttonText="Ingresar"/>
                 <div class="flex justify-center gap-2 text-sm">
                     <span>¿Aún no tienes cuenta?</span>
                     <button class="font-bold text-teal-600 hover:underline" @click="redirectToRegister">Registrate</button>
@@ -37,8 +37,8 @@ import Input from "../components/Input.vue";
 
 const router = useRouter();
 
-const rut = ref("");
-const password = ref("");
+const rut = ref(null);
+const password = ref(null);
 
 const role = ref("");
 
@@ -65,6 +65,14 @@ const loginUser = async () => {
         }
     } catch (error) {
         console.log("Error al iniciar sesión");
+    }
+}
+
+function handleSubmit() {
+    if (rut.value && password.value) {
+        loginUser();
+    } else {
+        alert('Por favor complete todos los campos.');
     }
 }
 

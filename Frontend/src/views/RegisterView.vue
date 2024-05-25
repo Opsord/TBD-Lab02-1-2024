@@ -54,7 +54,7 @@
 
             </form>
             <div class="mt-4">
-                <ButtonPrimary @click="registerUser" buttonText="Registrarse" />
+                <ButtonPrimary @click="handleSubmit" buttonText="Registrarse" />
             </div>
         </div>
     </div>
@@ -79,16 +79,16 @@ const handleSaveMarker = (newMarkerPosition) => {
 };
 
 const router = useRouter();
-const rut = ref("");
-const email = ref("");
-const name = ref("");
-const lastname = ref("");
-const birthdate = ref("");
-const sex = ref("");
-const password = ref("");
-const availability = ref("");
-const latitude = ref(0);
-const longitude = ref(0);
+const rut = ref(null);
+const email = ref(null);
+const name = ref(null);
+const lastname = ref(null);
+const birthdate = ref(null);
+const sex = ref(null);
+const password = ref(null);
+const availability = ref(null);
+const latitude = ref(null);
+const longitude = ref(null);
 
 const registerUser = async () => {
     const data = {
@@ -113,6 +113,14 @@ const registerUser = async () => {
         redirectToLogin();
     } catch (error) {
         console.log("Error al registar un nuevo usuario", error);
+    }
+}
+
+function handleSubmit() {
+    if (rut.value && password.value && email.value && name.value && lastname.value && birthdate.value && sex.value && availability.value && latitude.value && longitude.value) {
+        registerUser();
+    } else {
+        alert('Por favor complete todos los campos.');
     }
 }
 
