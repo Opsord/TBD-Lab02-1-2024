@@ -1,6 +1,8 @@
 package G1TBD.LABTBD.controllers;
 
+import G1TBD.LABTBD.entities.AttributeEntity;
 import G1TBD.LABTBD.entities.EmergencyAttributeEntity;
+import G1TBD.LABTBD.entities.EmergencyEntity;
 import G1TBD.LABTBD.services.EmergencyAttributeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,15 +33,14 @@ public class EmergencyAttributeController {
     }
 
     @PostMapping("/createVarious")
-    public ResponseEntity<List<EmergencyAttributeEntity>> createVarious(
-            @RequestBody List<EmergencyAttributeEntity> emergencyAttributeListRequest) {
-        List<EmergencyAttributeEntity> emergencyAttributeList = emergencyAttributeService
-                .createVarious(emergencyAttributeListRequest);
-        if (emergencyAttributeList != null && !emergencyAttributeList.isEmpty()) {
-            return new ResponseEntity<>(emergencyAttributeList, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<List<EmergencyAttributeEntity>> linkAttributesToEmergency(
+            @RequestBody EmergencyEntity emergency, @RequestBody List<AttributeEntity> attributes) {
+        List<EmergencyAttributeEntity> emergencyAttributeList = emergencyAttributeService.linkAttributesToEmergency(emergency, attributes);
+        logger.info("EmergencyAttribute created: ");
+        for (EmergencyAttributeEntity emergencyAttribute : emergencyAttributeList) {
+            logger.info(emergencyAttribute.toString());
         }
+        return new ResponseEntity<>(emergencyAttributeList, HttpStatus.CREATED);
     }
 
 

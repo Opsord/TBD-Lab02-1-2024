@@ -1,6 +1,8 @@
 package G1TBD.LABTBD.services;
 
+import G1TBD.LABTBD.entities.AttributeEntity;
 import G1TBD.LABTBD.entities.EmergencyAttributeEntity;
+import G1TBD.LABTBD.entities.EmergencyEntity;
 import G1TBD.LABTBD.repositories.EmergencyAttributeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,17 +31,21 @@ public class EmergencyAttributeService {
         logger.info("EmergencyAttribute created successfully");
     }
 
-    public List<EmergencyAttributeEntity> createVarious(List<EmergencyAttributeEntity> emergencyAttributeEntityList) {
-        List<EmergencyAttributeEntity> createdEmergencies = new ArrayList<>();
-        for (EmergencyAttributeEntity emergencyAttribute : emergencyAttributeEntityList) {
+    public List<EmergencyAttributeEntity> linkAttributesToEmergency(EmergencyEntity emergency, List<AttributeEntity> attributes) {
+        List<EmergencyAttributeEntity> emergencyAttributeList = new ArrayList<>();
+        for (AttributeEntity attribute : attributes) {
+            EmergencyAttributeEntity emergencyAttribute = new EmergencyAttributeEntity();
+            emergencyAttribute.setEmergency(emergency);
+            emergencyAttribute.setAttribute(attribute);
+            emergencyAttribute.setCompatibility(true);
             create(emergencyAttribute);
-            createdEmergencies.add(emergencyAttribute);
+            emergencyAttributeList.add(emergencyAttribute);
         }
-        return createdEmergencies;
+        return emergencyAttributeList;
     }
 
 
-    //--------------------------UPDATE--------------------------
+                                                        //--------------------------UPDATE--------------------------
     public void update(EmergencyAttributeEntity emergencyAttribute) {
         emergencyAttributeRepository.update(
                 emergencyAttribute.getEmergency_attribute_id(),
