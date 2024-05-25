@@ -32,14 +32,14 @@ public class EmergencyAttributeController {
         logger.info(emergencyAttribute.toString());
     }
 
-    @PostMapping("/createVarious")
+    @PostMapping("/createVarious/{emergencyID}")
     public ResponseEntity<List<EmergencyAttributeEntity>> linkAttributesToEmergency(
-            @RequestBody EmergencyEntity emergency, @RequestBody List<AttributeEntity> attributes) {
-        List<EmergencyAttributeEntity> emergencyAttributeList = emergencyAttributeService.linkAttributesToEmergency(emergency, attributes);
+            @PathVariable long emergencyID,
+            @RequestBody List<AttributeEntity> attributes
+    ) {
+        List<EmergencyAttributeEntity> emergencyAttributeList = emergencyAttributeService.linkAttributesToEmergency(emergencyID, attributes);
         logger.info("EmergencyAttribute created: ");
-        for (EmergencyAttributeEntity emergencyAttribute : emergencyAttributeList) {
-            logger.info(emergencyAttribute.toString());
-        }
+        logger.info(emergencyAttributeList.toString());
         return new ResponseEntity<>(emergencyAttributeList, HttpStatus.CREATED);
     }
 

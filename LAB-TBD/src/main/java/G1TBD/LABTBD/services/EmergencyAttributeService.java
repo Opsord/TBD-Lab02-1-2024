@@ -31,9 +31,12 @@ public class EmergencyAttributeService {
         logger.info("EmergencyAttribute created successfully");
     }
 
-    public List<EmergencyAttributeEntity> linkAttributesToEmergency(EmergencyEntity emergency, List<AttributeEntity> attributes) {
+    public List<EmergencyAttributeEntity> linkAttributesToEmergency(Long emergency_id, List<AttributeEntity> attributes) {
         List<EmergencyAttributeEntity> emergencyAttributeList = new ArrayList<>();
         for (AttributeEntity attribute : attributes) {
+            EmergencyEntity emergency = new EmergencyEntity();
+            emergency.setEmergency_id(emergency_id);
+
             EmergencyAttributeEntity emergencyAttribute = new EmergencyAttributeEntity();
             emergencyAttribute.setEmergency(emergency);
             emergencyAttribute.setAttribute(attribute);
@@ -45,7 +48,7 @@ public class EmergencyAttributeService {
     }
 
 
-                                                        //--------------------------UPDATE--------------------------
+    //--------------------------UPDATE--------------------------
     public void update(EmergencyAttributeEntity emergencyAttribute) {
         emergencyAttributeRepository.update(
                 emergencyAttribute.getEmergency_attribute_id(),
