@@ -127,18 +127,18 @@ async function onSubmit() {
                     <FormField name="titulo">
                         <FormItem>
                             <FormLabel>Titulo</FormLabel>
-                            <FormControl>
-                                <Input type="text" placeholder="Titulo de la Emergencia" v-model="formModel.title" />
-                            </FormControl>
+                                <FormControl>
+                                    <Input type="text" placeholder="Titulo de la Emergencia" v-model="formModel.title" />
+                                </FormControl>
                             <FormMessage />
                         </FormItem>
                     </FormField>
                     <FormField name="descripcion">
                         <FormItem>
                             <FormLabel>Descripción</FormLabel>
-                            <FormControl>
-                                <Input type="text" placeholder="Descripción" v-model="formModel.description" />
-                            </FormControl>
+                                <FormControl>
+                                    <Input type="text" placeholder="Descripción" v-model="formModel.description" />
+                                </FormControl>
                             <FormMessage />
                         </FormItem>
                     </FormField>
