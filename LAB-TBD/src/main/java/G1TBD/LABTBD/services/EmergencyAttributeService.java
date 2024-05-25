@@ -33,10 +33,9 @@ public class EmergencyAttributeService {
 
     public List<EmergencyAttributeEntity> linkAttributesToEmergency(Long emergency_id, List<AttributeEntity> attributes) {
         List<EmergencyAttributeEntity> emergencyAttributeList = new ArrayList<>();
+        EmergencyEntity emergency = new EmergencyEntity();
+        emergency.setEmergency_id(emergency_id);
         for (AttributeEntity attribute : attributes) {
-            EmergencyEntity emergency = new EmergencyEntity();
-            emergency.setEmergency_id(emergency_id);
-
             EmergencyAttributeEntity emergencyAttribute = new EmergencyAttributeEntity();
             emergencyAttribute.setEmergency(emergency);
             emergencyAttribute.setAttribute(attribute);
