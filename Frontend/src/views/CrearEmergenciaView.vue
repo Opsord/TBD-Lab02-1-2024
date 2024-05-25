@@ -13,9 +13,11 @@ import { Button } from '@/components/ui/button';
 import ScrollArea from '@/components/ui/scroll-area/ScrollArea.vue';
 import { store, fetchUserRole } from '@/store';
 import axios from 'axios'
+import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue'
 import DialogMap from "@/components/DialogMap.vue";
 
+const router = useRouter();
 
 const markerPosition = ref(null);
 const handleSaveMarker = (newMarkerPosition) => {
@@ -86,21 +88,16 @@ async function createEmergency(emergency) {
 async function createEmergencyAttribute(emergency) {
     console.log("Emergencia: ", emergency);
     console.log("Atributos seleccionados: ", selectedAttributes.value);
-    console.log("Modelo de habilidad: ", habilidadModel.value);
-
-    const dataArray = selectedAttributes.value.map(attribute => ({
-        attribute_id : {
-            attribute_id: attribute.attribute_id,
-            attribute: attribute.attribute
-        },
-        compatibility: attribute.compatibility,
-        emergency_id: emergency
-    }));
-
-    console.log("Nuevo modelo:", dataArray);
 
     try {
-        const response = await axios.post(`http://localhost:8090/emergencyAttribute/createVarious`, dataArray, {
+        const emergencyAttributes = selectedAttributes.value.map(({ attribute_id, compatibility }) => ({
+            attribute: attribute_id,
+            compatibility,
+            emergency: emergency.emergency_id
+        }));
+        console.log("Lista de emergencia-atributo: ", emergencyAttributes);
+
+        const response = await axios.post(`http://localhost:8090/emergencyAttribute/createVarious`, emergencyAttributes, {
             headers: {
                 Authorization: `Bearer ${store.token.token}`
             }
@@ -112,13 +109,34 @@ async function createEmergencyAttribute(emergency) {
     }
 }
 
-onMounted(fetchAttributes);
-
-async function onSubmit() {
-    const emergency = await createEmergency(formModel.value);
-    await createEmergencyAttribute(emergency);
+function resetForm() {
+    formModel.value = {
+        title: '',
+        status: false,
+        description: '',
+        coordinator: '',
+        location: {
+            latitude: 0,
+            longitude: 0,
+        }
+    };
+    selectedAttributes.value = [];
+    availableAttributes.value = [...attributes.value];
 }
 
+async function onSubmit() {
+    if (formModel.value.title && formModel.value.description && selectedAttributes.value.length > 0 && formModel.value.location.latitude !== 0 && formModel.value.location.longitude !== 0) {
+        const emergency = await createEmergency(formModel.value);
+        await createEmergencyAttribute(emergency);
+        alert('La emergencia se ha creado correctamente.');
+        resetForm();
+        await fetchAttributes();
+    } else {
+        alert('Por favor complete todos los campos.');
+    }
+}
+
+onMounted(fetchAttributes);
 </script>
 <template>
     <div class="flex justify-center">
