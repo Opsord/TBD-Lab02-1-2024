@@ -14,12 +14,19 @@ import java.util.List;
 public interface EmergencyAttributeRepository extends CrudRepository<EmergencyAttributeEntity, Long> {
 
         //--------------------------CREATE--------------------------
-        @Query(value = "INSERT INTO emergency_attribute (emergency, attribute, compatibility) " +
-                "VALUES (:emergency, :attribute, :compatibility)", nativeQuery = true)
+        /*
+        @Query(value = "INSERT INTO emergency_attribute (emergency_id, attribute_id, compatibility) " +
+                "VALUES (:emergency_id, :attribute_id, :compatibility)", nativeQuery = true)
         @Modifying
         @Transactional
-        void create(@Param("emergency") long emergency,
-                    @Param("attribute") long attribute, @Param("compatibility") boolean compatibility);
+        void create(@Param("emergency_id") long emergency_id,
+                    @Param("attribute_id") long attribute_id, @Param("compatibility") boolean compatibility);
+
+         */
+        @Modifying
+        @Transactional
+        @Query(value = "INSERT INTO emergency_attribute (emergency, attribute, compatibility) VALUES (:emergency, :attribute, :compatibility)", nativeQuery = true)
+        void create(@Param("emergency") Long emergency, @Param("attribute") Long attribute, @Param("compatibility") boolean compatibility);
 
 
         //--------------------------UPDATE--------------------------
@@ -31,18 +38,26 @@ public interface EmergencyAttributeRepository extends CrudRepository<EmergencyAt
                     @Param("attribute") long attribute, @Param("compatibility") boolean compatibility);
 
 
+
+
         //---------------------------READ---------------------------
         @Query(value = "SELECT * FROM emergency_attribute", nativeQuery = true)
         List<EmergencyAttributeEntity> getAll();
+
 
         @Query(value = "SELECT * FROM emergency_attribute WHERE emergency_attribute_id = :emergency_attribute_id", nativeQuery = true)
         EmergencyAttributeEntity getById(@Param("emergency_attribute_id") long emergency_attribute_id);
 
 
+
+
         //--------------------------DELETE--------------------------
+
         @Query(value = "DELETE FROM emergency_attribute WHERE emergency_attribute_id = :emergency_attribute_id", nativeQuery = true)
         @Modifying
         @Transactional
         void delete(@Param("emergency_attribute_id") long emergency_attribute_id);
+
+
 
 }
