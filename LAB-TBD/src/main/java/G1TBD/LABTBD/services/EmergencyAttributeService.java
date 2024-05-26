@@ -1,8 +1,6 @@
 package G1TBD.LABTBD.services;
 
-import G1TBD.LABTBD.entities.AttributeEntity;
 import G1TBD.LABTBD.entities.EmergencyAttributeEntity;
-import G1TBD.LABTBD.entities.EmergencyEntity;
 import G1TBD.LABTBD.repositories.EmergencyAttributeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,41 +20,46 @@ public class EmergencyAttributeService {
         this.emergencyAttributeRepository = emergencyAttributeRepository;
     }
     //--------------------------CREATE--------------------------
+    /*
     public void create(EmergencyAttributeEntity emergencyAttribute) {
         emergencyAttributeRepository.create(
-                emergencyAttribute.getEmergency().getEmergency_id(),
-                emergencyAttribute.getAttribute().getAttribute_id(),
+                emergencyAttribute.getEmergency_id(),
+                emergencyAttribute.getAttribute_id(),
                 emergencyAttribute.isCompatibility()
         );
         logger.info("EmergencyAttribute created successfully");
     }
 
-    public List<EmergencyAttributeEntity> linkAttributesToEmergency(Long emergency_id, List<AttributeEntity> attributes) {
-        List<EmergencyAttributeEntity> emergencyAttributeList = new ArrayList<>();
-        EmergencyEntity emergency = new EmergencyEntity();
-        emergency.setEmergency_id(emergency_id);
-        for (AttributeEntity attribute : attributes) {
-            EmergencyAttributeEntity emergencyAttribute = new EmergencyAttributeEntity();
-            emergencyAttribute.setEmergency(emergency);
-            emergencyAttribute.setAttribute(attribute);
-            emergencyAttribute.setCompatibility(true);
-            create(emergencyAttribute);
-            emergencyAttributeList.add(emergencyAttribute);
-        }
-        return emergencyAttributeList;
+     */
+    public void create(Long emergency, Long attribute, boolean compatibility) {
+        emergencyAttributeRepository.create(emergency, attribute, compatibility);
     }
+
+    public List<EmergencyAttributeEntity> createVarious(List<EmergencyAttributeEntity> emergencyAttributeEntityList) {
+        List<EmergencyAttributeEntity> createdEmergencies = new ArrayList<>();
+
+        for (EmergencyAttributeEntity emergencyAttribute : emergencyAttributeEntityList) {
+            create(emergencyAttribute.getEmergency(), emergencyAttribute.getAttribute(), emergencyAttribute.isCompatibility());
+            createdEmergencies.add(emergencyAttribute);
+        }
+        return createdEmergencies;
+    }
+
+
 
 
     //--------------------------UPDATE--------------------------
     public void update(EmergencyAttributeEntity emergencyAttribute) {
         emergencyAttributeRepository.update(
                 emergencyAttribute.getEmergency_attribute_id(),
-                emergencyAttribute.getEmergency().getEmergency_id(),
-                emergencyAttribute.getAttribute().getAttribute_id(),
+                emergencyAttribute.getEmergency(),
+                emergencyAttribute.getAttribute(),
                 emergencyAttribute.isCompatibility()
         );
         logger.info("EmergencyAttribute updated successfully");
     }
+
+
 
 
     //---------------------------READ---------------------------
@@ -74,4 +77,6 @@ public class EmergencyAttributeService {
         emergencyAttributeRepository.delete(id);
         logger.info("EmergencyAttribute deleted successfully");
     }
+
+
 }
