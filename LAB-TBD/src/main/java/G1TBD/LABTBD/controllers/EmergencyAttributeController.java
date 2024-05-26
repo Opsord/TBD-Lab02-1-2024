@@ -1,8 +1,6 @@
 package G1TBD.LABTBD.controllers;
 
-import G1TBD.LABTBD.entities.AttributeEntity;
 import G1TBD.LABTBD.entities.EmergencyAttributeEntity;
-import G1TBD.LABTBD.entities.EmergencyEntity;
 import G1TBD.LABTBD.services.EmergencyAttributeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +23,7 @@ public class EmergencyAttributeController {
         this.emergencyAttributeService = emergencyAttributeService;
     }
     //--------------------------CREATE--------------------------
+    /*
     @PostMapping("/create")
     public void create(@RequestBody EmergencyAttributeEntity emergencyAttribute) {
         emergencyAttributeService.create(emergencyAttribute);
@@ -32,16 +31,26 @@ public class EmergencyAttributeController {
         logger.info(emergencyAttribute.toString());
     }
 
-    @PostMapping("/createVarious/{emergencyID}")
-    public ResponseEntity<List<EmergencyAttributeEntity>> linkAttributesToEmergency(
-            @PathVariable long emergencyID,
-            @RequestBody List<AttributeEntity> attributes
-    ) {
-        List<EmergencyAttributeEntity> emergencyAttributeList = emergencyAttributeService.linkAttributesToEmergency(emergencyID, attributes);
-        logger.info("EmergencyAttribute created: ");
-        logger.info(emergencyAttributeList.toString());
-        return new ResponseEntity<>(emergencyAttributeList, HttpStatus.CREATED);
+     */
+
+    @PostMapping("/create")
+    public void createEmergencyAttribute(@RequestBody EmergencyAttributeEntity emergencyAttribute) {
+        emergencyAttributeService.create(emergencyAttribute.getEmergency(), emergencyAttribute.getAttribute(), emergencyAttribute.isCompatibility());
     }
+
+    @PostMapping("/createVarious")
+    public ResponseEntity<List<EmergencyAttributeEntity>> createVarious(
+            @RequestBody List<EmergencyAttributeEntity> emergencyAttributeListRequest) {
+        List<EmergencyAttributeEntity> emergencyAttributeList = emergencyAttributeService
+                .createVarious(emergencyAttributeListRequest);
+        if (emergencyAttributeList != null && !emergencyAttributeList.isEmpty()) {
+            return new ResponseEntity<>(emergencyAttributeList, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 
 
     //--------------------------UPDATE--------------------------
@@ -51,6 +60,8 @@ public class EmergencyAttributeController {
         logger.info("EmergencyAttribute updated: ");
         logger.info(emergencyAttribute.toString());
     }
+
+
 
 
     //---------------------------READ---------------------------
@@ -68,5 +79,7 @@ public class EmergencyAttributeController {
         logger.info("EmergencyAttribute deleted: ");
         logger.info(String.valueOf(id));
     }
+
+
 
 }
