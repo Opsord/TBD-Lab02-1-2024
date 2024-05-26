@@ -88,7 +88,7 @@ VALUES
 
 --Poblacion de tabla
 -- Población de la tabla Emergencia_Atributo
-INSERT INTO emergency_attribute (emergency_id, attribute_id, compatibility)
+INSERT INTO emergency_attribute (emergency, attribute, compatibility)
 VALUES 
     (1, 1, true),   -- La emergencia 1 tiene compatibilidad con el atributo 1 (Fuerza física)
     (1, 2, true),   -- La emergencia 1 tiene compatibilidad con el atributo 2 (Rescate en Terreno)
