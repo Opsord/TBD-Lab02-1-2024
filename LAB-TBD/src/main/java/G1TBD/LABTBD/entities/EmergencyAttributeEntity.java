@@ -17,7 +17,7 @@ public class EmergencyAttributeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long emergency_attribute_id;
-
+/*
     @ManyToOne
     @JoinColumn(name = "emergency_id")
     private EmergencyEntity emergency;
@@ -25,6 +25,10 @@ public class EmergencyAttributeEntity {
     @ManyToOne
     @JoinColumn(name = "attribute_id")
     private AttributeEntity attribute;
+
+ */
+    private Long emergency;
+    private Long attribute;
 
     private boolean compatibility;
 
