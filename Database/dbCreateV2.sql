@@ -61,11 +61,11 @@ CREATE TABLE emergencies (
 
 CREATE TABLE emergency_attribute (
     emergency_attribute_id BIGSERIAL PRIMARY KEY,
-    emergency_id BIGINT,
-    attribute_id BIGINT,
+    emergency BIGINT,
+    attribute BIGINT,
     compatibility BOOLEAN NOT NULL,
-    FOREIGN KEY (emergency_id) REFERENCES emergencies(emergency_id),
-    FOREIGN KEY (attribute_id) REFERENCES attributes(attribute_id)
+    FOREIGN KEY (emergency) REFERENCES emergencies(emergency_id),
+    FOREIGN KEY (attribute) REFERENCES attributes(attribute_id)
 );
 
 CREATE TABLE tasks (
@@ -119,8 +119,8 @@ CREATE INDEX idx_user_institution_idInstitution ON user_institution (institution
 CREATE INDEX idx_emergency_rut ON emergencies (coordinator);
 
 -- emergency_attribute
-CREATE INDEX idx_emergency_attribute_emergency_id ON emergency_attribute (emergency_id);
-CREATE INDEX idx_emergency_attribute_idAttribute ON emergency_attribute (attribute_id);
+CREATE INDEX idx_emergency_attribute_emergency_id ON emergency_attribute (emergency);
+CREATE INDEX idx_emergency_attribute_idAttribute ON emergency_attribute (attribute);
 
 -- Task
 CREATE INDEX idx_task_emergency_id ON tasks (emergency);
