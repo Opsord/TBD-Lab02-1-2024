@@ -26,6 +26,7 @@ Este proyecto es un sistema de gestión de emergencias que permite la coordinaci
 
 ### Pasos para la instalación
 
+#### Backend
 1. Clona el repositorio a tu máquina local.
 2. Crea una base de datos PostgreSQL con el nombre `LabTBD-2-2024`.
 3. Abrir y configurar PostGis con las credneciales de Postgres y el nombre de la base de dato. 
@@ -33,6 +34,22 @@ Este proyecto es un sistema de gestión de emergencias que permite la coordinaci
 5. Abre el proyecto en tu IDE preferido (por ejemplo, IntelliJ IDEA, Eclipse).
 6. Configura las credenciales de la base de datos en el archivo `application.properties` ubicado en `src/main/resources/`.
 7. Ejecuta la aplicación. La aplicación estará disponible en [http://localhost:8090](http://localhost:8090).
+#### Frontend
+1. Con el repositorio clonado, ir a a la carpeta Frontend.
+2. Instalar los paquetes necesarios usando npm (Instalar node de ser necesario).
+```
+npm i
+```
+3. Crear un archivo .env en esta carpeta y agregar lo siguiente, remplazando LLAVE_API_DE_GOOGLE por su propia llave.
+```
+VITE_GOOGLE_API = LLAVE_API_DE_GOOGLE
+```
+4. Ejecutar el frontend con el siguiente comando.
+```
+npm run dev
+```
+5. La aplicación estará disponible en [http://localhost:5173](http://localhost:5173).
+
 
 ## Uso
 
